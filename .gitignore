@@ -42,21 +42,6 @@
 *.idb
 *.pdb
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Other files
 *.layout
-*.win
-<<<<<<< HEAD
-*.layout
-=======
->>>>>>> origin/master
-*.win
-*.layout
-Ver1.7 room.Convert/Calculator.layout
 *.win
