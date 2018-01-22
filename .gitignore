@@ -52,4 +52,11 @@ Mkfile.old
 dkms.conf
 *.layout
 *.win
+<<<<<<< HEAD
 *.layout
+=======
+>>>>>>> origin/master
+*.win
+*.layout
+Ver1.7 room.Convert/Calculator.layout
+*.win
