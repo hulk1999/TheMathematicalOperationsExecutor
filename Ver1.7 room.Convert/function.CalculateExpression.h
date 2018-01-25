@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
-#include <string.h>
-#include <math.h>
-
-#include "function.Math.h"
-
 #define MAX_LENGTH 500
 
 // make strOut = strIn[start] to strIn[end]
@@ -13,6 +5,11 @@ void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start,
 	int i;
 	for (i = start; i <= end; i++) strOut[i - start] = strIn[i];
 	strOut[end - start + 1] = '\0';
+}
+
+// check input syntax
+int checkSyntax(char str[MAX_LENGTH]){
+	return 1;
 }
 
 // calculate expression
@@ -134,12 +131,4 @@ void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
 	
 	// case number
 	makeStrStartEnd(strIn, strOut, 0, length - 1);
-}
-
-int main(){
-	char strIn[MAX_LENGTH] = "(44+3)+2+2";
-	char strOut[MAX_LENGTH];
-	calExpression(strIn, strOut);
-	puts(strOut);
-	return 0;
 }

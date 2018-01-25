@@ -1,10 +1,8 @@
-int firstColorCo, secondColorCo;
-
 // create interface for room.Convert
-void createInterfaceConvert(){
+void createInterfaceConvert(int firstColor){
 	
 	// print title
-	textColor(firstColorCo);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(24, 2); printf("                   __                                       __");
@@ -15,14 +13,10 @@ void createInterfaceConvert(){
 }
 
 // room.Convert main
-void roomConvert(int* pFirstColor, int* pSecondColor){
-	
-	// assign color
-	firstColorCo = *pFirstColor;
-	secondColorCo = *pSecondColor;
+void roomConvert(int firstColor, int secondColor){
 	
 	// create interface
-	createInterfaceConvert();
+	createInterfaceConvert(firstColor);
 	
 	// check for esc
 	char ch;

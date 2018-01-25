@@ -1,13 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+#define MAX_LENGTH 500
+
+int min2Int(int a, int b){
+	if (a < b) return a;
+	return b;
+}
+
+int max2Int(int a, int b){
+	if (a > b) return a;
+	return b;
+}
+
+void minusRealNum(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
+}
+
+void multiply(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
+}
+
+void divide(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
+}
+
+void power(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
+}
 
 
 // TODO 
 // Fix this case 0.000 + 0
-
-const int MAX_LENGTH = 500;
+// Hung: fix 44 + 6 = 5; 3.3 + 6.7 = 10.
 
 int convertCharToInt(char inputChar)
 {
@@ -170,5 +188,3 @@ void addRealNum(char* intNum1, char* intNum2, char* result)
 	
 	strcpy(result, tempResult);
 }
-
-

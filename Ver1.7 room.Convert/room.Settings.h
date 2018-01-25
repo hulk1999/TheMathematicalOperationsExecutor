@@ -1,10 +1,8 @@
-int firstColorSt, secondColorSt;
-
 // create interface for room.Settings
-void createInterfaceSettings(int x0, int y0, int step, int row, char* str[6][5]){
+void createInterfaceSettings(int x0, int y0, int step, int row, char* str[6][5], int firstColor){
 	
 	// print title
-	textColor(firstColorSt);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(42, 2); printf("           __  __  _");
@@ -23,11 +21,11 @@ void createInterfaceSettings(int x0, int y0, int step, int row, char* str[6][5])
 }
 
 // highlight current part
-void highlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5]){
+void highlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5], int secondColor){
 	
 	// set appropriate color then print
 	if ((x >= 2) && (y <= 2)) textColor(128 + 16*(x - 2 + 4*(y-1)));
-	else textColor(secondColorSt);
+	else textColor(secondColor);
 	if (x == 1) goToXY(x0, y0 + (y - 1)*step);
 	else goToXY(16 + x*16, y0 + (y - 1)*step);
 	printf("%s", str[x][y]);
@@ -37,11 +35,11 @@ void highlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5]){
 }
 
 // unhighlight current part
-void unhighlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5]){
+void unhighlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5], int firstColor){
 	
 	// set appropriate color then print
 	if ((x >= 2) && (y <= 2)) textColor(4*(y - 1) + x + 6);
-	else textColor(firstColorSt);
+	else textColor(firstColor);
 	if (x == 1) goToXY(x0, y0 + (y - 1)*step);
 	else goToXY(16 + x*16, y0 + (y - 1)*step);
 	printf("%s", str[x][y]);
@@ -60,7 +58,7 @@ void printColor(int y0, int step, char* str[6][5]){
 }
 
 // delete color section
-void deleteColor(int y0, int step, char* str[6][5]){
+void deleteColor(int y0, int step, char* str[6][5], int firstColor){
 	textColor(0);
 	int x, y;
 	for (x = 2; x <= 5; x++)
@@ -68,7 +66,7 @@ void deleteColor(int y0, int step, char* str[6][5]){
 			goToXY(16 + x*16, y0 + (y - 1)*step);
 			printf("%s", str[x][y]);
 		}
-	textColor(firstColorSt);
+	textColor(firstColor);
 }
 
 // print size section
@@ -81,14 +79,14 @@ void printSize(int y0, int step, char* str[6][5]){
 }
 
 // delete size section
-void deleteSize(int y0, int step, char* str[6][5]){
+void deleteSize(int y0, int step, char* str[6][5], int firstColor){
 	textColor(0);
 	int x, y = 3;
 	for (x = 2; x <= 5; x++){
 		goToXY(16 + x*16, y0 + (y - 1)*step);
 		printf("%s", str[x][y]);
 	}
-	textColor(firstColorSt);
+	textColor(firstColor);
 }
 
 // print music section
@@ -99,34 +97,34 @@ void printMusic(int y0, int step, char* str[6][5]){
 }
 
 // delete music section
-void deleteMusic(int y0, int step, char* str[6][5]){
+void deleteMusic(int y0, int step, char* str[6][5], int firstColor){
 	textColor(0);
 	int x = 2, y = 4;
 	goToXY(16 + x*16, y0 + (y - 1)*step);
 	printf("%s", str[x][y]);
-	textColor(firstColorSt);
+	textColor(firstColor);
 }
 
 // get optional size number
-int inputSize(int* pX){
+int inputSize(int* pX, int firstColor, int secondColor){
 	
 	// display
 	int x = 96, y = 16;
-	textColor(firstColorSt);
+	textColor(firstColor);
 	goToXY(x, y + 1); printf("    input    ");
-	textColor(secondColorSt);
+	textColor(secondColor);
 	goToXY(x, y); printf("             ");
 	goToXY(x + 5, y);
 	
 	// get input
 	char ch;
-	int numStr[3], count = 0, num, bug = 1;
+	int numStr[3], count = 0, num;
 	do{
 		ch = getch();
 		loopWithoutGetch:
 		
 		// esc
-		if (ch == 27) return -1;
+		if (ch == 27) return 0;
 		
 		// backspace
 		if ((ch == 8) && (count > 0)){
@@ -148,7 +146,7 @@ int inputSize(int* pX){
 				num = numStr[count] - '0';
 				if (count == 2) num += (numStr[1] - '0') * 10;
 				if (num == 0){
-					textColor(firstColorSt);
+					textColor(firstColor);
 					goToXY(x, y + 1);
 					printf("    error!   ");
 					goToXY(119, 29);
@@ -156,7 +154,7 @@ int inputSize(int* pX){
 					goToXY(x, y + 1);
 					printf("    input    ");
 					goToXY(x + 6 + count, y);
-					textColor(secondColorSt);
+					textColor(secondColor);
 					goto loopWithoutGetch;
 				}
 				else fontSize(num / 2, num);
@@ -170,7 +168,7 @@ int inputSize(int* pX){
 			// arrow left
 			if (ch == 75){
 				*pX -= 1;
-				textColor(firstColorSt);
+				textColor(firstColor);
 				goToXY(x, y + 1); printf("             ");
 				return 0;
 			}
@@ -182,8 +180,8 @@ int inputSize(int* pX){
 void roomSettings(int* pFirstColor, int* pSecondColor){
 	
 	// assign color
-	firstColorSt = *pFirstColor;
-	secondColorSt = *pSecondColor;
+	int firstColor = *pFirstColor;
+	int secondColor = *pSecondColor;
 	
 	// declare vars
 	int x0 = 22, y0 = 10, step = 3, row = 4, column = 5;
@@ -232,10 +230,10 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 	str[2][4] = &strReal[16][0];
 	
 	// create interface
-	createInterfaceSettings(x0, y0, step, row, str);
+	createInterfaceSettings(x0, y0, step, row, str, firstColor);
 	
 	// using arrow keys to control
-	highlightSettings(x0, y0, step, 1, 1, str);
+	highlightSettings(x0, y0, step, 1, 1, str, secondColor);
 	int x = 1, y = 1; // store coordinates
 	char ch;
 	do{
@@ -246,7 +244,7 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 		
 		// arrow keys
 		if (ch == 4294967264){
-			unhighlightSettings(x0, y0, step, x, y, str);
+			unhighlightSettings(x0, y0, step, x, y, str, firstColor);
 			ch = getch();
 			
 			// arrow up
@@ -274,12 +272,12 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 				else if ((x == 1) && (y == 2)){
 					x = 1;
 					y = 1;
-					deleteColor(y0, step, str);
+					deleteColor(y0, step, str, firstColor);
 				}
 				else if (x == 1) switch (y){
-									case 1: deleteColor(y0, step, str); break;
-									case 3: deleteSize(y0, step, str); break;
-									case 4: deleteMusic(y0, step, str); break;
+									case 1: deleteColor(y0, step, str, firstColor); break;
+									case 3: deleteSize(y0, step, str, firstColor); break;
+									case 4: deleteMusic(y0, step, str, firstColor); break;
 									default: break;
 								 }
 			}
@@ -296,12 +294,12 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 									default: break;
 								 }
 				if ((x == 5) && (y == 3)){
-					if (inputSize(&x) == -1) return;
-					unhighlightSettings(x0, y0, step, 5, 3, str);
+					if (inputSize(&x, firstColor, secondColor) == 0) return;
+					unhighlightSettings(x0, y0, step, 5, 3, str, firstColor);
 				}
 			}
 			
-			highlightSettings(x0, y0, step, x, y, str);
+			highlightSettings(x0, y0, step, x, y, str, secondColor);
 		}
 		
 		// enter
@@ -309,10 +307,10 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 			
 			// color section: change color
 			if (y <= 2){
-				firstColorSt = 4*(y - 1) + x + 6; *pFirstColor = firstColorSt;
-				secondColorSt = 128 + 16*(x - 2 + 4*(y-1)); *pSecondColor = secondColorSt;
-				createInterfaceSettings(x0, y0, step, row, str);
-				highlightSettings(x0, y0, step, 1, 1, str);
+				firstColor = 4*(y - 1) + x + 6; *pFirstColor = firstColor;
+				secondColor = 128 + 16*(x - 2 + 4*(y-1)); *pSecondColor = secondColor;
+				createInterfaceSettings(x0, y0, step, row, str, firstColor);
+				highlightSettings(x0, y0, step, 1, 1, str, secondColor);
 				x = 1; y = 1;
 			}
 			
