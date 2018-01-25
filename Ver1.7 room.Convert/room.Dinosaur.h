@@ -1,10 +1,8 @@
-int firstColorDi, secondColorDi;
-
 // create interface for room.Dinosaur
-void createInterfaceDinosaur(){
+void createInterfaceDinosaur(int firstColor){
 	
 	// print title
-	textColor(firstColorDi);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(22, 2); printf("                      _                ___");
@@ -16,14 +14,10 @@ void createInterfaceDinosaur(){
 }
 
 // room.Dinosaur main
-void roomDinosaur(int* pFirstColor, int* pSecondColor){
-	
-	// assign color
-	firstColorDi = *pFirstColor;
-	secondColorDi = *pSecondColor;
+void roomDinosaur(int firstColor, int secondColor){
 	
 	// create interface
-	createInterfaceDinosaur();
+	createInterfaceDinosaur(firstColor);
 	
 	// check for esc
 	char ch;

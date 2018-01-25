@@ -1,10 +1,8 @@
-int firstColorCr, secondColorCr;
-
 // create interface for room.Credits
-void createInterfaceCredits(){
+void createInterfaceCredits(int firstColor){
 	
 	// print title
-	textColor(firstColorCr);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(45, 2); printf("                 ___ __");
@@ -15,14 +13,10 @@ void createInterfaceCredits(){
 }
 
 // room.Credits main
-void roomCredits(int* pFirstColor, int* pSecondColor){
-	
-	// assign color
-	firstColorCr = *pFirstColor;
-	secondColorCr = *pSecondColor;
+void roomCredits(int firstColor, int secondColor){
 	
 	// create interface
-	createInterfaceCredits();
+	createInterfaceCredits(firstColor);
 	
 	// check for esc
 	char ch;

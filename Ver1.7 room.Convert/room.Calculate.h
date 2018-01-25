@@ -1,5 +1,3 @@
-int firstColorCa, secondColorCa;
-
 void printFirstLineTable(int num){
 	int i;
 	printf("%c", 218);
@@ -28,10 +26,10 @@ void printContentLineTable(int xStart, int xEnd, int y, char* str[8][6]){
 }
 
 // create interface for room.Calculate
-void createInterfaceCalculate(int x0, int y0, char* str[8][6]){
+void createInterfaceCalculate(int x0, int y0, char* str[8][6], int firstColor){
 	
 	// print title
-	textColor(firstColorCa);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(40, 2); printf("           __         __     __");
@@ -81,10 +79,10 @@ void createInterfaceCalculate(int x0, int y0, char* str[8][6]){
 }
 
 // highlight current part
-void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
+void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int secondColor){
 	
 	// highligh
-	textColor(secondColorCa);
+	textColor(secondColor);
 	int dx = 0, dy = 0;
 	if (x > 5) dx = 2;
 	if (y > 2) dy = 1;
@@ -96,10 +94,10 @@ void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
 }
 
 // unhighlight current part
-void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
+void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int firstColor){
 	
 	// unhighligh
-	textColor(firstColorCa);
+	textColor(firstColor);
 	int dx = 0, dy = 0;
 	if (x > 5) dx = 2;
 	if (y > 2) dy = 1;
@@ -107,12 +105,13 @@ void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
 	printf("%s", str[x][y]);
 }
 
+void screenSection(char screenLine[1000], int screenLineLength, char ans[500], int firstColor){
+	textColor(firstColor);
+	goToXY()
+}
+
 // room.Calculate main
-void roomCalculate(int *pFirstColor, int *pSecondColor){
-	
-	// assign color
-	firstColorCa = *pFirstColor;
-	secondColorCa = *pSecondColor;
+void roomCalculate(int firstColor, int secondColor){
 	
 	// declare vars
 	int x0 = 30, y0 = 12, column = 7, row = 5; 
@@ -199,11 +198,14 @@ void roomCalculate(int *pFirstColor, int *pSecondColor){
 	str[7][5] = &strReal[35][0];
 	
 	// create interface
-	createInterfaceCalculate(x0, y0, str);
+	createInterfaceCalculate(x0, y0, str, firstColor);
 	
 	// using arrow keys to control
-	highlightCalculate(x0, y0, 1, 1, str);
+	highlightCalculate(x0, y0, 1, 1, str, secondColor);
 	int x = 1, y = 1; // store coordinates
+	// store calculator memory
+	char screenLine[1000], ans[500] = "0";
+	int screenLineLength = 0;
 	char ch;
 	do{
 		ch = getch();
@@ -213,13 +215,16 @@ void roomCalculate(int *pFirstColor, int *pSecondColor){
 		
 		// arrow keys
 		if (ch == 4294967264){
-			unhighlightCalculate(x0, y0, x, y, str);
+			unhighlightCalculate(x0, y0, x, y, str, firstColor);
 			ch = getch();
 			
 			// arrow up
 			if (ch == 72){
 				y--;
-				if (y == 0) y = 1;
+				if (y == 0){
+					screenSection(screenLine, screenLineLength, ans, firstColor);
+					y = 1;
+				}
 			}
 			
 			// arrow down
@@ -240,7 +245,7 @@ void roomCalculate(int *pFirstColor, int *pSecondColor){
 				if (x == column + 1) x = column;
 			}
 			
-			highlightCalculate(x0, y0, x, y, str);
+			highlightCalculate(x0, y0, x, y, str, secondColor);
 		}
 	} while(1);
 }

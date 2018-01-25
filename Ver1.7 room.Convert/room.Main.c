@@ -16,10 +16,10 @@
 #include "function.Math.h"
 #include "function.String.h"
 
-int firstColor = 15, secondColor = 240;
+#define MAX_LENGTH 500
 
 // create interface for room.Main
-void createInterface(int x0, int y0, int step, int option, char* str[8]){
+void createInterface(int x0, int y0, int step, int option, char* str[8], int firstColor){
 	
 	// print title
 	textColor(firstColor);
@@ -45,7 +45,7 @@ void createInterface(int x0, int y0, int step, int option, char* str[8]){
 }
 
 // highlight current part
-void highlight(int x0, int y0, int step, int num, char* str[8]){
+void highlight(int x0, int y0, int step, int num, char* str[8], int secondColor){
 
 	textColor(secondColor);
 	goToXY(x0, y0 + (num - 1)*step);
@@ -56,7 +56,7 @@ void highlight(int x0, int y0, int step, int num, char* str[8]){
 }
 
 // unhighlight current part
-void unhighlight(int x0, int y0, int step, int num, char* str[8]){
+void unhighlight(int x0, int y0, int step, int num, char* str[8], int firstColor){
 	textColor(firstColor);
 	goToXY(x0, y0 + (num - 1)*step);
 	printf("%s", str[num]);	
@@ -66,7 +66,7 @@ void unhighlight(int x0, int y0, int step, int num, char* str[8]){
 void roomMain(){
 	
 	// declare vars
-	int x0 = 46, y0 = 14, step = 2, option = 7;
+	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor = 15, secondColor = 240;;
 	
 	// assign values to the strings
 	char str1[50] = " CALCULATE EXPRESSIONS ",
@@ -91,10 +91,10 @@ void roomMain(){
 	setConsoleSize(993, 519);
 	
 	// create interface
-	createInterface(x0, y0, step, option, str);
+	createInterface(x0, y0, step, option, str, firstColor);
 	
 	// using arrow keys to control
-	highlight(x0, y0, step, 1, str);
+	highlight(x0, y0, step, 1, str, secondColor);
 	int i = 1; // store coordinates
 	char ch;
 	do{
@@ -105,7 +105,7 @@ void roomMain(){
 		
 		// arrow keys
 		if (ch == 4294967264){
-			unhighlight(x0, y0, step, i, str);
+			unhighlight(x0, y0, step, i, str, firstColor);
 			ch = getch();
 			
 			// arrow up
@@ -119,18 +119,18 @@ void roomMain(){
 				i++;
 				if (i == option + 1) i = 1;
 			}
-			highlight(x0, y0, step, i, str);
+			highlight(x0, y0, step, i, str, secondColor);
 		}
 		
 		// enter
 		if (ch == 13){
 			switch (i){
-				case 1: roomCalculate(&firstColor, &secondColor); break;
-				case 2: roomSolve(&firstColor, &secondColor);     break;
-				case 3: roomConvert(&firstColor, &secondColor);   break;
-				case 4: roomSettings(&firstColor, &secondColor);  break;
-				case 5: roomCredits(&firstColor, &secondColor);   break;
-				case 6: roomDinosaur(&firstColor, &secondColor);  break;
+				case 1: roomCalculate(firstColor, secondColor); break;
+				case 2: roomSolve(&firstColor, &secondColor); break;
+				case 3: roomConvert(firstColor, secondColor); break;
+				case 4: roomSettings(&firstColor, &secondColor); break;
+				case 5: roomCredits(firstColor, secondColor); break;
+				case 6: roomDinosaur(firstColor, secondColor); break;
 				case 7:
 					textColor(firstColor);
 					system("cls");
@@ -138,9 +138,9 @@ void roomMain(){
 					break;
 				default: break;
 			}
-			createInterface(x0, y0, step, option, str);
+			createInterface(x0, y0, step, option, str, firstColor);
 			i = 1;
-			highlight(x0, y0, step, i, str);
+			highlight(x0, y0, step, i, str, secondColor);
 		}
 	} while (1);
 }

@@ -8,8 +8,9 @@
 #include "function.Display.h"
 #include "function.Math.h"
 #include "function.String.h"
+#include "function.CalculateExpression.h"
 
-int firstColorCa, secondColorCa;
+#define MAX_LENGTH 500
 
 void printFirstLineTable(int num){
 	int i;
@@ -39,10 +40,10 @@ void printContentLineTable(int xStart, int xEnd, int y, char* str[8][6]){
 }
 
 // create interface for room.Calculate
-void createInterfaceCalculate(int x0, int y0, char* str[8][6]){
+void createInterfaceCalculate(int x0, int y0, char* str[8][6], int firstColor){
 	
 	// print title
-	textColor(firstColorCa);
+	textColor(firstColor);
 	system("cls");
 	goToXY(0, 0); printf("Press Esc to back");
 	goToXY(40, 2); printf("           __         __     __");
@@ -52,8 +53,9 @@ void createInterfaceCalculate(int x0, int y0, char* str[8][6]){
  	
  	// print screen section
  	int i;
- 	goToXY(x0, y0 - 3); printf("%c", 218); for (i = 1; i <= 57; i++) printf("%c", 196); printf("%c", 191);
- 	goToXY(x0, y0 - 2); printf("%c 1+2/3", 179); goToXY(x0 + 58, y0 - 2); printf("%c", 179); 
+ 	goToXY(x0, y0 - 4); printf("%c", 218); for (i = 1; i <= 57; i++) printf("%c", 196); printf("%c", 191);
+ 	goToXY(x0, y0 - 3); printf("%c", 179); goToXY(x0 + 58, y0 - 3); printf("%c", 179);
+ 	goToXY(x0, y0 - 2); printf("%c", 179); goToXY(x0 + 58, y0 - 2); printf("%c", 179);
  	goToXY(x0, y0 - 1); printf("%c", 192); for (i = 1; i <= 57; i++) printf("%c", 196); printf("%c", 217);
  	
  	// print number section
@@ -92,10 +94,10 @@ void createInterfaceCalculate(int x0, int y0, char* str[8][6]){
 }
 
 // highlight current part
-void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
+void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int secondColor){
 	
 	// highligh
-	textColor(secondColorCa);
+	textColor(secondColor);
 	int dx = 0, dy = 0;
 	if (x > 5) dx = 2;
 	if (y > 2) dy = 1;
@@ -107,10 +109,10 @@ void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
 }
 
 // unhighlight current part
-void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
+void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int firstColor){
 	
 	// unhighligh
-	textColor(firstColorCa);
+	textColor(firstColor);
 	int dx = 0, dy = 0;
 	if (x > 5) dx = 2;
 	if (y > 2) dy = 1;
@@ -119,14 +121,10 @@ void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6]){
 }
 
 // room.Calculate main
-void roomCalculate(int pFirstColor, int pSecondColor){
-	
-	// assign color
-	firstColorCa = pFirstColor;
-	secondColorCa = pSecondColor;
+void roomCalculate(int firstColor, int secondColor){
 	
 	// declare vars
-	int x0 = 30, y0 = 12, column = 7, row = 5; 
+	int x0 = 30, y0 = 13, column = 7, row = 5; 
 	char strReal[35][50], tmp = '\0';
 	char* str[8][6]; // store address of those strings
 	
@@ -210,17 +208,189 @@ void roomCalculate(int pFirstColor, int pSecondColor){
 	str[7][5] = &strReal[35][0];
 	
 	// create interface
-	createInterfaceCalculate(x0, y0, str);
-	highlightCalculate(x0, y0, 6, 4, str);
-	unhighlightCalculate(x0, y0, 6, 4, str);
+	createInterfaceCalculate(x0, y0, str, firstColor);
 	
-	// check for esc
+	// store calculator memory
+	char screenLine[MAX_LENGTH], ans[MAX_LENGTH] = "0", key[10];
+	screenLine[0] = '\0';
+	int screenLineLength = 0, ansLength, keyLength, cursor = 0, start = 0, end = 0;
+	
+	// using arrow keys to control
+	highlightCalculate(x0, y0, 1, 1, str, secondColor);
+	int x = 1, y = 1; // store coordinates
+	int isScreen = 0;
 	char ch;
 	do{
+		
+		textColor(firstColor);
+		end = min(screenLineLength - 1, start + 51);
+		
+		goToXY(x0 + 3, y0 - 3); for (i = start; i <= end; i++) printf("%c", screenLine[i]);
+		for (i = x0 + 3 + end - start + 1; i <= x0 + 57; i++) printf(" ");
+		
+		goToXY(x0 + 1, y0 - 3);
+		if (start > 0) printf("< ..");
+		else printf(" ");
+		
+		goToXY(x0 + 54, y0 - 3);
+		if (end < screenLineLength - 1) printf(".. >");
+		else{ goToXY(x0 + 55, y0 - 3); printf("   "); }
+		
+		goToXY(x0 + 3 + cursor - start, y0 - 3);
+		
 		ch = getch();
+		loopWithoutGetch:
 		
 		// esc
 		if (ch == 27) return;
+		
+		// enter
+		if (ch == 13){
+			if ((x == 1) && (y == 1)) makeStr("1", key);
+			if ((x == 2) && (y == 1)) makeStr("2", key);
+			if ((x == 3) && (y == 1)) makeStr("3", key);
+			if ((x == 4) && (y == 1)) makeStr("4", key);
+			if ((x == 5) && (y == 1)) makeStr("5", key);
+			if ((x == 1) && (y == 2)) makeStr("6", key);
+			if ((x == 2) && (y == 2)) makeStr("7", key);
+			if ((x == 3) && (y == 2)) makeStr("8", key);
+			if ((x == 4) && (y == 2)) makeStr("9", key);
+			if ((x == 5) && (y == 2)) makeStr("0", key);
+			if ((x == 1) && (y == 3)) makeStr("^", key);
+			if ((x == 2) && (y == 3)){ // sqrt
+				makeStr("s", key);
+				key[0] = 251;
+			}
+			if ((x == 3) && (y == 3)){ // arrow left
+				ch = 75;
+				goto arrowLeft;
+			}
+			if ((x == 4) && (y == 3)){ // arrow right
+				ch = 77;
+				goto arrowRight;
+			}
+			if ((x == 5) && (y == 3)) makeStr("!", key);
+			if ((x == 1) && (y == 4)) makeStr("sin(", key);
+			if ((x == 2) && (y == 4)) makeStr("cos(", key);
+			if ((x == 3) && (y == 4)) makeStr("|", key);
+			if ((x == 4) && (y == 4)) makeStr("log(", key);
+			if ((x == 5) && (y == 4)) makeStr("ln(", key);
+			if ((x == 1) && (y == 5)) makeStr("tan(", key);
+			if ((x == 2) && (y == 5)) makeStr("cot(", key);
+			if ((x == 3) && (y == 5)) makeStr("(", key);
+			if ((x == 4) && (y == 5)) makeStr(")", key);
+			if ((x == 5) && (y == 5)) makeStr("e", key);
+			if ((x == 6) && (y == 1)) makeStr(".", key);
+			if ((x == 7) && (y == 1)) goto calculate; // =
+			if ((x == 6) && (y == 2)){ // pi
+				makeStr("p", key);
+				key[0] = 227;
+			}
+			if ((x == 7) && (y == 2)) makeStr("ans", key);
+			if ((x == 6) && (y == 3)){ // DEL
+				ch = 8;
+				goto backSpace;
+			}
+			if ((x == 7) && (y == 3)){ // AC
+				screenLineLength = 0;
+				cursor = 0;
+				start = 0;
+				continue;
+			}
+			if ((x == 6) && (y == 4)) makeStr("x", key);
+			if ((x == 7) && (y == 4)) makeStr("/", key);
+			if ((x == 6) && (y == 5)) makeStr("+", key);
+			if ((x == 7) && (y == 5)) makeStr("-", key);
+			
+			if (y != 0){
+				keyLength = strlen(key);
+				for (i = screenLineLength - 1; i >= cursor; i--) screenLine[i + keyLength] = screenLine[i];
+				for (i = cursor; i <= cursor + keyLength - 1; i++) screenLine[i] = key[i - cursor];
+				cursor += keyLength;
+				screenLineLength += keyLength;
+				while (cursor >= start + 53) start++;
+			}
+			else{
+				calculate:
+				screenLine[screenLineLength] = '\0';
+				if (checkSyntax(screenLine)) calExpression(screenLine, ans);
+				else makeStr("SYNTAX ERROR", ans);
+				ansLength = strlen(ans);
+				goToXY(max2Int(x0 + 3, x0 + 54 - ansLength), y0 - 2);
+				for (i = 0; i <= min2Int(ansLength - 1, 51); i++) printf("%c", ans[i]);
+				ch = getch();
+				goToXY(x0 + 3, y0 - 2);
+				for (i = 1; i <= 55; i++) printf(" ");
+				goto loopWithoutGetch;
+			}
+		}
+		
+		// backspace
+		backSpace:
+		if ((ch == 8) && (cursor > 0)){
+			for (i = cursor; i <= screenLineLength - 1; i++) screenLine[i - 1] = screenLine[i];
+			screenLineLength--;
+			cursor--;
+			start = max2Int(start - 1, 0);
+		}
+		
+		// numbers, characters, symbols
+		if ((ch >= 32) && (ch <= 126)){
+			for (i = screenLineLength - 1; i >= cursor; i--) screenLine[i + 1] = screenLine[i];
+			screenLine[cursor] = ch;
+			screenLineLength++;
+			cursor++;
+			if (cursor == start + 53) start++;
+		}
+		
+		// arrow keys
+		if (ch == 4294967264){
+			if (!isScreen) unhighlightCalculate(x0, y0, x, y, str, firstColor);
+			ch = getch();
+			
+			// arrow up
+			if (ch == 72){
+				y--;
+				if (y == 0) isScreen = 1;
+				if (y == -1) y = 0;
+			}
+			
+			// arrow down
+			if (ch == 80){
+				y++;
+				if (y == row + 1) y = row;
+				isScreen = 0;
+			}
+			
+			// arrow left
+			if (ch == 75){
+				if (isScreen){
+					arrowLeft:
+					cursor--;
+					if (cursor == -1) cursor = 0;
+					if (cursor < start) start--;
+				}
+				else{
+					x--;
+					if (x == 0) x = 1;
+				}
+			}
+			
+			// arrow right
+			if (ch == 77){
+				if (isScreen){
+					arrowRight:
+					cursor++;
+					if (cursor > screenLineLength) cursor--;
+					if (cursor >= start + 53) start++;
+				}
+				else{
+					x++;
+					if (x == column + 1) x = column;
+				}
+			}
+			if (!isScreen) highlightCalculate(x0, y0, x, y, str, secondColor);
+		}
 	} while(1);
 }
 

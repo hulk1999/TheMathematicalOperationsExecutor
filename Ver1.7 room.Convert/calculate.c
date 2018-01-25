@@ -4,131 +4,142 @@
 #include <string.h>
 #include <math.h>
 
-#include "operation.Plus.h"
+#include "function.Math.h"
 
 #define MAX_LENGTH 500
 
-void minusRealNum(char *pStrIn1, char *pStrIn2, char *pStrOut){
-}
-
-void multiply(char *pStrIn1, char *pStrIn2, char *pStrOut){
-}
-
-void devide(char *pStrIn1, char *pStrIn2, char *pStrOut){
-}
-
-void power(char *pStrIn1, char *pStrIn2, char *pStrOut){
-}
-
 // make strOut = strIn[start] to strIn[end]
-void makeStr(char *pStrIn, char *pStrOut, int start, int end){
+void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start, int end){
 	int i;
-	for (i = start; i <= end; i++) *(pStrOut + i - start) = *(pStrIn + i);
-	*(pStrOut + end - start + 1) = '\0';
+	for (i = start; i <= end; i++) strOut[i - start] = strIn[i];
+	strOut[end - start + 1] = '\0';
 }
 
 // calculate expression
-void calExpression(char* pStrIn, char* pStrOut){
+void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
+	
 	// initialize
-	int length = strlen(pStrIn);
-	int countBracket = 0;
+	int length = strlen(strIn);
+	int countBracket = 0; // work as a stack, +1 for '(', -1 for ')'
 	int i;
 	
-	// case "( )" such as "(3+4/6)"
-	// delete brackets, return "3+4/6"
-	if ((*pStrIn == '(') && (*(pStrIn + length - 1) == ')')){
-		countBracket = 1;
-		for (i = 1; i < length; i++){
-			if (*(pStrIn + i) == '(') countBracket++;
-			if (*(pStrIn + i) == ')') countBracket--;
-			if (countBracket == 0) break;
+	// case "( )" such as "(3+4/6)" or "(3+2)*(4-9)":
+	// fisrt case: delete brackets, return "3+4/6"
+	// second case: ignore
+	if ((strIn[0] == '(') && (strIn[length - 1] == ')')){
+		
+		for (i = 0; i <= length - 1; i++){
+			if (strIn[i] == '(') countBracket++;
+			if (strIn[i] == ')') countBracket--;
+			if (countBracket == 0) break; // all open brackets have their matches
 		}
+		
+		// first case
 		if (i == length - 1){
+			
 			// make string
 			char str[MAX_LENGTH];
-			makeStr(pStrIn, str, 1, length - 2);
+			makeStrStartEnd(strIn, str, 1, length - 2);
+			
 			// recursion
-			calExpression(str, pStrOut);
+			calExpression(str, strOut);
 			return;
 		}
 	}
 
 	// case + -
-	for (i = 0; i < length; i++){
+	// divide strIn into 2 parts: left and right of the operator, then do the math
+	// i.g. calExpression("2*3+4-3") == addRealNum(calExpression("2*3"), calExpression("4-3"));
+	for (i = 0; i <= length - 1; i++){
+		
 		// count bracket
-		if (*(pStrIn + i) == '(') countBracket++;
-		if (*(pStrIn + i) == ')') countBracket--;
+		if (strIn[i] == '(') countBracket++;
+		if (strIn[i] == ')') countBracket--;
+		
 		// check + -
-		if (((*(pStrIn + i) == '+') || (*(pStrIn + i) == '-')) && (countBracket == 0)){
-			// make strings
+		if (((strIn[i] == '+') || (strIn[i] == '-')) && (countBracket == 0)){
+			
+			// divide strIn to 2 parts: strIn1 and strIn2
 			char strIn1[MAX_LENGTH], strIn2[MAX_LENGTH], strOut1[MAX_LENGTH], strOut2[MAX_LENGTH];
-			makeStr(pStrIn, strIn1, 0, i - 1);
-			makeStr(pStrIn, strIn2, i + 1, length - 1);
-			// recursion
+			makeStrStartEnd(strIn, strIn1, 0, i - 1);
+			makeStrStartEnd(strIn, strIn2, i + 1, length - 1);
+			
+			// calculate strIn1 and strIn2
 			calExpression(strIn1, strOut1);
 			calExpression(strIn2, strOut2); // strOut1 and strOut2 are numbers
 
-			// calculate
-			if (*(pStrIn + i) == '+') addRealNum(strOut1, strOut2, pStrOut);
-			else minusRealNum(strOut1, strOut2, pStrOut);
+			// calculate strIn
+			if (strIn[i] == '+') addRealNum(strOut1, strOut2, strOut);
+			else minusRealNum(strOut1, strOut2, strOut);
+			
 			// exit
 			return;
 		}
 	}
 	
-	// case * /
-	for (i = 0; i < length; i++){
+	// case x /
+	for (i = 0; i <= length - 1; i++){
+		
 		// count bracket
-		if (*(pStrIn + i) == '(') countBracket++;
-		if (*(pStrIn + i) == ')') countBracket--;
-		// check + -
-		if (((*(pStrIn + i) == '*') || (*(pStrIn + i) == '/')) && (countBracket == 0)){
-			// make strings
+		if (strIn[i] == '(') countBracket++;
+		if (strIn[i] == ')') countBracket--;
+		
+		// check x /
+		if (((strIn[i] == 'x') || (strIn[i] == '/')) && (countBracket == 0)){
+			
+			// divide strIn into 2 parts: strIn1 and strIn2
 			char strIn1[MAX_LENGTH], strIn2[MAX_LENGTH], strOut1[MAX_LENGTH], strOut2[MAX_LENGTH];
-			makeStr(pStrIn, strIn1, 0, i - 1);
-			makeStr(pStrIn, strIn2, i + 1, length - 1);
-			// recursion
+			makeStrStartEnd(strIn, strIn1, 0, i - 1);
+			makeStrStartEnd(strIn, strIn2, i + 1, length - 1);
+			
+			// calculate strIn1 and strIn2
 			calExpression(strIn1, strOut1);
 			calExpression(strIn2, strOut2);
-			// calculate
-			if (*(pStrIn + i) == '*') multiply(strOut1, strOut2, pStrOut);
-			else devide(strOut1, strOut2, pStrOut);
+			
+			// calculate strIn
+			if (strIn[i] == 'x') multiply(strOut1, strOut2, strOut);
+			else divide(strOut1, strOut2, strOut);
+			
 			// exit
-			exit(0);
+			return;
 		}
 	}
 	
 	// case ^
-	for (i = 0; i < length; i++){
+	for (i = 0; i <= length - 1; i++){
+		
 		// count bracket
-		if (*(pStrIn + i) == '(') countBracket++;
-		if (*(pStrIn + i) == ')') countBracket--;
-		// check + -
-		if ((*(pStrIn + i) == '^') && (countBracket == 0)){
-			// make strings
+		if (strIn[i] == '(') countBracket++;
+		if (strIn[i] == ')') countBracket--;
+		
+		// check ^
+		if ((strIn[i] == '^') && (countBracket == 0)){
+			
+			// divide strIn to 2 parts: strIn1 and strIn2
 			char strIn1[MAX_LENGTH], strIn2[MAX_LENGTH], strOut1[MAX_LENGTH], strOut2[MAX_LENGTH];
-			makeStr(pStrIn, strIn1, 0, i - 1);
-			makeStr(pStrIn, strIn2, i + 1, length - 1);
-			// recursion
+			makeStrStartEnd(strIn, strIn1, 0, i - 1);
+			makeStrStartEnd(strIn, strIn2, i + 1, length - 1);
+			
+			// calculate strIn1 and strIn2
 			calExpression(strIn1, strOut1);
 			calExpression(strIn2, strOut2);
-			// calculate
-			power(strOut1, strOut2, pStrOut);
+			
+			// calculate strIn
+			power(strOut1, strOut2, strOut);
+			
 			// exit
-			exit(0);
+			return;
 		}
 	}
 	
 	// case number
-	makeStr(pStrIn, pStrOut, 0, length - 1);
+	makeStrStartEnd(strIn, strOut, 0, length - 1);
 }
 
 int main(){
-	char strIn[MAX_LENGTH] = "1+9";
+	char strIn[MAX_LENGTH] = "(44+3)+2+2";
 	char strOut[MAX_LENGTH];
-	//calExpression(strIn, strOut);
-	char str1[100] = "11", str2[100] = "97";
-	addRealNum(str1, str2, strOut);
+	calExpression(strIn, strOut);
 	puts(strOut);
 	return 0;
 }
