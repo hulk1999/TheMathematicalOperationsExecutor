@@ -45,3 +45,6 @@
 # Other files
 *.layout
 *.win
+*.exe
+*.gch
+*.win
