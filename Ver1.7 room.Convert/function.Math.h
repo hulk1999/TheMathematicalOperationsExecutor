@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAX_LENGTH 500
 
 int min2Int(int a, int b){
@@ -22,10 +26,7 @@ void divide(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LE
 void power(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
 }
 
-
-// TODO 
-// Fix this case 0.000 + 0
-// Hung: fix 44 + 6 = 5; 3.3 + 6.7 = 10.
+const int MAX_LENGTH = 500;
 
 int convertCharToInt(char inputChar)
 {
@@ -35,14 +36,29 @@ char convertIntToChar(int inputNum)
 {
 	return (char)(inputNum + 48);
 }
+// Shifting string
 
+void shiftLeft(char* inputRealNum)
+{
+	int numLength = strlen(inputRealNum);
+	int count;
+	for(count = 0; count < numLength - 1; count++)
+	{
+		inputRealNum[count] = inputRealNum[count + 1];
+	}
+	inputRealNum[numLength - 1] = '\0';
+}
+void shiftRight(char* inputRealNum)
+{
+	
+}
 // Returns the position of '.'
-int isRealNumber(char* inputNum)
+int isRealNumber(char* inputRealNum)
 {
 	int count;
-	for(count = 0; count < strlen(inputNum); count++) 
+	for(count = 0; count < strlen(inputRealNum); count++) 
 	{
-		if(inputNum[count] == '.') return count;
+		if(inputRealNum[count] == '.') return count;
 	}
 	return 0;
 }
@@ -51,10 +67,12 @@ int isRealNumber(char* inputNum)
 void eliminateRightZero(char* inputRealNum)
 {
 	int numLength = strlen(inputRealNum);
-	while(inputRealNum[numLength] != '.' && numLength > 0)
+	int dotPosition = isRealNumber(inputRealNum);
+	if(dotPosition == 0) return;
+	while(numLength >= dotPosition && (inputRealNum[numLength] == '0' || inputRealNum[numLength] == '\0' 
+										|| inputRealNum[numLength] == '.')) 
 	{
-		if(inputRealNum[numLength] == '0' || inputRealNum[numLength] == '.' || inputRealNum[numLength] == '\0') inputRealNum[numLength] = '\0';
-		else numLength = 0;
+		inputRealNum[numLength] = '\0'; 
 		numLength--;
 	}
 }
@@ -62,12 +80,17 @@ void eliminateRightZero(char* inputRealNum)
 // Change 00001 to 1
 void eliminateLeftZero(char* inputRealNum)
 {
-	int numOfZero = 0, count, numLength, dotStorage;
+	int count, numLength, dotPosition;
 	numLength = strlen(inputRealNum);
-	dotStorage = isRealNumber(inputRealNum);
-	while(numOfZero < dotStorage && inputRealNum[numOfZero] == '0' && numOfZero < numLength) numOfZero++;
-	for(count = 0; count < numLength; count++) inputRealNum[count] = inputRealNum[numOfZero + count];
+	dotPosition = isRealNumber(inputRealNum);
+	while(inputRealNum[0] == '0' && dotPosition + 2 <= numLength )
+	{
+		shiftLeft(inputRealNum);
+		numLength = strlen(inputRealNum);
+	}
 }
+
+// change 123.456 + 0 to 123.456 + 000.000
 void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 {
 //	printf("\n%s\n%s\n\n", realBigNum, realSmallNum);
@@ -130,30 +153,43 @@ void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 		realSmallNum[smallLength] = '\0';
 	}
 }
-
-//Calculate the sum of 2 positive real numbers
-void addRealNum(char* intNum1, char* intNum2, char* result)
+//Calculate realNum1 - realNum2
+void subtractRealNum(char* realNum1, char* realNum2, char* result)
 {
-//	eliminateLeftZero(intNum1);
-//	eliminateRightZero(intNum1);
-//	eliminateLeftZero(intNum2);
-//	eliminateRightZero(intNum2);
-	if(strlen(intNum1) == 0) 
+	if(strlen(realNum2) == 0) 
 	{
-		strcpy(result, intNum2);
+		strcpy(result, realNum1);
 		return;
 	}
-	balanceNumOfDigits(intNum1, intNum2);
-	int numLength = strlen(intNum1) - 1, tempNum = 0, carry = 0, resultDotStorage = MAX_LENGTH;
-	char* tempResult = (char* ) calloc(strlen(intNum1) + 1, sizeof(char));
+}
+//Calculate the sum of 2 positive real numbers
+void addRealNum(char* realNum1, char* realNum2, char* result)
+{
+	if(realNum1[0] == '-' && realNum2[0] == '-')
+	{
+		shiftLeft(realNum1);
+		shiftLeft(realNum2);
+		addRealNum(realNum1, realNum2, result);
+		subtractRealNum(result, "", result);
+	}
+	if(strlen(realNum1) == 0) 
+	{
+		strcpy(result, realNum2);
+		return;
+	}
+	balanceNumOfDigits(realNum1, realNum2);
+	int numLength = strlen(realNum1) - 1; 					 // Not calculate '\0' + '\0'			
+	int tempNum = 0, carry = 0, resultDotStorage = 0;
 	
-//	printf("\n%s\n%s\n\n", intNum1, intNum2);
+	char* tempResult = (char* ) calloc(strlen(realNum1) + 1, sizeof(char));
+	
+//	printf("\n%s\n%s\n\n", realNum1, realNum2);
 	// Caculate Sum
 	while(numLength >= 0)
 	{
-		if(intNum1[numLength] != '.' && intNum2[numLength] != '.')
+		if(realNum1[numLength] != '.' && realNum2[numLength] != '.')
 		{
-			tempNum = convertCharToInt(intNum1[numLength]) + convertCharToInt(intNum2[numLength]) + carry;
+			tempNum = convertCharToInt(realNum1[numLength]) + convertCharToInt(realNum2[numLength]) + carry;
 			if(tempNum > 9) 
 			{
 				carry = 1;
@@ -184,7 +220,7 @@ void addRealNum(char* intNum1, char* intNum2, char* result)
 	}
 	
 	eliminateRightZero(tempResult);
-	eliminateLeftZero(tempResult);
-	
+	eliminateLeftZero(tempResult);	
 	strcpy(result, tempResult);
 }
+
