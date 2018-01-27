@@ -4,30 +4,40 @@
 
 #define MAX_LENGTH 500
 
-int min2Int(int a, int b){
-	if (a < b) return a;
-	return b;
-}
+//////////////////// Declaration /////////////////////
 
-int max2Int(int a, int b){
-	if (a > b) return a;
-	return b;
-}
+///// Functionalities /////
 
-void minusRealNum(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
-}
+// Conversion
+int convertCharToInt(char inputChar);
+char convertIntToChar(int inputNum);
 
-void multiply(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
-}
 
-void divide(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
-}
+// Shifting
+void shiftLeft(char* inputRealNum);
+void shiftRight(char* inputRealNum); // unfinished
 
-void power(char strIn1[MAX_LENGTH], char strIn2[MAX_LENGTH], char strOut[MAX_LENGTH]){
-}
+void eliminateRightZero(char* inputRealNum);
+void eliminateLeftZero(char* inputRealNum);
 
-const int MAX_LENGTH = 500;
+void balanceNumOfDigits(char* realBigNum, char* realSmallNum);
 
+// Others
+int isRealNumber(char* inputRealNum);
+int min2Int(int a, int b);
+int max2Int(int a, int b);
+
+///// Math Operations /////
+void addRealNum(char* realNum1, char* realNum2, char* result);
+void subtractRealNum(char* realNum1, char* realNum2, char* result);
+void multiplyRealNum(char* realNum1, char* realNum2, char* result);
+void divideRealNum(char* realNum1, char* realNum2, char* result);
+
+// TODO powerRealNum(char* realNum1, char* realNum2, char* result);
+//////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////// Conversion //////////////////////////////////////////////////////
 int convertCharToInt(char inputChar)
 {
 	return (int)inputChar - 48;
@@ -36,8 +46,10 @@ char convertIntToChar(int inputNum)
 {
 	return (char)(inputNum + 48);
 }
-// Shifting string
 
+////////////////////////////////////////////////////// Shifting //////////////////////////////////////////////////////
+
+// Shifting string
 void shiftLeft(char* inputRealNum)
 {
 	int numLength = strlen(inputRealNum);
@@ -52,17 +64,6 @@ void shiftRight(char* inputRealNum)
 {
 	
 }
-// Returns the position of '.'
-int isRealNumber(char* inputRealNum)
-{
-	int count;
-	for(count = 0; count < strlen(inputRealNum); count++) 
-	{
-		if(inputRealNum[count] == '.') return count;
-	}
-	return 0;
-}
-//////////////////////////////////////////////
 // Change 1.000000000 to 1
 void eliminateRightZero(char* inputRealNum)
 {
@@ -76,7 +77,6 @@ void eliminateRightZero(char* inputRealNum)
 		numLength--;
 	}
 }
-/////////////////////////////////////////////
 // Change 00001 to 1
 void eliminateLeftZero(char* inputRealNum)
 {
@@ -89,12 +89,9 @@ void eliminateLeftZero(char* inputRealNum)
 		numLength = strlen(inputRealNum);
 	}
 }
-
 // change 123.456 + 0 to 123.456 + 000.000
 void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 {
-//	printf("\n%s\n%s\n\n", realBigNum, realSmallNum);
-	
 	// Dealing with the integer part
 	int bigLength = strlen(realBigNum), smallLength = strlen(realSmallNum);
 	if(isRealNumber(realBigNum)) 
@@ -117,8 +114,8 @@ void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 	balanceNumOfDigits(realSmallNum, realBigNum);
 	return;
 	}
-	char tempNum[bigLength];
 	
+	char tempNum[bigLength];
 	int count, digitDifference = bigLength - smallLength;
 	
 	// Initialize the temporary result by adding digitDifference 0 to the left
@@ -153,6 +150,32 @@ void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 		realSmallNum[smallLength] = '\0';
 	}
 }
+
+////////////////////////////////////////////////////// Others //////////////////////////////////////////////////////
+// Returns the position of '.'
+int isRealNumber(char* inputRealNum)
+{
+	int count;
+	for(count = 0; count < strlen(inputRealNum); count++) 
+	{
+		if(inputRealNum[count] == '.') return count;
+	}
+	return 0;
+}
+
+int min2Int(int a, int b)
+{
+	if (a < b) return a;
+	return b;
+}
+
+int max2Int(int a, int b)
+{
+	if (a > b) return a;
+	return b;
+}
+
+////////////////////////////////////////////////////// Math Operations //////////////////////////////////////////////////////
 //Calculate realNum1 - realNum2
 void subtractRealNum(char* realNum1, char* realNum2, char* result)
 {
@@ -165,6 +188,11 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 //Calculate the sum of 2 positive real numbers
 void addRealNum(char* realNum1, char* realNum2, char* result)
 {
+	eliminateRightZero(realNum1);
+	eliminateLeftZero(realNum1);	
+	eliminateRightZero(realNum2);
+	eliminateLeftZero(realNum2);
+	
 	if(realNum1[0] == '-' && realNum2[0] == '-')
 	{
 		shiftLeft(realNum1);
