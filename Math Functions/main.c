@@ -4,6 +4,9 @@
 
 #define MAX_LENGTH 500
 
+
+/// TODO Rewrite blanceNumOfDigits so that it won't swap the numbers!!
+
 //////////////////// Declaration /////////////////////
 
 ///// Functionalities /////
@@ -12,10 +15,9 @@
 int convertCharToInt(char inputChar);
 char convertIntToChar(int inputNum);
 
-
 // Shifting
 void shiftLeft(char* inputRealNum);
-void shiftRight(char* inputRealNum); // unfinished
+void shiftRight(char* inputRealNum);
 
 void eliminateRightZero(char* inputRealNum);
 void eliminateLeftZero(char* inputRealNum);
@@ -26,15 +28,33 @@ void balanceNumOfDigits(char* realBigNum, char* realSmallNum);
 int isRealNumber(char* inputRealNum);
 int min2Int(int a, int b);
 int max2Int(int a, int b);
+int isGreater(char* realNum1, char* realNum2);
+void swapStrings(char* realNum1, char* realNum2);
 
 ///// Math Operations /////
 void addRealNum(char* realNum1, char* realNum2, char* result);
 void subtractRealNum(char* realNum1, char* realNum2, char* result);
-void multiplyRealNum(char* realNum1, char* realNum2, char* result);
-void divideRealNum(char* realNum1, char* realNum2, char* result);
 
-// TODO powerRealNum(char* realNum1, char* realNum2, char* result);
+/* TODO
+	void multiplyRealNum(char* realNum1, char* realNum2, char* result);
+	void divideRealNum(char* realNum1, char* realNum2, char* result);
+	void powerRealNum(char* realNum1, char* realNum2, char* result);
+*/
 //////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////// MAIN //////////////////////////////////////////////////////
+
+int main(int argc, char *argv[]) {
+	char inputNum1[MAX_LENGTH], inputNum2[MAX_LENGTH], result[MAX_LENGTH];
+	do
+	{
+	scanf("%s %s", &inputNum1, &inputNum2);
+	addRealNum(inputNum1, inputNum2, result);
+	printf("%s\n\n", result);
+	} while(1);
+	return 0;
+}
 
 
 ////////////////////////////////////////////////////// Conversion //////////////////////////////////////////////////////
@@ -62,7 +82,14 @@ void shiftLeft(char* inputRealNum)
 }
 void shiftRight(char* inputRealNum)
 {
-	
+	int count, numLength = strlen(inputRealNum);
+	char tempRealNum[numLength + 1];
+	for(count = 0; count < numLength; count++)
+	{
+		tempRealNum[count + 1] = inputRealNum[count];
+	}
+	tempRealNum[numLength + 1] = '\0';
+	strcpy(inputRealNum, tempRealNum);
 }
 // Change 1.000000000 to 1
 void eliminateRightZero(char* inputRealNum)
@@ -90,28 +117,30 @@ void eliminateLeftZero(char* inputRealNum)
 	}
 }
 // change 123.456 + 0 to 123.456 + 000.000
-void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
+void balanceNumOfDigits(char* realLongNum, char* realShortNum)
 {
+	printf("Input balanceNumOfDigits: %s %s\n", realLongNum, realShortNum);
 	// Dealing with the integer part
-	int bigLength = strlen(realBigNum), smallLength = strlen(realSmallNum);
-	if(isRealNumber(realBigNum)) 
+	int bigLength = strlen(realLongNum), smallLength = strlen(realShortNum);
+	if(isRealNumber(realLongNum)) 
 	{
 		do 
 		{
 			bigLength--;
-		}while(realBigNum[bigLength] != '.');
+		}while(realLongNum[bigLength] != '.');
 	}
-	if(isRealNumber(realSmallNum))
+	if(isRealNumber(realShortNum))
 	{
 		do
 		{
 			smallLength--;
-		}while(realSmallNum[smallLength] != '.');
+		}while(realShortNum[smallLength] != '.');
 	}
 	
 	if(bigLength < smallLength) 
 	{
-	balanceNumOfDigits(realSmallNum, realBigNum);
+	balanceNumOfDigits(realShortNum, realLongNum);
+	swapStrings(realShortNum, realLongNum); // This prevents changing the original values
 	return;
 	}
 	
@@ -120,39 +149,40 @@ void balanceNumOfDigits(char* realBigNum, char* realSmallNum)
 	
 	// Initialize the temporary result by adding digitDifference 0 to the left
 	for(count = 0; count < digitDifference; count++) tempNum[count] = '0';
-	bigLength = strlen(realSmallNum) + digitDifference;
-	for(count = digitDifference; count < bigLength; count++) tempNum[count] = realSmallNum[count - digitDifference];
+	bigLength = strlen(realShortNum) + digitDifference;
+	for(count = digitDifference; count < bigLength; count++) tempNum[count] = realShortNum[count - digitDifference];
 	tempNum[count] = '\0';
-	strcpy(realSmallNum, tempNum);
+	strcpy(realShortNum, tempNum);
 
 	// Dealing with the floating points
-	if(isRealNumber(realBigNum) || isRealNumber(realSmallNum)) 
+	if(isRealNumber(realLongNum) || isRealNumber(realShortNum)) 
 	{
-		bigLength = strlen(realBigNum), smallLength = strlen(realSmallNum);
-		if(!isRealNumber(realBigNum)) realBigNum[bigLength] = '.';
-		if(!isRealNumber(realSmallNum)) realSmallNum[smallLength] = '.';
+		bigLength = strlen(realLongNum), smallLength = strlen(realShortNum);
+		if(!isRealNumber(realLongNum)) realLongNum[bigLength] = '.';
+		if(!isRealNumber(realShortNum)) realShortNum[smallLength] = '.';
 	}
 	
-	if(isRealNumber(realBigNum) && isRealNumber(realSmallNum))
+	if(isRealNumber(realLongNum) && isRealNumber(realShortNum))
 	{
-		bigLength = strlen(realBigNum), smallLength = strlen(realSmallNum);
+		bigLength = strlen(realLongNum), smallLength = strlen(realShortNum);
 		while(bigLength > smallLength)	
 		{
-			realSmallNum[smallLength] = '0';
+			realShortNum[smallLength] = '0';
 			smallLength++; 
 		}
 		while(bigLength < smallLength)
 		{
-			realBigNum[bigLength] = '0';
+			realLongNum[bigLength] = '0';
 			bigLength++;
 		}
-		realBigNum[bigLength] = '\0';
-		realSmallNum[smallLength] = '\0';
+		realLongNum[bigLength] = '\0';
+		realShortNum[smallLength] = '\0';
 	}
+	printf("Output balanceNumOfDigits: %s %s\n", realLongNum, realShortNum);
 }
 
 ////////////////////////////////////////////////////// Others //////////////////////////////////////////////////////
-// Returns the position of '.'
+// Returns the position of '.' 
 int isRealNumber(char* inputRealNum)
 {
 	int count;
@@ -160,7 +190,7 @@ int isRealNumber(char* inputRealNum)
 	{
 		if(inputRealNum[count] == '.') return count;
 	}
-	return 0;
+	return 0; // inputRealNum is an integer
 }
 
 int min2Int(int a, int b)
@@ -175,23 +205,123 @@ int max2Int(int a, int b)
 	return b;
 }
 
+// Returns 1 if realNum1 > realNum2 else return 0
+int isGreater(char* realNum1, char* realNum2)
+{
+	printf("Input isGreater: %s %s\n", realNum1, realNum2);
+	if(realNum1[0] == '-' && realNum2[0] == '-')
+	{
+		shiftLeft(realNum1);
+		shiftLeft(realNum2);
+		return isGreater(realNum2, realNum1);
+	}
+	if(realNum1[0] == '-') return 0;
+	if(realNum2[0] == '-') return 1;
+	
+	balanceNumOfDigits(realNum1, realNum2);
+	int checker = 0, numLength = strlen(realNum1);
+	
+	while(checker < numLength)
+	{
+		if(realNum1[checker] != realNum2[checker])
+		{
+			if(realNum1[checker] > realNum2[checker]) 
+			{
+				printf("%s is greater than %s\n", realNum1, realNum2);
+//				printf("Because %c > %c\n", realNum1[checker], realNum2[checker]);
+				return 1;
+			}
+			else 
+			{
+				printf("%s is smaller than %s\n", realNum1, realNum2);
+//				printf("Because %c < %c\n", realNum1[checker], realNum2[checker]);
+				return 0;
+			}
+		}
+		checker++;
+	}
+//	printf("%s is equal to %s\n", realNum1, realNum2);
+	return 0;
+}
+
+void swapStrings(char* realNum1, char* realNum2)
+{
+	char tempStr[strlen(realNum1)];
+	strcpy(tempStr, realNum1);
+	strcpy(realNum1, realNum2);
+	strcpy(realNum2, tempStr);
+}
 ////////////////////////////////////////////////////// Math Operations //////////////////////////////////////////////////////
-//Calculate realNum1 - realNum2
+//Calculate realNum1 - realNum2 with both realNum1 >= 0 and realNum2 >= 0
 void subtractRealNum(char* realNum1, char* realNum2, char* result)
 {
+	printf("Input subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
 	if(strlen(realNum2) == 0) 
 	{
 		strcpy(result, realNum1);
 		return;
 	}
-}
-//Calculate the sum of 2 positive real numbers
-void addRealNum(char* realNum1, char* realNum2, char* result)
-{
+	if(strlen(realNum1) == 0) 
+	{
+		strcpy(result, realNum2);
+		return;
+	}
+	
+	if(isGreater(realNum2, realNum1)) 
+	{
+		printf("%s is greater than %s\n", realNum2, realNum1);
+		subtractRealNum(realNum2, realNum1, result);
+		shiftRight(result);
+		result[0] = '-';
+		return;
+	}
+
 	eliminateRightZero(realNum1);
 	eliminateLeftZero(realNum1);	
 	eliminateRightZero(realNum2);
 	eliminateLeftZero(realNum2);
+		
+	balanceNumOfDigits(realNum1, realNum2);
+	int numLength = strlen(realNum1) - 1; 					 // Not calculate '\0' - '\0'			
+	int tempNum = 0, carry = 0, resultDotPosition = 0;
+	
+	char* tempResult = (char* ) calloc(strlen(realNum1) + 1, sizeof(char));
+	
+//	printf("\n%s\n%s\n\n", realNum1, realNum2);
+	// Caculate difference
+	while(numLength >= 0)
+	{
+		if(realNum1[numLength] != '.' && realNum2[numLength] != '.')
+		{
+			tempNum = convertCharToInt(realNum1[numLength]) - convertCharToInt(realNum2[numLength]) - carry;
+			if(tempNum < 0) 
+			{
+				carry = 1;
+				tempNum = tempNum + 10;
+			}
+			else
+			{
+				carry = 0;
+			}
+			tempResult[numLength] = convertIntToChar(tempNum);
+		}
+		else
+		{
+			tempResult[numLength] = '.';
+			resultDotPosition = numLength;
+		}
+		numLength--;
+	}
+	
+	eliminateRightZero(tempResult);
+	eliminateLeftZero(tempResult);	
+	strcpy(result, tempResult);
+	printf("Output subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
+}
+//Calculate the sum of 2 positive real numbers
+void addRealNum(char* realNum1, char* realNum2, char* result)
+{
+//	printf("Input addRealNum: %s %s %s\n", realNum1, realNum2, result);
 	
 	if(realNum1[0] == '-' && realNum2[0] == '-')
 	{
@@ -199,19 +329,37 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 		shiftLeft(realNum2);
 		addRealNum(realNum1, realNum2, result);
 		subtractRealNum(result, "", result);
+		return;
+	}
+	if(realNum1[0] == '-')
+	{
+		shiftLeft(realNum1);
+		subtractRealNum(realNum2, realNum1, result);
+		return;
+	}
+	if(realNum2[0] == '-')
+	{
+		shiftLeft(realNum2);
+		subtractRealNum(realNum1, realNum2, result);
+		return;
 	}
 	if(strlen(realNum1) == 0) 
 	{
 		strcpy(result, realNum2);
 		return;
 	}
+
+	eliminateRightZero(realNum1);
+	eliminateLeftZero(realNum1);	
+	eliminateRightZero(realNum2);
+	eliminateLeftZero(realNum2);
+		
 	balanceNumOfDigits(realNum1, realNum2);
 	int numLength = strlen(realNum1) - 1; 					 // Not calculate '\0' + '\0'			
-	int tempNum = 0, carry = 0, resultDotStorage = 0;
+	int tempNum = 0, carry = 0, resultDotPosition = 0;
 	
 	char* tempResult = (char* ) calloc(strlen(realNum1) + 1, sizeof(char));
 	
-//	printf("\n%s\n%s\n\n", realNum1, realNum2);
 	// Caculate Sum
 	while(numLength >= 0)
 	{
@@ -232,7 +380,7 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 		else
 		{
 			tempResult[numLength] = '.';
-			resultDotStorage = numLength;
+			resultDotPosition = numLength;
 		}
 		numLength--;
 	}
@@ -250,16 +398,6 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateRightZero(tempResult);
 	eliminateLeftZero(tempResult);	
 	strcpy(result, tempResult);
+//	printf("Output addRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
 
-
-int main(int argc, char *argv[]) {
-	char inputNum1[MAX_LENGTH], inputNum2[MAX_LENGTH], result[MAX_LENGTH];
-	do
-	{
-	scanf("%s %s", &inputNum1, &inputNum2);
-	addRealNum(inputNum1, inputNum2, result);
-	printf("%s\n\n", result);
-	} while(1);
-	return 0;
-}
