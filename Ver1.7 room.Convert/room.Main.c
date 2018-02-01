@@ -110,15 +110,27 @@ void roomMain(){
 			
 			// arrow up
 			if (ch == 72){
+				if (i == 6){
+					goToXY(x0 + 30, y0 + 5*step); printf("                            ");
+				}
 				i--;
 				if (i == 0) i = option;
 			}
 			
 			// arrow down
 			if (ch == 80){
+				if (i == 6){
+					goToXY(x0 + 30, y0 + 5*step); printf("                            ");
+				}
 				i++;
 				if (i == option + 1) i = 1;
 			}
+			
+			// special print for dinosaur
+			if (i == 6){
+				goToXY(x0 + 30, y0 + 5*step); printf("Screw it! Math is for nerds!");
+			}
+			
 			highlight(x0, y0, step, i, str, secondColor);
 		}
 		
@@ -126,7 +138,7 @@ void roomMain(){
 		if (ch == 13){
 			switch (i){
 				case 1: roomCalculate(firstColor, secondColor); break;
-				case 2: roomSolve(&firstColor, &secondColor); break;
+				case 2: roomSolve(firstColor, secondColor); break;
 				case 3: roomConvert(firstColor, secondColor); break;
 				case 4: roomSettings(&firstColor, &secondColor); break;
 				case 5: roomCredits(firstColor, secondColor); break;

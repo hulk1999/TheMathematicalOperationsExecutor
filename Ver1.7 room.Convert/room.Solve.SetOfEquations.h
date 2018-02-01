@@ -1,3 +1,4 @@
+// get coefiicents
 void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstColor, int secondColor){
 	textColor(secondColor);
 	int isNum;
@@ -12,6 +13,7 @@ void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstCol
 	textColor(firstColor);
 }
 
+// highlight current part
 void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solution[50], int secondColor){
 	textColor(secondColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
@@ -19,18 +21,21 @@ void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solutio
 	goToXY(119, 29);
 }
 
+// unhighlight current part
 void unhighlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solution[50], int firstColor){
 	textColor(firstColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%8.2lf", solution[x]);
 }
 
+// check if the set has solution
 int hasSolutionSetOfEquations(int num, double a[50][50]){
 	int i;
 	for (i = 1; i <= num; i++) if (a[i][i] == 0) return 0;
 	return 1;
 }
 
+// solve set of n equations
 void solveSetOfNEquations(int num, int firstColor, int secondColor){
 	
 	int x0 = 25, y0 = 10;
@@ -75,7 +80,7 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor){
 	for (k = 1; k <= 120; k++) printf(" ");
 	goToXY(x0 + 15 + (j - x0C - 1)*15, y0 + 6 + (i - y0C - 1)* 2); printf("%8.2lf", a[num + 1][num]);
 	
-	// solve
+	// SOLVE
 	// make triangle
 	double ratio;
 	for (i = 1; i < num; i++){
@@ -97,7 +102,7 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor){
 		solution[i] = a[num + 1][i] / a[i][i];
 	}
 	
-	// see solutions
+	// print solutions
 	int x = 1, x0S = 1;
 	goToXY(x0, y0 + 11); printf("Solutions:");
 	char ch = 75;

@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <time.h>
 
+#include "room.Solve.NthDegreeEquation.h"
 #include "room.Solve.SetOfEquations.h"
 
 #include "function.Display.h"
@@ -96,7 +97,80 @@ void deleteSetOfNEquations(int y0, int step, char* str[6][3], int firstColor){
 	textColor(firstColor);
 }
 
-int inputDegree(int* pX){
+// get optional degree
+int inputDegree(int* pX, int *pNum, int y0, int step, char* str[6][3], int firstColor, int secondColor){
+	
+	// display
+	int x = 96, y = 12;
+	textColor(firstColor);
+	goToXY(x, y + 1); printf("    input    ");
+	textColor(secondColor);
+	goToXY(x, y); printf("             ");
+	goToXY(x + 5, y);
+	
+	// get input
+	char ch;
+	int numStr[3], count = 0, num;
+	do{
+		ch = getch();
+		loopWithoutGetch:
+		
+		// esc
+		if (ch == 27) return 0;
+		
+		// backspace
+		if ((ch == 8) && (count > 0)){
+			count--;
+			goToXY(x + 6 + count, y); printf(" ");
+			goToXY(x + 6 + count, y);
+		}
+		
+		// numbers
+		if ((ch >= '0') && (ch <= '9') && (count <= 1)){
+			goToXY(x + 6 + count, y); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+		}
+		
+		// enter
+		if (ch == 13){
+			if (count >= 1){
+				num = numStr[count] - '0';
+				if (count == 2) num += (numStr[1] - '0') * 10;
+				if (num <= 1){
+					textColor(firstColor);
+					goToXY(x, y + 1);
+					if (num <= 0) printf("    error!   ");
+					else printf("  seriously? ");
+					goToXY(119, 29);
+					ch = getch();
+					goToXY(x, y + 1);
+					printf("    input    ");
+					goToXY(x + 6 + count, y);
+					textColor(secondColor);
+					goto loopWithoutGetch;
+				}
+				else{
+					*pNum = num;
+					return 1;					
+				}
+			}
+		}
+		
+		// arrow keys
+		if (ch == 4294967264){
+			ch = getch();
+			
+			// arrow left
+			if (ch == 75){
+				*pNum = 0;
+				*pX -= 1;
+				textColor(firstColor);
+				goToXY(x, y + 1); printf("             ");
+				return 1;
+			}
+		}
+	} while (1);
 }
 
 // get optional number of equation
@@ -173,9 +247,6 @@ int inputSetNum(int* pX, int *pNum, int y0, int step, char* str[6][3], int first
 			}
 		}
 	} while (1);
-}
-
-void solveNthDegreeEquation(int num){
 }
 
 // room.Solve main
@@ -269,12 +340,17 @@ void roomSolve(int firstColor, int secondColor){
 								 }
 				else if (x == 5){
 					switch (y){
-						case 1: if (inputDegree(&x) == 0) return; break;
+						case 1:
+							if (inputDegree(&x, &num, y0, step, str, firstColor, secondColor) == 0) return;
+							if (num > 0){
+								x = num;
+								goto solve;
+							}
+							break;
 						case 2:
 							if (inputSetNum(&x, &num, y0, step, str, firstColor, secondColor) == 0) return;
 							if (num > 0){
 								x = num;
-								y = 2;
 								goto solve;
 							}
 							break;
@@ -297,12 +373,14 @@ void roomSolve(int firstColor, int secondColor){
 				goToXY(x0, y0 + (i - 1)*step);
 				printf("%s", str[1][i]);
 			}
+			goToXY(96, 13);
+			printf("             ");
 			textColor(firstColor);
 
 			// n-th degree equation section
 			if (y == 1){
 				deleteNthDegreeEquation(y0, step, str, firstColor);
-				solveNthDegreeEquation(x);
+				solveNthDegreeEquation(x, firstColor, secondColor);
 			}
 			
 			// set of n equations section

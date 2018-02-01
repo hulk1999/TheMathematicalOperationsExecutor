@@ -105,11 +105,6 @@ void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int fir
 	printf("%s", str[x][y]);
 }
 
-void screenSection(char screenLine[1000], int screenLineLength, char ans[500], int firstColor){
-	textColor(firstColor);
-	goToXY()
-}
-
 // room.Calculate main
 void roomCalculate(int firstColor, int secondColor){
 	
@@ -222,7 +217,7 @@ void roomCalculate(int firstColor, int secondColor){
 			if (ch == 72){
 				y--;
 				if (y == 0){
-					screenSection(screenLine, screenLineLength, ans, firstColor);
+					//screenSection(screenLine, screenLineLength, ans, firstColor);
 					y = 1;
 				}
 			}
