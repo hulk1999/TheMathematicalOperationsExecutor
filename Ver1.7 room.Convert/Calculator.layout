@@ -29,9 +29,9 @@ CursorRow=21
 TopLine=10
 LeftChar=1
 [Editor_7]
-CursorCol=55
-CursorRow=412
-TopLine=384
+CursorCol=57
+CursorRow=396
+TopLine=313
 LeftChar=1
 [Editor_8]
 CursorCol=1
@@ -44,7 +44,7 @@ Focused=7
 [Editor_0]
 CursorCol=6
 CursorRow=124
-TopLine=144
+TopLine=140
 LeftChar=1
 [Editor_9]
 CursorCol=21

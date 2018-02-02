@@ -20,6 +20,7 @@ void createInterfaceDinosaur(int firstColor){
 
 void printGameOver(){
 	goToXY(55, 10); printf("GAME OVER");
+	goToXY(119, 29);
 }
 
 // make next element for ground
@@ -320,6 +321,7 @@ void roomDinosaur(int firstColor, int secondColor){
 	createInterfaceDinosaur(firstColor);
 	printGround(ground, y0);
 	printDinosaur(0, 3, y0);
+	goToXY(119, 29);
 	
 	// GAME
 	while (1){
@@ -391,6 +393,7 @@ void roomDinosaur(int firstColor, int secondColor){
 				if (checkCollision(height, obstacle, obstaclePos, y0)){
 					goToXY(35, y0 - 5 - height); printf("x-x");
 					printGameOver();
+					if (highscore < frameCount) highscore = frameCount;
 					goto gameStart;
 				}
 			
@@ -409,7 +412,6 @@ void roomDinosaur(int firstColor, int secondColor){
 			wait(frameTime);
 			frameCount++;
 			if ((frameCount % 600 == 0) && (frameTime > 2)) frameTime--;
-			if (highscore < frameCount) highscore = frameCount;
 		}
 	}
 }

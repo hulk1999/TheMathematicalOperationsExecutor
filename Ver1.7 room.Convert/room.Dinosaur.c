@@ -30,6 +30,7 @@ void createInterfaceDinosaur(int firstColor){
 
 void printGameOver(){
 	goToXY(55, 10); printf("GAME OVER");
+	goToXY(119, 29);
 }
 
 void makeGround(char ground[3][121]){
