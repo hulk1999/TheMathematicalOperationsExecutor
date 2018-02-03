@@ -1,15 +1,17 @@
 #define MAX_LENGTH 500
 
+// haven't done
+void divideRealNum(char* realNum1, char* realNum2, char* result){
+}
+void powerRealNum(char* realNum1, char* realNum2, char* result){
+}
+
+
 // make strOut = strIn[start] to strIn[end]
 void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start, int end){
 	int i;
 	for (i = start; i <= end; i++) strOut[i - start] = strIn[i];
 	strOut[end - start + 1] = '\0';
-}
-
-// check input syntax
-int checkSyntax(char str[MAX_LENGTH]){
-	return 1;
 }
 
 // calculate expression
@@ -67,7 +69,7 @@ void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
 
 			// calculate strIn
 			if (strIn[i] == '+') addRealNum(strOut1, strOut2, strOut);
-			else minusRealNum(strOut1, strOut2, strOut);
+			else subtractRealNum(strOut1, strOut2, strOut);
 			
 			// exit
 			return;
@@ -94,8 +96,8 @@ void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
 			calExpression(strIn2, strOut2);
 			
 			// calculate strIn
-			if (strIn[i] == 'x') multiply(strOut1, strOut2, strOut);
-			else divide(strOut1, strOut2, strOut);
+			if (strIn[i] == 'x') multiplyRealNum(strOut1, strOut2, strOut);
+			else divideRealNum(strOut1, strOut2, strOut);
 			
 			// exit
 			return;
@@ -122,7 +124,7 @@ void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
 			calExpression(strIn2, strOut2);
 			
 			// calculate strIn
-			power(strOut1, strOut2, strOut);
+			powerRealNum(strOut1, strOut2, strOut);
 			
 			// exit
 			return;

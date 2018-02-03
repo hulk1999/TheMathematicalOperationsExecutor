@@ -313,8 +313,7 @@ void roomCalculate(int firstColor, int secondColor){
 			else{
 				calculate:
 				screenLine[screenLineLength] = '\0';
-				if (checkSyntax(screenLine)) calExpression(screenLine, ans);
-				else makeStr("SYNTAX ERROR", ans);
+				calExpression(screenLine, ans);
 				ansLength = strlen(ans);
 				goToXY(max2Int(x0 + 3, x0 + 54 - ansLength), y0 - 2);
 				for (i = 0; i <= min2Int(ansLength - 1, 51); i++) printf("%c", ans[i]);
