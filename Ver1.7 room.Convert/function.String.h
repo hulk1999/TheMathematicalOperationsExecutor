@@ -1,5 +1,5 @@
 // make strOut = strIn
-void makeStr(char strIn[50], char strOut[50]){
+void makeStr(char *strIn, char *strOut){
 	int i = 0;
 	while (strIn[i] != '\0'){
 		strOut[i] = strIn[i];

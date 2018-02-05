@@ -1,8 +1,6 @@
 #define MAX_LENGTH 500
 
 // haven't done
-void divideRealNum(char* realNum1, char* realNum2, char* result){
-}
 void powerRealNum(char* realNum1, char* realNum2, char* result){
 }
 
@@ -13,6 +11,8 @@ void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start,
 	for (i = start; i <= end; i++) strOut[i - start] = strIn[i];
 	strOut[end - start + 1] = '\0';
 }
+
+// delete spaces
 
 // calculate expression
 void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){

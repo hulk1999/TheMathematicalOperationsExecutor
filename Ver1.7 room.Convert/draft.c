@@ -1,9 +1,7 @@
 #include <stdio.h>
+#include <math.h>
 
 int main(){
-	char ch = getch();
-	printf("%u\n", ch);
-	ch = getch();
-	printf("%u", ch);
+	printf("%lf", pow(99.9, 5.66));
 	return 0;
 }
