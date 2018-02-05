@@ -838,12 +838,6 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 		strcpy(result, "MATH ERROR!(0^0)");
 		return;
 	}
-	int negative = 0;
-	if(realNum2[0] == '-')
-	{
-		negative = 1;
-		shiftLeft(realNum2);
-	}
 	if(isRealNumber(realNum2)) 
 	{
 		float floatTempResult = pow(convertStringToFloat(realNum1), convertStringToFloat(realNum2));
@@ -852,6 +846,12 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 	}
 	else
 	{
+		int negative = 0;
+		if(realNum2[0] == '-')
+		{
+			negative = 1;
+			shiftLeft(realNum2);
+		}
 		char count[MAX_LENGTH];
 		char tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
 		char numberOne[MAX_LENGTH];
