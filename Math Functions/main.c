@@ -4,16 +4,19 @@
 #include <math.h>
 #define MAX_LENGTH 500
 
+
+// TODO MATH ERROR!
+
 //////////////////// Declaration /////////////////////
 
 ///// Functionalities /////
 
 // Conversion
 int convertCharToInt(char inputChar);
+char convertIntToChar(int inputNum);
 
 double convertStringToFloat(char* inputChar);
-
-char convertIntToChar(int inputNum);
+void convertFloatToString(double inputFloat, char* result);
 
 // Shifting
 void shiftLeft(char* inputRealNum);
@@ -41,11 +44,11 @@ void swapDigits(char* digitNum1, char* digitNum2);
 void swapStrings(char* realNum1, char* realNum2);
 
 ///// Math Operations /////
-void addRealNum(char* realNum1, char* realNum2, char* result);
+void addRealNum(char* realNum1, char* realNum2, char* result); // It's best not to pass literal strings such as ""123.456"" to the parameters
 void subtractRealNum(char* realNum1, char* realNum2, char* result);
 void multiplyRealNum(char* realNum1, char* realNum2, char* result);
 void divideRealNum(char* dividend, char* divisor, char* result);
-//void powerRealNum(char* realNum, char* intNum, char* result);
+void powerRealNum(char* realNum1, char* realNum2, char* result);
 
 //////////////////////////////////////////////////////
 
@@ -59,8 +62,6 @@ int main(int argc, char *argv[]) {
 	{
 	scanf("%s %s", &inputNum1, &inputNum2);
 
-//	strcpy(inputNum1, "-464555000000.5455215");
-//	strcpy(inputNum2, "0000001510000007500088.2363");
 	addRealNum(inputNum1, inputNum2, result);
 	printf("%s + %s = %s\n\n", inputNum1, inputNum2, result);
 	
@@ -73,8 +74,15 @@ int main(int argc, char *argv[]) {
 	divideRealNum(inputNum1, inputNum2, result);
 	printf("%s / %s = %s\n\n", inputNum1, inputNum2, result);
 
+	powerRealNum(inputNum1, inputNum2, result);
+	printf("%s ^ %s = %s\n\n", inputNum1, inputNum2, result);
+	
 //	scanf("%s", &inputNum1);	
-//	printf("%lf\n%s\n\n", convertStringToFloat(inputNum1), inputNum1);
+//	float fl = convertStringToFloat(inputNum1);
+//	printf("%lf\n", convertStringToFloat(inputNum1));
+//	convertFloatToString(fl, inputNum2);
+//	printf("%s\n\n", inputNum2);
+//	printf("%s\n\n", inputNum2);
 	} while(1);
 	return 0;
 }
@@ -86,21 +94,50 @@ int convertCharToInt(char inputChar)
 	return (int)inputChar - 48;
 }
 
+char convertIntToChar(int inputNum)
+{
+	return (char)(inputNum + 48);
+}
+
+
 double convertStringToFloat(char* inputChar)
 {
-	int count = 0, numLength = strlen(inputChar);
+	int count = 0, negative = 0;
 	double result = 0;
+
+	if(inputChar[0] == '-')
+	{
+		negative = 1;
+		shiftLeft(inputChar);
+		
+	}
+	if(strcmp(inputChar, "0") == 0) return 0.0;
+	if(!isRealNumber(inputChar))
+	{
+		pushBack(inputChar, '.');
+		pushBack(inputChar, '0');
+	}
+	
+	int numLength = strlen(inputChar);
+	int multiplyer, dotPosition = isRealNumber(inputChar);;
 	for(count = 0; count < numLength; count++) 
 	{
+		multiplyer = dotPosition - count;
 		if(inputChar[count] != '.')
-			result += convertCharToInt(inputChar[count]) * pow(10, (numLength - count));
+			result += convertCharToInt(inputChar[count]) * pow(10, multiplyer - (multiplyer > 0));
+	}
+	if(negative)
+	{
+		result = - result;
+		shiftRight(inputChar);
+		inputChar[0] = '-';
 	}
 	return result;
 }
 
-char convertIntToChar(int inputNum)
+void convertFloatToString(double inputFloat, char* result)
 {
-	return (char)(inputNum + 48);
+	snprintf(result, MAX_LENGTH, "%lf", inputFloat); // stdlib.h
 }
 
 ////////////////////////////////////////////////////// Shifting //////////////////////////////////////////////////////
@@ -152,15 +189,23 @@ void eliminateRightZero(char* inputRealNum)
 {
 //	printf("Input eliminateRightZero: %s\n", inputRealNum);
 	int numLength = strlen(inputRealNum);
+	int negative = (inputRealNum[0] == '-');
+	if(!isRealNumber(inputRealNum)) return;
+	if(negative) shiftLeft(inputRealNum);
+	
 	int dotPosition = isRealNumber(inputRealNum);
-	if(dotPosition == 0) return;
 	while(numLength >= dotPosition && (inputRealNum[numLength] == '0' || inputRealNum[numLength] == '\0' 
 										|| inputRealNum[numLength] == '.')) 
 	{
 		inputRealNum[numLength] = '\0'; 
 		numLength--;
 	}
-	if(strlen(inputRealNum) == 2 && inputRealNum[0] == '-' && inputRealNum[1] == '0') shiftRight(inputRealNum);
+	
+	if(negative && (strcmp(inputRealNum, "0") != 0) )
+	{
+		shiftRight(inputRealNum);
+		inputRealNum[0] = '-';
+	}
 //	printf("Output eliminateRightZero: %s\n", inputRealNum);
 }
 // Change 00001 to 1
@@ -178,7 +223,7 @@ void eliminateLeftZero(char* inputRealNum)
 	
 	while(inputRealNum[0] == '0' &&  isRealNumber(inputRealNum) > 1) shiftLeft(inputRealNum);
 	if(!isRealNumber(inputRealNum))
-	while(inputRealNum[0] == '0' &&  numLength > 1) shiftLeft(inputRealNum);
+	while(inputRealNum[0] == '0' &&  strlen(inputRealNum) > 1) shiftLeft(inputRealNum);
 	
 	if(negative)
 	{
@@ -213,6 +258,7 @@ void balanceNumOfDigits(char* realNum1, char* realNum2)
 		realNum2[0] = '-';
 		return;
 	}
+
 	if(strlen(realNum1) == 0) strcpy(realNum1, "0");
 	if(strlen(realNum2) == 0) strcpy(realNum2, "0");
 	if(!isRealNumber(realNum1)) 
@@ -220,6 +266,7 @@ void balanceNumOfDigits(char* realNum1, char* realNum2)
 		pushBack(realNum1, '.');
 		pushBack(realNum1, '0');
 	}
+
 	if(!isRealNumber(realNum2))
 	{
 		pushBack(realNum2, '.');
@@ -233,6 +280,7 @@ void balanceNumOfDigits(char* realNum1, char* realNum2)
 		shiftRight(realNum1);
 		dotPosition1++;
 	}
+
 	while(dotPosition2 < dotPosition1)
 	{
 		shiftRight(realNum2);
@@ -275,6 +323,7 @@ int max2Int(int a, int b)
 int compareRealNum(char* realNum1, char* realNum2)
 {
 //	printf("Input compareRealNum: %s %s\n", realNum1, realNum2);
+	
 	if(realNum1[0] == '-' && realNum2[0] == '-')
 	{
 		shiftLeft(realNum1);
@@ -313,6 +362,7 @@ int compareRealNum(char* realNum1, char* realNum2)
 void multiplyByNum(int Num, char* realNum, char* result)
 {
 //	printf("Input multiplyByNum: %d %s %s\n", Num, realNum, result);
+	
 	char resultSaver[MAX_LENGTH];
 	if(Num == 0) strcpy(result, "0");
 	else 
@@ -385,7 +435,6 @@ void swapStrings(char* realNum1, char* realNum2)
 void addRealNum(char* realNum1, char* realNum2, char* result)
 {
 //	printf("Input addRealNum: %s %s %s\n", realNum1, realNum2, result);
-
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 	
@@ -425,7 +474,6 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 		strcpy(result, realNum2);
 		return;
 	}
-
 	balanceNumOfDigits(realNum1, realNum2);
 	int numLength = strlen(realNum1) - 1; 					 // Not calculate '\0' + '\0'			
 	int tempNum = 0, carry = 0, resultDotPosition = 0;
@@ -474,7 +522,6 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 void subtractRealNum(char* realNum1, char* realNum2, char* result)
 {
 //	printf("Input subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
-	
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 
@@ -576,7 +623,6 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 {
 //	printf("Input multiplyRealNum: %s %s %s\n", realNum1, realNum2, result);
-	
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 
@@ -617,7 +663,7 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 			return;
 		}
 	}
-	if(realNum1 == "0" || realNum2 == "0" )
+	if(strcmp(realNum1, "0") == 0 || strcmp(realNum2, "0") == 0)
 	{
 		strcpy(result, "0"); 
 		return;
@@ -665,7 +711,6 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 
 void divideRealNum(char* dividend, char* divisor, char* result)
 {
-
 	eliminateAllZeros(dividend);
 	eliminateAllZeros(divisor);
 	
@@ -705,10 +750,9 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 			return;
 		}
 	}
-
-	if(strlen(divisor) == 1 && divisor[0] == '0')
+	if(strcmp(divisor, "0") == 0)
 	{
-		strcpy(result, "MATH ERROR!");
+		strcpy(result, "MATH ERROR! (Divided by Zero!)");
 		strcpy(dividend, originalValue1);
 		strcpy(divisor, originalValue2);
 		return;
@@ -783,4 +827,53 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	
 	eliminateAllZeros(finalResult);
 	strcpy(result, finalResult);
+}
+
+void powerRealNum(char* realNum1, char* realNum2, char* result)
+{
+	eliminateAllZeros(realNum1);
+	eliminateAllZeros(realNum2);
+	if((strcmp(realNum1, "0") == 0) && (strcmp(realNum2, "0") == 0))
+	{
+		strcpy(result, "MATH ERROR!(0^0)");
+		return;
+	}
+	if(isRealNumber(realNum2)) 
+	{
+		float floatTempResult = pow(convertStringToFloat(realNum1), convertStringToFloat(realNum2));
+		convertFloatToString(floatTempResult, result);
+		return;
+	}
+	else
+	{
+		int negative = 0;
+		if(realNum2[0] == '-')
+		{
+			negative = 1;
+			shiftLeft(realNum2);
+		}
+		char count[MAX_LENGTH];
+		char tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
+		char numberOne[MAX_LENGTH];
+		strcpy(count, "0");
+		strcpy(tempResult, "1");
+		strcpy(numberOne, "1");
+
+		while(compareRealNum(realNum2, count) > 0)
+		{
+			multiplyRealNum(tempResult, realNum1, resultSaver);
+			strcpy(tempResult, resultSaver);
+			addRealNum(count, numberOne, resultSaver);
+			strcpy(count, resultSaver);
+//			printf("%s %s\n", count, tempResult);
+		}
+		if(negative)
+		{
+			shiftRight(realNum2);
+			realNum2[0] = '-';
+			divideRealNum(numberOne, tempResult, resultSaver);
+			strcpy(tempResult, resultSaver);
+		}
+		strcpy(result, tempResult);
+	}	
 }
