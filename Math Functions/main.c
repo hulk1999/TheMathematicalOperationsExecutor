@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+
 #define MAX_LENGTH 500
+#define PI 3.14159265359
 
-
-// TODO MATH ERROR!
+// TODO MATH ERRORs!
 
 //////////////////// Declaration /////////////////////
 
@@ -15,16 +16,20 @@
 int convertCharToInt(char inputChar);
 char convertIntToChar(int inputNum);
 
-double convertStringToFloat(char* inputChar);
-void convertFloatToString(double inputFloat, char* result);
+double convertStringToDouble(char* inputChar);
+void convertDoubleToString(double inputDouble, char* result);
 
+double convertRadianToDegree(double inputNum);
+double convertDegreeToRadian(double inputNum);
 // Shifting
 void shiftLeft(char* inputRealNum);
 void shiftRight(char* inputRealNum); // Default: inputRealNum[0] = '0'
 
 void pushBack(char* inputRealNum, char newChar);
 void popBack(char* inputRealNum);
+
 void eliminateRightZero(char* inputRealNum);
+void roundRealNum(char* inputRealNum);
 void eliminateLeftZero(char* inputRealNum);
 void eliminateAllZeros(char* inputRealNum);
 
@@ -49,7 +54,18 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result);
 void multiplyRealNum(char* realNum1, char* realNum2, char* result);
 void divideRealNum(char* dividend, char* divisor, char* result);
 void powerRealNum(char* realNum1, char* realNum2, char* result);
+void getFactorial(char* intNum, char* result);
 
+///// Trigonometric Functions /////
+// Only works with double variables
+void getSinRadian(char* realNum, char* result); 
+void getCosRadian(char* realNum, char* result);
+void getTanRadian(char* realNum, char* result);
+
+void getSinDegree(char* realNum, char* result); 
+void getCosDegree(char* realNum, char* result);
+void getTanDegree(char* realNum, char* result);
+ 
 //////////////////////////////////////////////////////
 
 
@@ -77,12 +93,23 @@ int main(int argc, char *argv[]) {
 	powerRealNum(inputNum1, inputNum2, result);
 	printf("%s ^ %s = %s\n\n", inputNum1, inputNum2, result);
 	
-//	scanf("%s", &inputNum1);	
-//	float fl = convertStringToFloat(inputNum1);
-//	printf("%lf\n", convertStringToFloat(inputNum1));
-//	convertFloatToString(fl, inputNum2);
-//	printf("%s\n\n", inputNum2);
-//	printf("%s\n\n", inputNum2);
+	getFactorial(inputNum1, result);
+	printf("%s! = %s\n\n", inputNum1, result);	
+
+	getSinRadian(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	getCosRadian(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	getTanRadian(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	
+	getSinDegree(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	getCosDegree(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	getTanDegree(inputNum1, result);
+	printf("%s %s\n\n", inputNum1, result);	
+	
 	} while(1);
 	return 0;
 }
@@ -100,7 +127,7 @@ char convertIntToChar(int inputNum)
 }
 
 
-double convertStringToFloat(char* inputChar)
+double convertStringToDouble(char* inputChar)
 {
 	int count = 0, negative = 0;
 	double result = 0;
@@ -135,11 +162,19 @@ double convertStringToFloat(char* inputChar)
 	return result;
 }
 
-void convertFloatToString(double inputFloat, char* result)
+void convertDoubleToString(double inputDouble, char* result)
 {
-	snprintf(result, MAX_LENGTH, "%lf", inputFloat); // stdlib.h
+	snprintf(result, MAX_LENGTH, "%lf", inputDouble); // stdlib.h
 }
 
+double convertRadianToDegree(double inputNum)
+{
+	return inputNum * PI / 180;
+}
+double convertDegreeToRadian(double inputNum)
+{
+	return inputNum / PI * 180;
+}
 ////////////////////////////////////////////////////// Shifting //////////////////////////////////////////////////////
 
 // Shifting string
@@ -208,6 +243,35 @@ void eliminateRightZero(char* inputRealNum)
 	}
 //	printf("Output eliminateRightZero: %s\n", inputRealNum);
 }
+void roundRealNum(char* inputRealNum)
+{
+	int dotPosition = isRealNumber(inputRealNum);
+	if(!dotPosition) return;
+	int numLength = strlen(inputRealNum);
+	if(numLength - dotPosition > 10)
+	{
+		int count = numLength - 1, tempNum = 0, carry = 0;
+		while(count > dotPosition + 10)
+		{
+			if(inputRealNum[count] >= '5') 
+			{
+				tempNum = convertCharToInt(inputRealNum[count - 1]) + 1 + carry;	
+				if(tempNum >= 10) 
+				{
+					tempNum = 0;
+					carry = 1;
+				}
+				else
+				{
+					carry = 0;
+				}
+				inputRealNum[count - 1] = convertIntToChar(tempNum);
+			}	
+			inputRealNum[count] = '\0';
+			count--;
+		}	
+	}	
+}
 // Change 00001 to 1
 void eliminateLeftZero(char* inputRealNum)
 {
@@ -237,6 +301,7 @@ void eliminateAllZeros(char* inputRealNum)
 {
 	eliminateLeftZero(inputRealNum);
 	eliminateRightZero(inputRealNum);
+	roundRealNum(inputRealNum);
 }
 // change 123.456 + 0 to 123.456 + 000.000
 void balanceNumOfDigits(char* realNum1, char* realNum2)
@@ -330,7 +395,7 @@ int compareRealNum(char* realNum1, char* realNum2)
 		shiftLeft(realNum2);
 		return compareRealNum(realNum2, realNum1);
 	}
-	if(realNum1[0] == '-') return 0;
+	if(realNum1[0] == '-') return -1;
 	if(realNum2[0] == '-') return 1;
 	
 	balanceNumOfDigits(realNum1, realNum2);
@@ -349,6 +414,7 @@ int compareRealNum(char* realNum1, char* realNum2)
 			{
 				eliminateAllZeros(realNum1);
 				eliminateAllZeros(realNum2);
+
 				return -1;
 			}
 		}
@@ -514,6 +580,7 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 	strcpy(realNum2, originalValue2);
 	
 	eliminateAllZeros(tempResult);	
+	roundRealNum(tempResult);
 	strcpy(result, tempResult);
 //	printf("Output addRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
@@ -612,7 +679,8 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 	strcpy(realNum1, originalValue1);
 	strcpy(realNum2, originalValue2);
 	
-	eliminateAllZeros(tempResult);	
+	eliminateAllZeros(tempResult);
+	roundRealNum(tempResult);	
 	strcpy(result, tempResult);
 //	printf("Output subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
@@ -705,6 +773,7 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 	strcpy(realNum2, originalValue2);
 	
 	eliminateAllZeros(finalResult);
+	roundRealNum(tempResult); 
 	strcpy(result, finalResult);
 //	printf("Output multiplyRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
@@ -826,6 +895,7 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	strcpy(divisor, originalValue2);
 	
 	eliminateAllZeros(finalResult);
+	roundRealNum(finalResult);
 	strcpy(result, finalResult);
 }
 
@@ -840,8 +910,9 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 	}
 	if(isRealNumber(realNum2)) 
 	{
-		float floatTempResult = pow(convertStringToFloat(realNum1), convertStringToFloat(realNum2));
-		convertFloatToString(floatTempResult, result);
+//		printf("%lf %lf\n", convertStringToDouble(realNum1), convertStringToDouble(realNum2));
+		double doubleTempResult = pow(convertStringToDouble(realNum1), convertStringToDouble(realNum2));
+		convertDoubleToString(doubleTempResult, result);
 		return;
 	}
 	else
@@ -874,6 +945,100 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 			divideRealNum(numberOne, tempResult, resultSaver);
 			strcpy(tempResult, resultSaver);
 		}
+		roundRealNum(tempResult);
 		strcpy(result, tempResult);
 	}	
+}
+void getFactorial(char* intNum, char* result)
+{
+	eliminateAllZeros(intNum);
+	if(isRealNumber(intNum)) 
+	{
+		strcpy(result, "MATH ERROR!(Only Integer Numbers Have Factorial!)");
+		return;
+	}
+	int negative = 0;
+	if(intNum[0] == '-')
+	{
+		negative = 1;
+		shiftLeft(intNum);
+	}
+	char numberOne[MAX_LENGTH], tempNum1[MAX_LENGTH], tempNum2[MAX_LENGTH], tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
+	strcpy(numberOne, "1");
+	strcpy(tempNum1, "1");
+	strcpy(tempNum2, "1");
+	strcpy(tempResult, "1");
+	while(compareRealNum(intNum, tempNum1) >= 0)
+	{
+		addRealNum(tempNum1, numberOne, tempNum2);
+		multiplyRealNum(tempResult, tempNum1, resultSaver);
+		strcpy(tempResult, resultSaver);
+		strcpy(tempNum1, tempNum2);
+	}
+	if(negative)
+	{
+		shiftRight(tempResult);
+		tempResult[0] = '-';
+	}
+	strcpy(result, tempResult);
+}
+///////////////////////////////////////////////////// Trigonometric Functions /////////////////////////////////////////////////////
+
+void getSinRadian(char* realNum, char* result)
+{
+	double tempRealNum = convertStringToDouble(realNum);
+	convertDoubleToString(sin(tempRealNum), result);
+	eliminateAllZeros(result);
+}
+void getCosRadian(char* realNum, char* result)
+{
+	double tempRealNum = convertStringToDouble(realNum);
+	convertDoubleToString(cos(tempRealNum), result);
+	eliminateAllZeros(result);
+}
+void getTanRadian(char* realNum, char* result)
+{
+	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
+	getCosRadian(realNum, tempResult);
+	eliminateAllZeros(tempResult);
+	strcpy(numberZero, "0");
+	if(compareRealNum(tempResult, numberZero) == 0)
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
+	double tempRealNum = convertStringToDouble(realNum);
+	convertDoubleToString(tan(tempRealNum), result);
+	eliminateAllZeros(result);
+}
+void getSinDegree(char* realNum, char* result)
+{
+	double tempRealNum = convertStringToDouble(realNum);
+	double tempDegree = convertRadianToDegree(tempRealNum);
+	convertDoubleToString(sin(tempDegree), result);
+	eliminateAllZeros(result);
+
+} 
+void getCosDegree(char* realNum, char* result)
+{
+	double tempRealNum = convertStringToDouble(realNum);
+	double tempDegree = convertRadianToDegree(tempRealNum);
+	convertDoubleToString(cos(tempDegree), result);
+	eliminateAllZeros(result);
+}
+void getTanDegree(char* realNum, char* result)
+{
+	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
+	getCosDegree(realNum, tempResult);
+	eliminateAllZeros(tempResult);
+	strcpy(numberZero, "0");
+	if(compareRealNum(tempResult, numberZero) == 0)
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
+	double tempRealNum = convertStringToDouble(realNum);
+	double tempDegree = convertRadianToDegree(tempRealNum);
+	convertDoubleToString(tan(tempDegree), result);
+	eliminateAllZeros(result);
 }
