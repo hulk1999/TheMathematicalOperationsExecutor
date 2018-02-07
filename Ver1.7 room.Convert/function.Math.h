@@ -4,12 +4,16 @@
 #include <math.h>
 
 #define MAX_LENGTH 500
-#define PI 3.14159265359
 
+<<<<<<< HEAD
 // TODO MATH ERRORs!
 // TODO MATH ERROR for factorial of negative num
 // TODO MATH ERROR for large output
 // TODO MATH ERROR for power() with degree of (1/2, 1/4, 1/6,...) of negative num
+=======
+//Because M_PI doesn't work with some compilers
+#define PI 3.14159265359 
+>>>>>>> 37f98f3bed3ad84983ff7f6751032802602d7fdb
 
 //////////////////// Declaration /////////////////////
 
@@ -51,8 +55,9 @@ void divideTenfold(char* realNum);
 void swapDigits(char* digitNum1, char* digitNum2);
 void swapStrings(char* realNum1, char* realNum2);
 
+// It's best not to pass literal strings such as ""123.456"" to the parameters!!! 
 ///// Math Operations /////
-void addRealNum(char* realNum1, char* realNum2, char* result); // It's best not to pass literal strings such as ""123.456"" to the parameters
+void addRealNum(char* realNum1, char* realNum2, char* result); 
 void subtractRealNum(char* realNum1, char* realNum2, char* result);
 void multiplyRealNum(char* realNum1, char* realNum2, char* result);
 void divideRealNum(char* dividend, char* divisor, char* result);
@@ -68,12 +73,18 @@ void getTanRadian(char* realNum, char* result);
 void getSinDegree(char* realNum, char* result); 
 void getCosDegree(char* realNum, char* result);
 void getTanDegree(char* realNum, char* result);
- 
+
+///// Logarithmic Functions /////
+// Only works with double variables
+void getLog10(char* realNum, char* result);
+void getNaturalLog(char* realNum, char* result);
+void getLogN(char* realNum, char* base, char* result);
 //////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////// MAIN //////////////////////////////////////////////////////
 
+//This is for testing only
 //int main(int argc, char *argv[]) {
 //	char inputNum1[MAX_LENGTH], inputNum2[MAX_LENGTH], result[MAX_LENGTH];
 //	strcpy(result, "");
@@ -100,19 +111,25 @@ void getTanDegree(char* realNum, char* result);
 //	printf("%s! = %s\n\n", inputNum1, result);	
 //
 //	getSinRadian(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("sin(%s) = %s(Radian)\n\n", inputNum1, result);	
 //	getCosRadian(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("cos(%s) = %s(Radian)\n\n", inputNum1, result);	
 //	getTanRadian(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("tan(%s) = %s(Radian)\n\n", inputNum1, result);	
 //	
 //	getSinDegree(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("sin(%s) = %s(Degree)\n\n", inputNum1, result);	
 //	getCosDegree(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("cos(%s) = %s(Degree)\n\n", inputNum1, result);	
 //	getTanDegree(inputNum1, result);
-//	printf("%s %s\n\n", inputNum1, result);	
+//	printf("tan(%s) = %s(Degree)\n\n", inputNum1, result);	
 //	
+//	getLog10(inputNum1, result);
+//	printf("log(%s) = %s\n\n", inputNum1, result);	
+//	getNaturalLog(inputNum1, result);
+//	printf("logE(%s) = %s\n\n", inputNum1, result);
+//	getLogN(inputNum1, inputNum2, result);
+//	printf("log(%s,%s) = %s\n\n", inputNum1, inputNum2, result);	
 //	} while(1);
 //	return 0;
 //}
@@ -980,6 +997,8 @@ void getFactorial(char* intNum, char* result)
 	}
 	if(negative)
 	{
+		shiftRight(intNum);
+		intNum[0] = '-';
 		shiftRight(tempResult);
 		tempResult[0] = '-';
 	}
@@ -1044,4 +1063,51 @@ void getTanDegree(char* realNum, char* result)
 	double tempDegree = convertRadianToDegree(tempRealNum);
 	convertDoubleToString(tan(tempDegree), result);
 	eliminateAllZeros(result);
+}
+
+///////////////////////////////////////////////////// Logarithmic Functions /////////////////////////////////////////////////////
+
+void getLog10(char* realNum, char* result)
+{
+	char tempResult[MAX_LENGTH];
+	double tempRealNum = convertStringToDouble(realNum);
+	if(tempRealNum <= 0) 
+	{
+		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		return;
+	}
+	convertDoubleToString(log10(tempRealNum), tempResult);
+	strcpy(result, tempResult);
+}
+void getNaturalLog(char* realNum, char* result)
+{
+	char tempResult[MAX_LENGTH];
+	double tempRealNum = convertStringToDouble(realNum);
+	if(tempRealNum <= 0) 
+	{
+		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		return;
+	}
+	convertDoubleToString(log(tempRealNum), tempResult);
+	strcpy(result, tempResult);
+}
+void getLogN(char* realNum, char* base, char* result)
+{
+	char tempResult1[MAX_LENGTH], tempResult2[MAX_LENGTH];
+	
+	double tempRealNum = convertStringToDouble(realNum) ;
+	if(tempRealNum <= 0) 
+	{
+		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		return;
+	}
+	convertDoubleToString(log10(tempRealNum), tempResult1);
+	tempRealNum = convertStringToDouble(base) ;
+	if(tempRealNum <= 0 || tempRealNum == 1) 
+	{
+		strcpy(result, "MATH ERROR! (The Base Must Be > 0 And Different From 1)");
+		return;
+	}
+	convertDoubleToString(log10(tempRealNum), tempResult1);
+	divideRealNum(tempResult1, tempResult2, result);
 }

@@ -1,5 +1,6 @@
 [Editor_4]
 <<<<<<< HEAD
+<<<<<<< HEAD
 CursorCol=27
 CursorRow=36
 TopLine=31
@@ -8,6 +9,11 @@ CursorCol=54
 CursorRow=874
 TopLine=850
 >>>>>>> 393632a9b4c45218aba79dfb72cc7d8aaeb7cbab
+=======
+CursorCol=36
+CursorRow=96
+TopLine=1
+>>>>>>> 37f98f3bed3ad84983ff7f6751032802602d7fdb
 LeftChar=1
 [Editor_5]
 CursorCol=8
