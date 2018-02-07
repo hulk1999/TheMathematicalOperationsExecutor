@@ -5,15 +5,14 @@
 
 #define MAX_LENGTH 500
 
-<<<<<<< HEAD
 // TODO MATH ERRORs!
 // TODO MATH ERROR for factorial of negative num
 // TODO MATH ERROR for large output
 // TODO MATH ERROR for power() with degree of (1/2, 1/4, 1/6,...) of negative num
-=======
+
 //Because M_PI doesn't work with some compilers
 #define PI 3.14159265359 
->>>>>>> 37f98f3bed3ad84983ff7f6751032802602d7fdb
+
 
 //////////////////// Declaration /////////////////////
 
