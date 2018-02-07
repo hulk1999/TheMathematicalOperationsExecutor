@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <math.h>
 #include <string.h>
 #include <windows.h>
 #include <time.h>
@@ -216,14 +217,13 @@ void roomCalculate(int firstColor, int secondColor){
 	int screenLineLength = 0, ansLength, keyLength, cursor = 0, start = 0, end = 0;
 	
 	// using arrow keys to control
-	highlightCalculate(x0, y0, 1, 1, str, secondColor);
-	int x = 1, y = 1; // store coordinates
-	int isScreen = 0;
+	int x = 1, y = 0; // store coordinates
+	int isScreen = 1;
 	char ch;
 	do{
 		
 		textColor(firstColor);
-		end = min(screenLineLength - 1, start + 51);
+		end = min2Int(screenLineLength - 1, start + 51);
 		
 		goToXY(x0 + 3, y0 - 3); for (i = start; i <= end; i++) printf("%c", screenLine[i]);
 		for (i = x0 + 3 + end - start + 1; i <= x0 + 57; i++) printf(" ");
