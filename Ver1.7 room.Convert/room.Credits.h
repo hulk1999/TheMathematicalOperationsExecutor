@@ -10,6 +10,13 @@ void createInterfaceCredits(int firstColor){
 	goToXY(45, 4); printf("/ __/ __/ -_) _  / / __(_-<");
 	goToXY(45, 5); printf("\\__/_/  \\__/\\___/_/\\__/___/");
 	goToXY(119, 29);
+	
+	// print contents
+	goToXY(28, 11); printf("This project is dedicated to F-CODE, our mentors - our friends");
+	goToXY(34, 16); printf("HUNG HUNG HANG");
+	goToXY(70, 16); printf("CHI MINH GAT");
+	
+	goToXY(119, 29);
 }
 
 // room.Credits main

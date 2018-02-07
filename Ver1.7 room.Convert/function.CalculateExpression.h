@@ -1,10 +1,5 @@
 #define MAX_LENGTH 500
 
-// haven't done
-void powerRealNum(char* realNum1, char* realNum2, char* result){
-}
-
-
 // make strOut = strIn[start] to strIn[end]
 void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start, int end){
 	int i;

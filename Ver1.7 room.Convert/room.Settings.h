@@ -170,7 +170,7 @@ int inputSize(int* pX, int firstColor, int secondColor){
 				*pX -= 1;
 				textColor(firstColor);
 				goToXY(x, y + 1); printf("             ");
-				return 0;
+				return 1;
 			}
 		}
 	} while (1);
