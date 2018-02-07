@@ -187,7 +187,46 @@ void calExpression(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH]){
 		return;
 	}
 	
-	//goToXY(1, 28); printf("%u", strIn[0]);
+	// case sin() cos() tan() cot() ln() log()
+	int sincos = 0;
+	if (strstr(strIn, "sin") == strIn) sincos = 1;
+	if (strstr(strIn, "cos") == strIn) sincos = 2;
+	if (strstr(strIn, "tan") == strIn) sincos = 3;
+	if (strstr(strIn, "cot") == strIn) sincos = 4;
+	if (strstr(strIn, "ln") == strIn) sincos = 5;
+	if (strstr(strIn, "log") == strIn) sincos = 6;
+	if (sincos != 0){
+		
+		// make temporary string
+		char str[MAX_LENGTH], strOut1[MAX_LENGTH];
+		makeStrStartEnd(strIn, str, (sincos == 5) ? 2 : 3, length - 1);
+		
+		// calculate the calculate to calculate the function
+		calExpression(str, strOut1);
+		
+		// check for MATH ERROR or SYNTAX ERROR
+			if (strOut1[0] == 'M'){
+				strcpy(strOut, "MATH ERROR!");
+				return;
+			}
+			if (strOut1[0] == 'S'){
+				strcpy(strOut, "SYNTAX ERROR!");
+				return;
+			}
+			
+		// calculate strIn
+		switch (sincos){
+			case 1: getSinRadian(strOut1, strOut); break;
+			case 2: getCosRadian(strOut1, strOut); break;
+			case 3: getTanRadian(strOut1, strOut); break;
+			//case 4: getCotRadian(strOut1, strOut); break;
+			case 5: getNaturalLog(strOut1, strOut); break;
+			case 6: getLog10(strOut1, strOut); break;
+		}
+		
+		// exit
+		return;
+	}
 	
 	// case "( )" such as "(3+4/6)":
 	// delete brackets, return "3+4/6"
