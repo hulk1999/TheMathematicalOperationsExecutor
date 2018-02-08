@@ -15,6 +15,7 @@
 ///// Functionalities /////
 
 // Conversion
+void getAbs(char* inputRealNum);
 int convertCharToInt(char inputChar);
 char convertIntToChar(int inputNum);
 
@@ -136,6 +137,10 @@ int main(int argc, char *argv[]) {
 
 
 ////////////////////////////////////////////////////// Conversion //////////////////////////////////////////////////////
+void getAbs(char* inputRealNum)
+{
+	if(inputRealNum[0] == '-') shiftLeft(inputRealNum);
+}
 int convertCharToInt(char inputChar)
 {
 	return (int)inputChar - 48;
@@ -1040,7 +1045,6 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	strcpy(dividend, originalValue1);
 	strcpy(divisor, originalValue2);
 	
-	eliminateAllZeros(finalResult);
 	roundRealNum(finalResult);
 	strcpy(result, finalResult);
 }

@@ -15,6 +15,7 @@
 ///// Functionalities /////
 
 // Conversion
+void getAbs(char* inputRealNum);
 int convertCharToInt(char inputChar);
 char convertIntToChar(int inputNum);
 
@@ -136,6 +137,10 @@ void getLogN(char* realNum, char* base, char* result);
 
 
 ////////////////////////////////////////////////////// Conversion //////////////////////////////////////////////////////
+void getAbs(char* inputRealNum)
+{
+	if(inputRealNum[0] == '-') shiftLeft(inputRealNum);
+}
 int convertCharToInt(char inputChar)
 {
 	return (int)inputChar - 48;
