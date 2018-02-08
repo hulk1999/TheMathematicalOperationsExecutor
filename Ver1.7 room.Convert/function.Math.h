@@ -8,16 +8,7 @@
 // The limitation for number of digits is 5
 
 // TODO MATH ERRORs!
-<<<<<<< HEAD
 // TODO MATH ERROR for large output!!!
-=======
-// TODO MATH ERROR for factorial of negative num
-// TODO MATH ERROR for large output
-// TODO MATH ERROR for power() with degree of (1/2, 1/4, 1/6,...) of negative num
-// TODO 9^0.5 = 3.0000000 (should delete 0)
-// TODO getCotRadian()
-// TODO getAbs()
->>>>>>> origin/master
 
 //Because M_PI doesn't work with some compilers
 #define PI 3.14159265359 
