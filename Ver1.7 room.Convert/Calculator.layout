@@ -1,9 +1,9 @@
 [Editor_4]
 <<<<<<< HEAD
 <<<<<<< HEAD
-CursorCol=27
-CursorRow=36
-TopLine=31
+CursorCol=1
+CursorRow=8
+TopLine=1
 =======
 CursorCol=54
 CursorRow=874
@@ -58,8 +58,8 @@ TopLine=1
 LeftChar=1
 [Editors]
 <<<<<<< HEAD
-Order=
-Focused=-1
+Order=4
+Focused=4
 =======
 Order=4
 Focused=4
