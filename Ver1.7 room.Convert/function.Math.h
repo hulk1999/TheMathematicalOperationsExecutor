@@ -906,7 +906,7 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	}
 	if(strcmp(divisor, "0") == 0)
 	{
-		strcpy(result, "MATH ERROR! (Divided by Zero!)");
+		strcpy(result, "MATH ERROR!");
 		strcpy(dividend, originalValue1);
 		strcpy(divisor, originalValue2);
 		return;
@@ -1027,7 +1027,7 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateAllZeros(realNum2);
 	if((strcmp(realNum1, "0") == 0) && (strcmp(realNum2, "0") == 0))
 	{
-		strcpy(result, "MATH ERROR!(0^0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	if(isRealNumber(realNum2)) 
@@ -1036,7 +1036,7 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 		double doubleTempResult = pow(convertStringToDouble(realNum1), convertStringToDouble(realNum2));
 		if(errno != 0 || doubleTempResult == INFINITY) 
 		{
-			strcpy(result, "MATH ERROR!(sqrt(Negative Number))");
+			strcpy(result, "MATH ERROR!");
 			return;
 		}
 		convertDoubleToString(doubleTempResult, result);
@@ -1101,13 +1101,13 @@ void getFactorial(char* intNum, char* result)
 	eliminateAllZeros(intNum);
 	if(isRealNumber(intNum)) 
 	{
-		strcpy(result, "MATH ERROR!(Only Integer Numbers Have Factorial!)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	int negative = 0;
 	if(intNum[0] == '-')
 	{
-		strcpy(result, "MATH ERROR!(Only Positive Integer Numbers Have Factorial!)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	char numberOne[MAX_LENGTH], tempNum1[MAX_LENGTH], tempNum2[MAX_LENGTH], tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
@@ -1226,7 +1226,7 @@ void getLog10(char* realNum, char* result)
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult);
@@ -1238,7 +1238,7 @@ void getNaturalLog(char* realNum, char* result)
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log(tempRealNum), tempResult);
@@ -1251,7 +1251,7 @@ void getLogN(char* realNum, char* base, char* result)
 	double tempRealNum = convertStringToDouble(realNum) ;
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult1);
@@ -1259,7 +1259,7 @@ void getLogN(char* realNum, char* base, char* result)
 	tempRealNum = convertStringToDouble(base) ;
 	if(tempRealNum <= 0 || tempRealNum == 1) 
 	{
-		strcpy(result, "MATH ERROR! (The Base Must Be > 0 And Different From 1)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult2);

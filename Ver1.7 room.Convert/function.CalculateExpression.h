@@ -9,7 +9,7 @@ void makeStrStartEnd(char* strIn, char* strOut, int start, int end){
 
 // calculate expression
 void calExpression(char* strIn, char* strOut, char* ans){
-
+	
 	// case \0
 	if (strlen(strIn) == 0){
 		strcpy(strOut, "SYNTAX ERROR");

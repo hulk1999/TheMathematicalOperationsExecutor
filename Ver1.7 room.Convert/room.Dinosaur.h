@@ -310,12 +310,18 @@ void roomDinosaur(int firstColor, int secondColor){
 	
 	// declare vars
 	int y0 = 20;
-	int frameCount, frameTime, highscore = 0;
+	int frameCount, frameTime, highscore;
 	int height, jump;
 	int obstaclePos, obstacle;
 	int i, t;
 	char ground[3][121], ch;
 	initialize(ground);
+	
+	// get highscore
+	int tmp;
+	FILE *memory = fopen("memory.txt", "r");
+	fscanf(memory, "%d %d %d %d", &tmp, &tmp, &tmp, &highscore);
+	fclose(memory);
 	
 	// create interface
 	createInterfaceDinosaur(firstColor);
@@ -393,7 +399,20 @@ void roomDinosaur(int firstColor, int secondColor){
 				if (checkCollision(height, obstacle, obstaclePos, y0)){
 					goToXY(35, y0 - 5 - height); printf("x-x");
 					printGameOver();
-					if (highscore < frameCount) highscore = frameCount;
+					if (highscore < frameCount){
+						
+						// set new highscore
+						highscore = frameCount;
+						
+						// save new highscore to memory file
+						int tmp, size;
+						FILE *memory = fopen("memory.txt", "r");
+						fscanf(memory, "%d %d %d %d", &tmp, &tmp, &size, &tmp);
+						fclose(memory);
+						memory = fopen("memory.txt", "w");
+						fprintf(memory, "%d\n%d\n%d\n%d", firstColor, secondColor, size, highscore);
+						fclose(memory);
+					}
 					goto gameStart;
 				}
 			
