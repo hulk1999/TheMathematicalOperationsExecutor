@@ -3,6 +3,8 @@
 
 int main(){
 	
-	printf("%d", 4294967264);
+	int i;
+	for (i = 0; i <= 3; i++) printf("%d\n", i);
+	printf("%d", i);
 	return 0;
 }

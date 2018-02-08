@@ -1,17 +1,15 @@
-#define MAX_LENGTH 500
+#define MAX_LENGTH 502
 
 // make strOut = strIn[start] to strIn[end]
-void makeStrStartEnd(char strIn[MAX_LENGTH], char strOut[MAX_LENGTH], int start, int end){
+void makeStrStartEnd(char* strIn, char* strOut, int start, int end){
 	int i;
 	for (i = start; i <= end; i++) strOut[i - start] = strIn[i];
 	strOut[end - start + 1] = '\0';
 }
 
-// delete spaces
-
 // calculate expression
 void calExpression(char* strIn, char* strOut, char* ans){
-	
+	//goToXY(1, 28); printf("%s %d    ", strIn, strlen(strIn)); getchar();
 	// case \0
 	if (strlen(strIn) == 0){
 		strcpy(strOut, "SYNTAX ERROR");
@@ -102,7 +100,7 @@ void calExpression(char* strIn, char* strOut, char* ans){
 	}
 	
 	// case ^
-	for (i = 1; i <= length - 1; i++){
+	for (i = 0; i <= length - 1; i++){
 		
 		// count bracket
 		if (strIn[i] == '(') countBracket++;
@@ -237,30 +235,20 @@ void calExpression(char* strIn, char* strOut, char* ans){
 		return;
 	}
 	
-	// case "( )" such as "(3+4/6)":
-	// delete brackets, return "3+4/6"
+	// case ( )
 	if ((strIn[0] == '(') && (strIn[length - 1] == ')')){
+			
+		// make temporary string
+		char str[MAX_LENGTH];
+		makeStrStartEnd(strIn, str, 1, length - 2);
 		
-		for (i = 0; i <= length - 1; i++){
-			if (strIn[i] == '(') countBracket++;
-			if (strIn[i] == ')') countBracket--;
-			if (countBracket == 0) break; // all open brackets have their matches
-		}
+		// proceed calculating
+		calExpression(str, strOut, ans);
 		
-		// delete brackets
-		if (i == length - 1){
-			
-			// make temporary string
-			char str[MAX_LENGTH];
-			makeStrStartEnd(strIn, str, 1, length - 2);
-			
-			// proceed calculating
-			calExpression(str, strOut, ans);
-			
-			// exit
-			return;
-		}
+		// exit
+		return;
 	}
+	
 	
 	// case e
 	if (strcmp(strIn, "e") == 0){
@@ -282,7 +270,7 @@ void calExpression(char* strIn, char* strOut, char* ans){
 	
 	// case number
 	if ((strIn[0] == '-') || ((strIn[0] >= '0') && (strIn[0] <= '9'))){
-
+	
 		// check '-'
 		int minus = 0;
 		if (strIn[0] == '-') minus = 1;
@@ -302,6 +290,7 @@ void calExpression(char* strIn, char* strOut, char* ans){
 		
 		// return number
 		strcpy(strOut, strIn);
+		
 		return;
 	}
 	

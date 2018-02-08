@@ -13,13 +13,11 @@
 #include "room.Dinosaur.h"
 
 #include "function.Display.h"
+#include "function.CalculateExpression.h"
 #include "function.Math.h"
-#include "function.String.h"
-
-#define MAX_LENGTH 500
 
 // create interface for room.Main
-void createInterface(int x0, int y0, int step, int option, char* str[8], int firstColor){
+void createInterface(int x0, int y0, int step, int option, char** str, int firstColor){
 	
 	// print title
 	textColor(firstColor);
@@ -45,7 +43,7 @@ void createInterface(int x0, int y0, int step, int option, char* str[8], int fir
 }
 
 // highlight current part
-void highlight(int x0, int y0, int step, int num, char* str[8], int secondColor){
+void highlight(int x0, int y0, int step, int num, char** str, int secondColor){
 
 	textColor(secondColor);
 	goToXY(x0, y0 + (num - 1)*step);
@@ -56,7 +54,7 @@ void highlight(int x0, int y0, int step, int num, char* str[8], int secondColor)
 }
 
 // unhighlight current part
-void unhighlight(int x0, int y0, int step, int num, char* str[8], int firstColor){
+void unhighlight(int x0, int y0, int step, int num, char** str, int firstColor){
 	textColor(firstColor);
 	goToXY(x0, y0 + (num - 1)*step);
 	printf("%s", str[num]);	
@@ -66,7 +64,7 @@ void unhighlight(int x0, int y0, int step, int num, char* str[8], int firstColor
 void roomMain(){
 	
 	// declare vars
-	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor = 15, secondColor = 240;;
+	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor = 15, secondColor = 240;
 	
 	// assign values to the strings
 	char str1[50] = " CALCULATE EXPRESSIONS ",

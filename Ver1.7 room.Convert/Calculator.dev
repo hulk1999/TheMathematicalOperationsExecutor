@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=13
+UnitCount=12
 
 [VersionInfo]
 Major=1
@@ -120,20 +120,10 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
-FileName=function.String.h
+[Unit10]
+FileName=function.CalculateExpression.h
 CompileCpp=0
 Folder=Functions
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit10]
-FileName=room.Solve.h
-CompileCpp=0
-Folder=Rooms
 Compile=1
 Link=1
 Priority=1000
@@ -151,9 +141,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=function.CalculateExpression.h
+FileName=room.Solve.NthDegreeEquation.h
 CompileCpp=0
-Folder=Functions
+Folder=Subrooms
 Compile=1
 Link=1
 Priority=1000
@@ -161,7 +151,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=room.Solve.NthDegreeEquation.h
+FileName=room.Solve.SetOfEquations.h
 CompileCpp=0
 Folder=Subrooms
 Compile=1
@@ -174,6 +164,16 @@ BuildCmd=
 FileName=room.Solve.SetOfEquations.h
 CompileCpp=0
 Folder=Subrooms
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=room.Solve.h
+CompileCpp=0
+Folder=Rooms
 Compile=1
 Link=1
 Priority=1000

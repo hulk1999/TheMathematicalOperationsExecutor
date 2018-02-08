@@ -194,22 +194,22 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 		for (j = 0; j <= row + 1; j++) str[i][j] = &tmp;
 	
 	// assign values to the strings	
-	makeStr("       COLOR      >", &strReal[1][0]); 
-	makeStr("    boring   ", &strReal[2][0]);
-	makeStr("    shark    ", &strReal[3][0]);
-	makeStr("    matrix   ", &strReal[4][0]);
-	makeStr("     sky     ", &strReal[5][0]);
-	makeStr("    devil    ", &strReal[6][0]);
-	makeStr("  melancholy ", &strReal[7][0]);
-	makeStr("  sunflower  ", &strReal[8][0]);
-	makeStr("     pure    ", &strReal[9][0]);
-	makeStr("       SIZE       >", &strReal[10][0]);
-	makeStr("    small    ", &strReal[11][0]);
-	makeStr("    medium   ", &strReal[12][0]);
-	makeStr("    large    ", &strReal[13][0]);
-	makeStr("    other    ", &strReal[14][0]);  
-	makeStr("       MUSIC      >", &strReal[15][0]);
-	makeStr("    Nah I'm just kidding :))    ", &strReal[16][0]);
+	strcpy(&strReal[1][0], "       COLOR      >"); 
+	strcpy(&strReal[2][0], "    boring   ");
+	strcpy(&strReal[3][0], "    shark    ");
+	strcpy(&strReal[4][0], "    matrix   ");
+	strcpy(&strReal[5][0], "     sky     ");
+	strcpy(&strReal[6][0], "    devil    ");
+	strcpy(&strReal[7][0], "  melancholy ");
+	strcpy(&strReal[8][0], "  sunflower  ");
+	strcpy(&strReal[9][0], "     pure    ");
+	strcpy(&strReal[10][0], "       SIZE       >");
+	strcpy(&strReal[11][0], "    small    ");
+	strcpy(&strReal[12][0], "    medium   ");
+	strcpy(&strReal[13][0], "    large    ");
+	strcpy(&strReal[14][0], "    other    ");  
+	strcpy(&strReal[15][0], "       MUSIC      >");
+	strcpy(&strReal[16][0], "    Nah I'm just kidding :))    ");
 	
 	// store addresses
 	str[1][1] = &strReal[1][0];

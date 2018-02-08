@@ -14,7 +14,7 @@ void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstCol
 }
 
 // highlight current part
-void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solution[50], int secondColor){
+void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int secondColor){
 	textColor(secondColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%8.2lf", solution[x]);
@@ -22,7 +22,7 @@ void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solutio
 }
 
 // unhighlight current part
-void unhighlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double solution[50], int firstColor){
+void unhighlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int firstColor){
 	textColor(firstColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%8.2lf", solution[x]);

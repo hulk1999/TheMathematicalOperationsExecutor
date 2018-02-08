@@ -163,7 +163,7 @@ int inputDegree(int* pX, int *pNum, int y0, int step, char* str[6][3], int first
 }
 
 // get optional number of equation
-int inputSetNum(int* pX, int *pNum, int y0, int step, char* str[6][3], int firstColor, int secondColor){
+int inputSetNum(int* pX, int* pNum, int y0, int step, char* str[6][3], int firstColor, int secondColor){
 	
 	// display
 	int x = 96, y = 18;
@@ -252,16 +252,16 @@ void roomSolve(int firstColor, int secondColor){
 		for (j = 0; j <= row + 1; j++) str[i][j] = &tmp;
 	
 	// assign values to the strings	
-	makeStr("  N-TH DEGREE EQUATION   >", &strReal[1][0]); 
-	makeStr("      2      ", &strReal[2][0]);
-	makeStr("      3      ", &strReal[3][0]);
-	makeStr("      4      ", &strReal[4][0]);
-	makeStr("    other    ", &strReal[5][0]);
-	makeStr("  SET OF N EQUATIONS     >", &strReal[6][0]);
-	makeStr("      2      ", &strReal[7][0]);
-	makeStr("      3      ", &strReal[8][0]);
-	makeStr("      4      ", &strReal[9][0]);
-	makeStr("    other    ", &strReal[10][0]);
+	strcpy(&strReal[1][0], "  N-TH DEGREE EQUATION   >"); 
+	strcpy(&strReal[2][0], "      2      ");
+	strcpy(&strReal[3][0], "      3      ");
+	strcpy(&strReal[4][0], "      4      ");
+	strcpy(&strReal[5][0], "    other    ");
+	strcpy(&strReal[6][0], "  SET OF N EQUATIONS     >");
+	strcpy(&strReal[7][0], "      2      ");
+	strcpy(&strReal[8][0], "      3      ");
+	strcpy(&strReal[9][0], "      4      ");
+	strcpy(&strReal[10][0], "    other    ");
 	
 	// store addresses
 	str[1][1] = &strReal[1][0];
