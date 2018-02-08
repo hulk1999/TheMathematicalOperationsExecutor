@@ -224,7 +224,7 @@ void calExpression(char* strIn, char* strOut, char* ans){
 			case 1: getSinRadian(strOut1, strOut); break;
 			case 2: getCosRadian(strOut1, strOut); break;
 			case 3: getTanRadian(strOut1, strOut); break;
-			//case 4: getCotRadian(strOut1, strOut); break;
+			case 4: getCotRadian(strOut1, strOut); break;
 			case 5: getNaturalLog(strOut1, strOut); break;
 			case 6: getLog10(strOut1, strOut); break;
 			//case 7: getAbs(strOut1, strOut); break;
