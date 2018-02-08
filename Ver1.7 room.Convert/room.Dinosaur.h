@@ -363,7 +363,7 @@ void roomDinosaur(int firstColor, int secondColor){
 			
 			// make obstacle
 			if (obstacle == 0){
-				t = random(15);
+				t = random(100);
 				if (t <= 7){
 					obstacle = t;
 					obstaclePos = 108;

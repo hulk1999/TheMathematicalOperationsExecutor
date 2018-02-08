@@ -23,7 +23,7 @@ void getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100],
 void highlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int secondColor){
 	textColor(secondColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("           ");
-	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("%8.2lf", solution[degree][x]);
+	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("%9.4lf", solution[degree][x]);
 	goToXY(119, 29);
 }
 
@@ -31,7 +31,7 @@ void highlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree,
 void unhighlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int firstColor){
 	textColor(firstColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("           ");
-	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("%8.2lf", solution[degree][x]);
+	goToXY(x0 + 15 + (x - x0S)*15, y0 + 13); printf("%9.4lf", solution[degree][x]);
 }
 
 // get value of y = f(x)
@@ -62,6 +62,7 @@ double findSolution(int degree, double left, double right, double a[100][100]){
 
 // solve n-th degree equation
 void solveNthDegreeEquation(int num, int firstColor, int secondColor){
+	start: num = num;
 	
 	int x0 = 25, y0 = 10;
 	goToXY(x0, y0);
@@ -162,7 +163,7 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 		if ((ch == 75) || (ch == 77)){
 			for (k = x0S; k <= min(x0S + solutionNum[num] - 1, x0S + 3); k++){
 				goToXY(x0 + 15 + (k - x0S)*15, y0 + 11); printf("%6u", k);
-				goToXY(x0 + 15 + (k - x0S)*15, y0 + 13); printf("%8.2lf", solution[num][k]);
+				goToXY(x0 + 15 + (k - x0S)*15, y0 + 13); printf("%9.4lf", solution[num][k]);
 			}
 			highlightSolveNthDegreeEquation(x0, y0, x0S, x, num, solution, secondColor);
 		}
@@ -192,11 +193,26 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 				if (x > x0S + 3) x0S += 1;
 			}
 		}
+		
+		// enter
+		if (ch == 13){
+			textColor(firstColor);
+			goToXY(x0, y0 + 9); for (i = 1; i <= 120*5; i++) printf(" ");
+			goto start;
+		}
+	
 	} while (1);
 	
 	noSolution:
 	goToXY(x0, y0 + 9); printf("Solutions:    None");
 	goToXY(119, 29);
-	while (getch() != 27){ }
+	do{
+		ch = getch();
+		if (ch == 13){
+			textColor(firstColor);
+			goToXY(x0, y0 + 9); for (i = 1; i <= 120*5; i++) printf(" ");
+			goto start;
+		}
+	} while (ch != 27);
 	return;
 }

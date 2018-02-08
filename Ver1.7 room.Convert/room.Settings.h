@@ -145,7 +145,7 @@ int inputSize(int* pX, int firstColor, int secondColor){
 			if (count >= 1){
 				num = numStr[count] - '0';
 				if (count == 2) num += (numStr[1] - '0') * 10;
-				if (num == 0){
+				if ((num == 0) || (num > 24)){
 					textColor(firstColor);
 					goToXY(x, y + 1);
 					printf("    error!   ");
@@ -157,7 +157,19 @@ int inputSize(int* pX, int firstColor, int secondColor){
 					textColor(secondColor);
 					goto loopWithoutGetch;
 				}
-				else fontSize(num / 2, num);
+				else{
+					// set new size
+					fontSize(num / 2, num);
+					
+					// save new color to memory file
+					int tmp, score;
+					FILE *memory = fopen("memory.txt", "r");
+					fscanf(memory, "%d %d %d %d", &tmp, &tmp, &tmp, &score);
+					fclose(memory);
+					memory = fopen("memory.txt", "w");
+					fprintf(memory, "%d\n%d\n%d\n%d", firstColor, secondColor, num, score);
+					fclose(memory);
+				}
 			}
 		}
 		
@@ -307,20 +319,45 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 			
 			// color section: change color
 			if (y <= 2){
+				
+				// change color
 				firstColor = 4*(y - 1) + x + 6; *pFirstColor = firstColor;
 				secondColor = 128 + 16*(x - 2 + 4*(y-1)); *pSecondColor = secondColor;
 				createInterfaceSettings(x0, y0, step, row, str, firstColor);
 				highlightSettings(x0, y0, step, 1, 1, str, secondColor);
 				x = 1; y = 1;
+				
+				// save new color to memory file
+				int tmp, size, score;
+				FILE *memory = fopen("memory.txt", "r");
+				fscanf(memory, "%d %d %d %d", &tmp, &tmp, &size, &score);
+				fclose(memory);
+				memory = fopen("memory.txt", "w");
+				fprintf(memory, "%d\n%d\n%d\n%d", firstColor, secondColor, size, score);
+				fclose(memory);
 			}
 			
 			// size section: change size
 			if (y == 3){
+				int tmp, size, score;
 				switch (x){
-					case 2: fontSize(6, 12); break;
-					case 3: fontSize(8, 16); break;
-					case 4: fontSize(11, 22); break;
+					case 2: size = 12; break;
+					case 3: size = 16; break;
+					case 4: size = 22; break;
 					default: break;
+				}
+				if ((x >= 2) && (x <= 4)){
+					
+					// set new size
+					fontSize(size / 2, size);
+					
+					// save new color to memory file
+					FILE *memory = fopen("memory.txt", "r");
+					fscanf(memory, "%d %d %d %d", &tmp, &tmp, &tmp, &score);
+					fclose(memory);
+					memory = fopen("memory.txt", "w");
+					fprintf(memory, "%d\n%d\n%d\n%d", firstColor, secondColor, size, score);
+					fclose(memory);
 				}
 			}
 		}

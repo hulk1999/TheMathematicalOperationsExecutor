@@ -17,7 +17,7 @@ void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstCol
 void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int secondColor){
 	textColor(secondColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
-	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%8.2lf", solution[x]);
+	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%9.4lf", solution[x]);
 	goToXY(119, 29);
 }
 
@@ -25,7 +25,7 @@ void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* soluti
 void unhighlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int firstColor){
 	textColor(firstColor);
 	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("           ");
-	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%8.2lf", solution[x]);
+	goToXY(x0 + 15 + (x - x0S)*15, y0 + 15); printf("%9.4lf", solution[x]);
 }
 
 // check if the set has solution
@@ -37,6 +37,7 @@ int hasSolutionSetOfEquations(int num, double a[50][50]){
 
 // solve set of n equations
 void solveSetOfNEquations(int num, int firstColor, int secondColor){
+	start: num = num;
 	
 	int x0 = 25, y0 = 10;
 	goToXY(x0, y0); printf("SOLVING SET OF %u EQUATIONS", num);
@@ -110,8 +111,8 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor){
 		
 		if ((ch == 75) || (ch == 77)){
 			for (k = x0S; k <= min(x0S + num - 1, x0S + 3); k++){
-				goToXY(x0 + 15 + (k - x0S)*15, y0 + 13); printf("%6.0u", k);
-				goToXY(x0 + 15 + (k - x0S)*15, y0 + 15); printf("%8.2lf", solution[k]);
+				goToXY(x0 + 15 + (k - x0S)*15, y0 + 13); printf("%6u", k);
+				goToXY(x0 + 15 + (k - x0S)*15, y0 + 15); printf("%9.4lf", solution[k]);
 			}
 			highlightSolveSetOfEquations(x0, y0, x0S, x, solution, secondColor);
 		}
@@ -141,11 +142,26 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor){
 				if (x > x0S + 3) x0S += 1;
 			}
 		}
+		
+		// enter
+		if (ch == 13){
+			textColor(firstColor);
+			goToXY(x0, y0 + 11); for (i = 1; i <= 120*5; i++) printf(" ");
+			goto start;
+		}
+		
 	} while (1);
 
 	infiniteSolution:
 	goToXY(x0, y0 + 11); printf("Solutions:    Infinite");
 	goToXY(119, 29);
-	while (getch() != 27){ }
+	do{
+		ch = getch();
+		if (ch == 13){
+			textColor(firstColor);
+			goToXY(x0, y0 + 11); for (i = 1; i <= 120*5; i++) printf(" ");
+			goto start;
+		}
+	} while (ch != 27);
 	return;
 }

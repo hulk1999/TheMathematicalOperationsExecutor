@@ -174,7 +174,18 @@ int inputSize(int* pX){
 					goToXY(x + 6 + count, y);
 					textColor(secondColor);
 				}
-				else fontSize(num / 2, num);
+				else{
+					fontSize(num / 2, num);
+					
+					// save new color to memory file
+					int tmp, score;
+					FILE *memory = fopen("memory.txt", "r");
+					fscanf(memory, "%d %d %d %d", &tmp, &tmp, &tmp, &score);
+					fclose(memory);
+					memory = fopen("memory.txt", "w");
+					fprintf(memory, "%d\n%d\n%d\n%d", firstColor, secondColor, size, score);
+					fclose(memory);
+				}
 			}
 		}
 		

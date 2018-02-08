@@ -64,7 +64,12 @@ void unhighlight(int x0, int y0, int step, int num, char** str, int firstColor){
 void roomMain(){
 	
 	// declare vars
-	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor = 15, secondColor = 240;
+	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor, secondColor, size;
+	
+	// get colors and size
+	FILE *memory = fopen("memory.txt", "r");
+	fscanf(memory, "%d %d %d", &firstColor, &secondColor, &size);
+	fclose(memory);
 	
 	// assign values to the strings
 	char str1[50] = " CALCULATE EXPRESSIONS ",
@@ -87,6 +92,7 @@ void roomMain(){
 	
 	// set console size to 120 column : 30 rows
 	setConsoleSize(993, 519);
+	fontSize(size / 2, size);
 	
 	// create interface
 	createInterface(x0, y0, step, option, str, firstColor);

@@ -9,7 +9,7 @@ void makeStrStartEnd(char* strIn, char* strOut, int start, int end){
 
 // calculate expression
 void calExpression(char* strIn, char* strOut, char* ans){
-	//goToXY(1, 28); printf("%s %d    ", strIn, strlen(strIn)); getchar();
+
 	// case \0
 	if (strlen(strIn) == 0){
 		strcpy(strOut, "SYNTAX ERROR");
@@ -227,7 +227,10 @@ void calExpression(char* strIn, char* strOut, char* ans){
 			case 4: getCotRadian(strOut1, strOut); break;
 			case 5: getNaturalLog(strOut1, strOut); break;
 			case 6: getLog10(strOut1, strOut); break;
-			//case 7: getAbs(strOut1, strOut); break;
+			case 7:
+				strcpy(strOut, strOut1);
+				getAbs(strOut);
+				break;
 			default: break;
 		}
 		
