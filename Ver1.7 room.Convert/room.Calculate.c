@@ -8,7 +8,6 @@
 
 #include "function.Display.h"
 #include "function.Math.h"
-#include "function.String.h"
 #include "function.CalculateExpression.h"
 
 #define MAX_LENGTH 500
@@ -135,41 +134,41 @@ void roomCalculate(int firstColor, int secondColor){
 		for (j = 0; j <= row + 1; j++) str[i][j] = &tmp;
 	
 	// assign values to the strings	
-	makeStr("   1   ", &strReal[1][0]); 
-	makeStr("   2   ", &strReal[2][0]);
-	makeStr("   3   ", &strReal[3][0]);
-	makeStr("   4   ", &strReal[4][0]);
-	makeStr("   5   ", &strReal[5][0]);
-	makeStr("   6   ", &strReal[6][0]);
-	makeStr("   7   ", &strReal[7][0]);
-	makeStr("   8   ", &strReal[8][0]);
-	makeStr("   9   ", &strReal[9][0]);
-	makeStr("   0   ", &strReal[10][0]);
-	makeStr("   ^   ", &strReal[11][0]);
-	makeStr("   s   ", &strReal[12][0]); strReal[12][3] = 251; // sqrt
-	makeStr("   <   ", &strReal[13][0]);
-	makeStr("   >   ", &strReal[14][0]);  
-	makeStr("   !   ", &strReal[15][0]);
-	makeStr("  sin  ", &strReal[16][0]);
-	makeStr("  cos  ", &strReal[17][0]);
-	makeStr("  | |  ", &strReal[18][0]);
-	makeStr("  log  ", &strReal[19][0]);
-	makeStr("  ln   ", &strReal[20][0]);
-	makeStr("  tan  ", &strReal[21][0]);
-	makeStr("  cot  ", &strReal[22][0]);
-	makeStr("   (   ", &strReal[23][0]);
-	makeStr("   )   ", &strReal[24][0]);
-	makeStr("   e   ", &strReal[25][0]);
-	makeStr("   .   ", &strReal[26][0]);
-	makeStr("   =   ", &strReal[27][0]);
-	makeStr("   p   ", &strReal[28][0]); strReal[28][3] = 227; // pi
-	makeStr("  ans  ", &strReal[29][0]);
-	makeStr("  DEL  ", &strReal[30][0]);
-	makeStr("  AC   ", &strReal[31][0]);
-	makeStr("   x   ", &strReal[32][0]);
-	makeStr("   /   ", &strReal[33][0]);
-	makeStr("   +   ", &strReal[34][0]);
-	makeStr("   -   ", &strReal[35][0]);
+	strcpy(&strReal[1][0], "   1   "); 
+	strcpy(&strReal[2][0], "   2   ");
+	strcpy(&strReal[3][0], "   3   ");
+	strcpy(&strReal[4][0], "   4   ");
+	strcpy(&strReal[5][0], "   5   ");
+	strcpy(&strReal[6][0], "   6   ");
+	strcpy(&strReal[7][0], "   7   ");
+	strcpy(&strReal[8][0], "   8   ");
+	strcpy(&strReal[9][0], "   9   ");
+	strcpy(&strReal[10][0], "   0   ");
+	strcpy(&strReal[11][0], "   ^   ");
+	strcpy(&strReal[12][0], "   s   "); strReal[12][3] = 251; // sqrt
+	strcpy(&strReal[13][0], "   <   ");
+	strcpy(&strReal[14][0], "   >   ");  
+	strcpy(&strReal[15][0], "   !   ");
+	strcpy(&strReal[16][0], "  sin  ");
+	strcpy(&strReal[17][0], "  cos  ");
+	strcpy(&strReal[18][0], "  abs  ");
+	strcpy(&strReal[19][0], "  log  ");
+	strcpy(&strReal[20][0], "  ln   ");
+	strcpy(&strReal[21][0], "  tan  ");
+	strcpy(&strReal[22][0], "  cot  ");
+	strcpy(&strReal[23][0], "   (   ");
+	strcpy(&strReal[24][0], "   )   ");
+	strcpy(&strReal[25][0], "   e   ");
+	strcpy(&strReal[26][0], "   .   ");
+	strcpy(&strReal[27][0], "   =   ");
+	strcpy(&strReal[28][0], "   p   "); strReal[28][3] = 227; // pi
+	strcpy(&strReal[29][0], "  ans  ");
+	strcpy(&strReal[30][0], "  DEL  ");
+	strcpy(&strReal[31][0], "  AC   ");
+	strcpy(&strReal[32][0], "   x   ");
+	strcpy(&strReal[33][0], "   /   ");
+	strcpy(&strReal[34][0], "   +   ");
+	strcpy(&strReal[35][0], "   -   ");
 	
 	// store addresses
 	str[1][1] = &strReal[1][0];
@@ -212,7 +211,7 @@ void roomCalculate(int firstColor, int secondColor){
 	createInterfaceCalculate(x0, y0, str, firstColor);
 	
 	// store calculator memory
-	char screenLine[MAX_LENGTH], ans[MAX_LENGTH] = "0", key[10];
+	char screenLine[MAX_LENGTH], ans[MAX_LENGTH] = "0", ansM[MAX_LENGTH] = "0", key[10];
 	screenLine[0] = '\0';
 	int screenLineLength = 0, ansLength, keyLength, cursor = 0, start = 0, end = 0;
 	
@@ -246,19 +245,19 @@ void roomCalculate(int firstColor, int secondColor){
 		
 		// enter
 		if (ch == 13){
-			if ((x == 1) && (y == 1)) makeStr("1", key);
-			if ((x == 2) && (y == 1)) makeStr("2", key);
-			if ((x == 3) && (y == 1)) makeStr("3", key);
-			if ((x == 4) && (y == 1)) makeStr("4", key);
-			if ((x == 5) && (y == 1)) makeStr("5", key);
-			if ((x == 1) && (y == 2)) makeStr("6", key);
-			if ((x == 2) && (y == 2)) makeStr("7", key);
-			if ((x == 3) && (y == 2)) makeStr("8", key);
-			if ((x == 4) && (y == 2)) makeStr("9", key);
-			if ((x == 5) && (y == 2)) makeStr("0", key);
-			if ((x == 1) && (y == 3)) makeStr("^", key);
+			if ((x == 1) && (y == 1)) strcpy(key, "1");
+			if ((x == 2) && (y == 1)) strcpy(key, "2");
+			if ((x == 3) && (y == 1)) strcpy(key, "3");
+			if ((x == 4) && (y == 1)) strcpy(key, "4");
+			if ((x == 5) && (y == 1)) strcpy(key, "5");
+			if ((x == 1) && (y == 2)) strcpy(key, "6");
+			if ((x == 2) && (y == 2)) strcpy(key, "7");
+			if ((x == 3) && (y == 2)) strcpy(key, "8");
+			if ((x == 4) && (y == 2)) strcpy(key, "9");
+			if ((x == 5) && (y == 2)) strcpy(key, "0");
+			if ((x == 1) && (y == 3)) strcpy(key, "^");
 			if ((x == 2) && (y == 3)){ // sqrt
-				makeStr("s", key);
+				strcpy(key, "s");
 				key[0] = 251;
 			}
 			if ((x == 3) && (y == 3)){ // arrow left
@@ -269,24 +268,24 @@ void roomCalculate(int firstColor, int secondColor){
 				ch = 77;
 				goto arrowRight;
 			}
-			if ((x == 5) && (y == 3)) makeStr("!", key);
-			if ((x == 1) && (y == 4)) makeStr("sin(", key);
-			if ((x == 2) && (y == 4)) makeStr("cos(", key);
-			if ((x == 3) && (y == 4)) makeStr("|", key);
-			if ((x == 4) && (y == 4)) makeStr("log(", key);
-			if ((x == 5) && (y == 4)) makeStr("ln(", key);
-			if ((x == 1) && (y == 5)) makeStr("tan(", key);
-			if ((x == 2) && (y == 5)) makeStr("cot(", key);
-			if ((x == 3) && (y == 5)) makeStr("(", key);
-			if ((x == 4) && (y == 5)) makeStr(")", key);
-			if ((x == 5) && (y == 5)) makeStr("e", key);
-			if ((x == 6) && (y == 1)) makeStr(".", key);
+			if ((x == 5) && (y == 3)) strcpy(key, "!");
+			if ((x == 1) && (y == 4)) strcpy(key, "sin(");
+			if ((x == 2) && (y == 4)) strcpy(key, "cos(");
+			if ((x == 3) && (y == 4)) strcpy(key, "abs(");
+			if ((x == 4) && (y == 4)) strcpy(key, "log(");
+			if ((x == 5) && (y == 4)) strcpy(key, "ln(");
+			if ((x == 1) && (y == 5)) strcpy(key, "tan(");
+			if ((x == 2) && (y == 5)) strcpy(key, "cot(");
+			if ((x == 3) && (y == 5)) strcpy(key, "(");
+			if ((x == 4) && (y == 5)) strcpy(key, ")");
+			if ((x == 5) && (y == 5)) strcpy(key, "e");
+			if ((x == 6) && (y == 1)) strcpy(key, ".");
 			if ((x == 7) && (y == 1)) goto calculate; // =
 			if ((x == 6) && (y == 2)){ // pi
-				makeStr("p", key);
+				strcpy(key, "p");
 				key[0] = 227;
 			}
-			if ((x == 7) && (y == 2)) makeStr("ans", key);
+			if ((x == 7) && (y == 2)) strcpy(key, "ans");
 			if ((x == 6) && (y == 3)){ // DEL
 				ch = 8;
 				goto backSpace;
@@ -297,10 +296,10 @@ void roomCalculate(int firstColor, int secondColor){
 				start = 0;
 				continue;
 			}
-			if ((x == 6) && (y == 4)) makeStr("x", key);
-			if ((x == 7) && (y == 4)) makeStr("/", key);
-			if ((x == 6) && (y == 5)) makeStr("+", key);
-			if ((x == 7) && (y == 5)) makeStr("-", key);
+			if ((x == 6) && (y == 4)) strcpy(key, "x");
+			if ((x == 7) && (y == 4)) strcpy(key, "/");
+			if ((x == 6) && (y == 5)) strcpy(key, "+");
+			if ((x == 7) && (y == 5)) strcpy(key, "-");
 			
 			if (y != 0){
 				keyLength = strlen(key);
@@ -313,7 +312,9 @@ void roomCalculate(int firstColor, int secondColor){
 			else{
 				calculate:
 				screenLine[screenLineLength] = '\0';
-				calExpression(screenLine, ans);
+				calExpression(screenLine, ans, ansM);
+				if ((ans[0] == 'M') || (ans[0] == 'S')) strcpy(ansM, "0");
+				else strcpy(ansM, ans);
 				ansLength = strlen(ans);
 				goToXY(max2Int(x0 + 3, x0 + 54 - ansLength), y0 - 2);
 				for (i = 0; i <= min2Int(ansLength - 1, 51); i++) printf("%c", ans[i]);
@@ -343,7 +344,7 @@ void roomCalculate(int firstColor, int secondColor){
 		}
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			if (!isScreen) unhighlightCalculate(x0, y0, x, y, str, firstColor);
 			ch = getch();
 			

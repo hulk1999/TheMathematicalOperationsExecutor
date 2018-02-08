@@ -2,7 +2,7 @@
 #include <math.h>
 
 int main(){
-	char ch = 251;
-	printf("%c %u %d", ch, ch, ch);
+	
+	printf("%d", 4294967264);
 	return 0;
 }
