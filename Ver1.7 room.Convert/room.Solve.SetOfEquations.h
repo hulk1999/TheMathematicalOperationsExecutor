@@ -1,3 +1,18 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void highlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int secondColor);
+void unhighlightSolveSetOfEquations(int x0, int y0, int x0S, int x, double* solution, int firstColor);
+
+// get coefiicents
+void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstColor, int secondColor);
+
+// functions for solving
+int hasSolutionSetOfEquations(int num, double a[50][50]);
+void solveSetOfNEquations(int num, int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // get coefiicents
 void getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstColor, int secondColor){
 	textColor(secondColor);

@@ -1,4 +1,20 @@
-// function abs() sucks
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void highlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int secondColor);
+void unhighlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int firstColor);
+
+// get coefiicents
+void getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor);
+
+// functions for solving
+double y(double x, int degree, double a[100][100]);
+double findSolution(int degree, double left, double right, double a[100][100]);
+void solveNthDegreeEquation(int num, int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
+// function abs() doesn't work for double
 double absoluteVal(double num){
 	if (num < 0) return - num;
 	return num;

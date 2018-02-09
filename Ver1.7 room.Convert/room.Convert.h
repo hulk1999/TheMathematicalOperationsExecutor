@@ -1,3 +1,22 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating layout
+void createInterfaceConvert(int x0, int y0, int step, int firstColor);
+
+// functions for converting
+int checkNumForConverting(char* numStr, int y);
+void digitToString(char digit, char* str);
+char stringToDigit(char* str);
+void divideForIntegral(char* strIn1, char* strIn2, char* strOut);
+void divideForFractional(char* strIn1, char* strIn2, char* strOut);
+int convertFrom10(char* base10, int base, char* output);
+int convertTo10(char* input, int base, char* base10);
+
+// romm.Convert main
+void roomConvert(int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // create interface for room.Convert
 void createInterfaceConvert(int x0, int y0, int step, int firstColor){
 	

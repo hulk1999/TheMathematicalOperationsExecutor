@@ -1,3 +1,13 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void createInterfaceCredits(int firstColor);
+
+// room.Credits main
+void roomCredits(int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // create interface for room.Credits
 void createInterfaceCredits(int firstColor){
 	

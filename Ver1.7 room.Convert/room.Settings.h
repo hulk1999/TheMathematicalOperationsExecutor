@@ -1,3 +1,24 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void createInterfaceSettings(int x0, int y0, int step, int row, char* str[6][5], int firstColor);
+void highlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5], int secondColor);
+void unhighlightSettings(int x0, int y0, int step, int x, int y, char* str[6][5], int firstColor);
+void printColor(int y0, int step, char* str[6][5]);
+void deleteColor(int y0, int step, char* str[6][5], int firstColor);
+void printSize(int y0, int step, char* str[6][5]);
+void deleteSize(int y0, int step, char* str[6][5], int firstColor);
+void printMusic(int y0, int step, char* str[6][5]);
+void deleteMusic(int y0, int step, char* str[6][5], int firstColor);
+
+// get optional size
+int inputSize(int* pX, int firstColor, int secondColor);
+
+// room.Settings main
+void roomSettings(int* pFirstColor, int* pSecondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // create interface for room.Settings
 void createInterfaceSettings(int x0, int y0, int step, int row, char* str[6][5], int firstColor){
 	
@@ -221,7 +242,7 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 	strcpy(&strReal[13][0], "    large    ");
 	strcpy(&strReal[14][0], "    other    ");  
 	strcpy(&strReal[15][0], "       MUSIC      >");
-	strcpy(&strReal[16][0], "    Nah I'm just kidding :))    ");
+	strcpy(&strReal[16][0], "    Nah I'm just kidding =))    ");
 	
 	// store addresses
 	str[1][1] = &strReal[1][0];

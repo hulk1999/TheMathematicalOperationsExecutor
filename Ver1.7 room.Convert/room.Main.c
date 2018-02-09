@@ -16,23 +16,45 @@
 #include "function.CalculateExpression.h"
 #include "function.Math.h"
 
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void createInterface(int x0, int y0, int step, int option, char** str, int firstColor);
+void highlight(int x0, int y0, int step, int num, char** str, int secondColor);
+void unhighlight(int x0, int y0, int step, int num, char** str, int firstColor);
+
+// room.Main main
+void roomMain();
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // create interface for room.Main
 void createInterface(int x0, int y0, int step, int option, char** str, int firstColor){
 	
 	// print title
 	textColor(firstColor);
 	system("cls");
-	goToXY(6, 3); printf("Welcome to");
-	goToXY(20, 5); printf("THE");
-	goToXY(25, 1); printf("	       .__               .__          __");
-	goToXY(25, 2); printf("  ____ _____  |  |   ____  __ __|  | _____ _/  |_  ___________");
-	goToXY(25, 3); printf("_/ ___\\\\__  \\ |  | _/ ___\\|  |  \\  | \\__  \\\\   __\\/  _ \\_  __ \\");
-	goToXY(25, 4); printf("\\  \\___ / __ \\|  |_\\  \\___|  |  /  |__/ __ \\|  | (  <_> )  | \\/");
-	goToXY(25, 5); printf(" \\___  >____  /____/\\___  >____/|____(____  /__|  \\____/|__|   ");
-	goToXY(25, 6); printf("     \\/     \\/          \\/                \\/");
-	goToXY(40, 7); printf("An ordinary calculator just like any others, but now you have to write");
-	goToXY(40, 8); printf("       thousands of lines of code and take days of debugging to get it.");
-	goToXY(40, 10); printf("Now what /*da hell*/ do you want to do?");
+	
+	goToXY(10, 1); printf(" ________");
+	goToXY(10, 2); printf("/_  __/ /  ___");
+	goToXY(10, 3); printf(" / / / _ \\/ -_)");
+	goToXY(10, 4); printf("/_/ /_//_/\\__/");
+
+	goToXY(26, 1); printf("   __  ___     __  __                  __  _          __");
+	goToXY(26, 2); printf("  /  |/  /__ _/ /_/ /  ___ __ _  ___ _/ /_(_)______ _/ /");
+	goToXY(26, 3); printf(" / /|_/ / _ `/ __/ _ \\/ -_)  ' \\/ _ `/ __/ / __/ _ `/ /");
+	goToXY(26, 4); printf("/_/  /_/\\_,_/\\__/_//_/\\__/_/_/_/\\_,_/\\__/_/\\__/\\_,_/_/");
+	
+	goToXY(30, 5); printf("  ____                    __  _  ");
+	goToXY(30, 6); printf(" / __ \\___  ___ _______ _/ /_(_)__  ___  ___");
+	goToXY(30, 7); printf("/ /_/ / _ \\/ -_) __/ _ `/ __/ / _ \\/ _ \\(_-<");
+	goToXY(30, 8); printf("\\____/ .__/\\__/_/  \\_,_/\\__/_/\\___/_//_/___/");
+	goToXY(30, 9); printf("    /_/");
+
+	goToXY(76, 5); printf("   ____                  __");
+	goToXY(76, 6); printf("  / __/_ _____ ______ __/ /____  ____");
+	goToXY(76, 7); printf(" / _/ \\ \\ / -_) __/ // / __/ _ \\/ __/");
+	goToXY(76, 8); printf("/___//_\\_\\\\__/\\__/\\_,_/\\__/\\___/_/");
 	
 	// print menu
 	int i;
@@ -60,11 +82,11 @@ void unhighlight(int x0, int y0, int step, int num, char** str, int firstColor){
 	printf("%s", str[num]);	
 }
 
-// roomMain main
+// room.Main main
 void roomMain(){
 	
 	// declare vars
-	int x0 = 46, y0 = 14, step = 2, option = 7, firstColor, secondColor, size;
+	int x0 = 46, y0 = 12, step = 2, option = 7, firstColor, secondColor, size;
 	
 	// get colors and size
 	FILE *memory = fopen("memory.txt", "r");
@@ -161,7 +183,7 @@ void roomMain(){
 	} while (1);
 }
 
-void main(){
+int main(){
 	roomMain();
 	return 0;
 }

@@ -1,5 +1,24 @@
 #define MAX_LENGTH 502
 
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void printFirstLineTable(int num);
+void printMiddleLineTable(int num);
+void printLastLineTable(int num);
+void printContentLineTable(int xStart, int xEnd, int y, char* str[8][6]);
+void createInterfaceCalculate(int x0, int y0, char* str[8][6], int firstColor);
+void highlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int secondColor);
+void unhighlightCalculate(int x0, int y0, int x, int y, char* str[8][6], int firstColor);
+
+// get answer to display on screen
+void getAnsDisplay(char* strIn, char* strOut);
+
+// room.Calculate main
+void roomCalculate(int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 void printFirstLineTable(int num){
 	int i;
 	printf("%c", 218);

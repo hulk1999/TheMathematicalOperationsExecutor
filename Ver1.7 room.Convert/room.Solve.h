@@ -1,6 +1,26 @@
 #include "room.Solve.NthDegreeEquation.h"
 #include "room.Solve.SetOfEquations.h"
 
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void createInterfaceSolve(int x0, int y0, int step, int row, char* str[6][3], int firstColor);
+void highlightSolve(int x0, int y0, int step, int x, int y, char* str[6][3], int secondColor);
+void unhighlightSolve(int x0, int y0, int step, int x, int y, char* str[6][3], int firstColor);
+void printNthDegreeEquation(int y0, int step, char* str[6][3]);
+void deleteNthDegreeEquation(int y0, int step, char* str[6][3], int firstColor);
+void printSetOfNEquations(int y0, int step, char* str[6][3]);
+void deleteSetOfNEquations(int y0, int step, char* str[6][3], int firstColor);
+
+// get optional degree & number of equations
+int inputDegree(int* pX, int *pNum, int y0, int step, char* str[6][3], int firstColor, int secondColor);
+int inputSetNum(int* pX, int* pNum, int y0, int step, char* str[6][3], int firstColor, int secondColor);
+
+// room.Solve main
+void roomSolve(int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // create interface for room.Solve
 void createInterfaceSolve(int x0, int y0, int step, int row, char* str[6][3], int firstColor){
 	

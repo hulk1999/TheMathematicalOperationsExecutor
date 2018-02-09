@@ -1,3 +1,27 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for creating interface
+void createInterfaceDinosaur(int firstColor);
+
+// functions for printing and deleting objects
+void printGameOver();
+void printGround(char ground[3][121], int y0);
+void printObstacle(int type, int x, int y0, int color);
+void deleteObstacle(int type, int x, int y0);
+void printDinosaur(int height, int leg, int y0);
+void deleteDinosaur(int jump, int height, int y0);
+
+// functions for running game
+int random(int max);
+void initialize(char ground[3][121]);
+void makeGround(char ground[3][121]);
+int checkCollision(int height, int obstacle, int obstaclePos, int y0);
+
+// room.Dinosaur main
+void roomDinosaur(int firstColor, int secondColor);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // make random number in range [1, max]
 int random(int max){
 	return 1 + rand() % (max - 1);
@@ -23,21 +47,6 @@ void printGameOver(){
 	goToXY(119, 29);
 }
 
-// make next element for ground
-void makeGround(char ground[3][121]){
-	int t = random(15);
-	switch (t){
-		case 1: ground[1][119] = '.'; ground[2][119] = ' '; break;
-		case 2: ground[1][119] = '-'; ground[2][119] = ' '; break;
-		case 3: ground[1][119] = 248; ground[2][119] = ' '; break;
-		case 4: ground[1][119] = '`'; ground[2][119] = ' '; break;
-		case 5: ground[2][119] = '.'; ground[1][119] = ' '; break;
-		case 6: ground[2][119] = '-'; ground[1][119] = ' '; break;
-		case 7: ground[2][119] = '`'; ground[1][119] = ' '; break;
-		default: ground[1][119] = ' '; ground[2][119] = ' '; break;
-	}
-}
-
 // set random seed; make ground
 void initialize(char ground[3][121]){
 	srand(time(NULL));
@@ -60,6 +69,21 @@ void initialize(char ground[3][121]){
 	ground[0][120] = '\0';
 	ground[1][120] = '\0';
 	ground[2][120] = '\0';
+}
+
+// make next element for ground
+void makeGround(char ground[3][121]){
+	int t = random(15);
+	switch (t){
+		case 1: ground[1][119] = '.'; ground[2][119] = ' '; break;
+		case 2: ground[1][119] = '-'; ground[2][119] = ' '; break;
+		case 3: ground[1][119] = 248; ground[2][119] = ' '; break;
+		case 4: ground[1][119] = '`'; ground[2][119] = ' '; break;
+		case 5: ground[2][119] = '.'; ground[1][119] = ' '; break;
+		case 6: ground[2][119] = '-'; ground[1][119] = ' '; break;
+		case 7: ground[2][119] = '`'; ground[1][119] = ' '; break;
+		default: ground[1][119] = ' '; ground[2][119] = ' '; break;
+	}
 }
 
 void printGround(char ground[3][121], int y0){

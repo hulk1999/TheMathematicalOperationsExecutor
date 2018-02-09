@@ -1,3 +1,13 @@
+//-----------------------------------------------declaration------------------------------------------------------------------//
+
+// functions for displaying
+void goToXY(int x, int y);
+void textColor(int color);
+void fontSize(int x, int y);
+void wait(clock_t time);
+
+//----------------------------------------------------------------------------------------------------------------------------//
+
 // move cusor to column x row y
 void goToXY(int x, int y){
 	HANDLE handle;
