@@ -3,8 +3,7 @@
 
 int main(){
 	
-	int i;
-	for (i = 0; i <= 3; i++) printf("%d\n", i);
-	printf("%d", i);
+	double a = 12e+3;
+	printf("%lf", a);
 	return 0;
 }

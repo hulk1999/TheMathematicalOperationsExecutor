@@ -37,8 +37,8 @@ TopLine=1
 >>>>>>> 393632a9b4c45218aba79dfb72cc7d8aaeb7cbab
 LeftChar=1
 [Editor_3]
-CursorCol=20
-CursorRow=243
+CursorCol=14
+CursorRow=251
 TopLine=238
 LeftChar=1
 [Editor_1]
@@ -63,16 +63,16 @@ TopLine=1
 LeftChar=1
 [Editors]
 <<<<<<< HEAD
-Order=0,3
-Focused=3
+Order=0
+Focused=0
 =======
 Order=4
 Focused=4
 >>>>>>> 393632a9b4c45218aba79dfb72cc7d8aaeb7cbab
 [Editor_0]
-CursorCol=2
-CursorRow=58
-TopLine=39
+CursorCol=12
+CursorRow=172
+TopLine=40
 LeftChar=1
 [Editor_9]
 <<<<<<< HEAD
