@@ -5,7 +5,7 @@
 #include <errno.h>
 
 #define MAX_LENGTH 500+2
-// The limitation for number of digits is 500
+// The limitation for number of digits is ~500
 
 //Because M_PI doesn't work with some compilers
 #define PI 3.14159265359 
@@ -43,6 +43,7 @@ int balanceNumOfDigits(char* realNum1, char* realNum2);
 
 // Others
 int isRealNumber(char* inputRealNum);
+int isDouble(char* inputRealNum);
 int min2Int(int a, int b);
 int max2Int(int a, int b);
 int compareRealNum(char* realNum1	, char* realNum2);
@@ -84,56 +85,56 @@ void getLogN(char* realNum, char* base, char* result);
 
 ////////////////////////////////////////////////////// MAIN //////////////////////////////////////////////////////
 
-int main(int argc, char *argv[]) {
-	char inputNum1[MAX_LENGTH], inputNum2[MAX_LENGTH], result[MAX_LENGTH];
-	strcpy(result, "");
-	do
-	{
-	scanf("%s %s", &inputNum1, &inputNum2);
+//int main(int argc, char *argv[]) {
+//	char inputNum1[MAX_LENGTH], inputNum2[MAX_LENGTH], result[MAX_LENGTH];
+//	strcpy(result, "");
+//	do
+//	{
+//	scanf("%s %s", &inputNum1, &inputNum2);
 
-	addRealNum(inputNum1, inputNum2, result);
-	printf("%s + %s = %s\n\n", inputNum1, inputNum2, result);
-	subtractRealNum(inputNum1, inputNum2, result);
-	printf("%s - %s = %s\n\n", inputNum1, inputNum2, result);
-	
-	multiplyRealNum(inputNum1, inputNum2, result);
-	printf("%s * %s = %s\n\n", inputNum1, inputNum2, result);
-	
-	divideRealNum(inputNum1, inputNum2, result);
-	printf("%s / %s = %s\n\n", inputNum1, inputNum2, result);
+//	addRealNum(inputNum1, inputNum2, result);
+//	printf("%s + %s = %s\n\n", inputNum1, inputNum2, result);
+//	subtractRealNum(inputNum1, inputNum2, result);
+//	printf("%s - %s = %s\n\n", inputNum1, inputNum2, result);
+//	
+//	multiplyRealNum(inputNum1, inputNum2, result);
+//	printf("%s * %s = %s\n\n", inputNum1, inputNum2, result);
+//	
+//	divideRealNum(inputNum1, inputNum2, result);
+//	printf("%s / %s = %s\n\n", inputNum1, inputNum2, result);
+//
+//	powerRealNum(inputNum1, inputNum2, result);
+//	printf("%s ^ %s = %s\n\n", inputNum1, inputNum2, result);
+//	
+//	getFactorial(inputNum1, result);
+//	printf("%s! = %s\n\n", inputNum1, result);	
 
-	powerRealNum(inputNum1, inputNum2, result);
-	printf("%s ^ %s = %s\n\n", inputNum1, inputNum2, result);
-	
-	getFactorial(inputNum1, result);
-	printf("%s! = %s\n\n", inputNum1, result);	
-
-	getSinRadian(inputNum1, result);
-	printf("sin(%s) = %s(Radian)\n\n", inputNum1, result);	
-	getCosRadian(inputNum1, result);
-	printf("cos(%s) = %s(Radian)\n\n", inputNum1, result);	
-	getTanRadian(inputNum1, result);
-	printf("tan(%s) = %s(Radian)\n\n", inputNum1, result);	
-	getCotRadian(inputNum1, result);
-	printf("cot(%s) = %s(Radian)\n\n", inputNum1, result);	
-	
-	getSinDegree(inputNum1, result);
-	printf("sin(%s) = %s(Degree)\n\n", inputNum1, result);	
-	getCosDegree(inputNum1, result);
-	printf("cos(%s) = %s(Degree)\n\n", inputNum1, result);	
-	getTanDegree(inputNum1, result);
-	printf("tan(%s) = %s(Degree)\n\n", inputNum1, result);	
-	
-	getLog10(inputNum1, result);
-	printf("log(%s) = %s\n\n", inputNum1, result);	
-	getNaturalLog(inputNum1, result);
-	printf("logE(%s) = %s\n\n", inputNum1, result);
-	getLogN(inputNum1, inputNum2, result);
-	printf("log(%s,%s) = %s\n\n", inputNum1, inputNum2, result);
-
-	} while(1);
-	return 0;
-}
+//	getSinRadian(inputNum1, result);
+//	printf("sin(%s) = %s(Radian)\n\n", inputNum1, result);	
+//	getCosRadian(inputNum1, result);
+//	printf("cos(%s) = %s(Radian)\n\n", inputNum1, result);	
+//	getTanRadian(inputNum1, result);
+//	printf("tan(%s) = %s(Radian)\n\n", inputNum1, result);	
+//	getCotRadian(inputNum1, result);
+//	printf("cot(%s) = %s(Radian)\n\n", inputNum1, result);	
+//	
+//	getSinDegree(inputNum1, result);
+//	printf("sin(%s) = %s(Degree)\n\n", inputNum1, result);	
+//	getCosDegree(inputNum1, result);
+//	printf("cos(%s) = %s(Degree)\n\n", inputNum1, result);	
+//	getTanDegree(inputNum1, result);
+//	printf("tan(%s) = %s(Degree)\n\n", inputNum1, result);	
+//	
+//	getLog10(inputNum1, result);
+//	printf("log(%s) = %s\n\n", inputNum1, result);	
+//	getNaturalLog(inputNum1, result);
+//	printf("logE(%s) = %s\n\n", inputNum1, result);
+//	getLogN(inputNum1, inputNum2, result);
+//	printf("log(%s,%s) = %s\n\n", inputNum1, inputNum2, result);
+//
+//	} while(1);
+//	return 0;
+//}
 
 
 ////////////////////////////////////////////////////// Conversion //////////////////////////////////////////////////////
@@ -252,7 +253,6 @@ void popBack(char* inputRealNum)
 // Change 1.000000000 to 1 
 void eliminateRightZero(char* inputRealNum)
 {
-//	printf("Input eliminateRightZero: %s\n", inputRealNum);
 	int numLength = strlen(inputRealNum);
 	int negative = (inputRealNum[0] == '-');
 	if(!isRealNumber(inputRealNum)) return;
@@ -271,7 +271,6 @@ void eliminateRightZero(char* inputRealNum)
 		shiftRight(inputRealNum);
 		inputRealNum[0] = '-';
 	}
-//	printf("Output eliminateRightZero: %s\n", inputRealNum);
 }
 void roundRealNum(char* inputRealNum)
 {
@@ -305,7 +304,6 @@ void roundRealNum(char* inputRealNum)
 // Change 00001 to 1
 void eliminateLeftZero(char* inputRealNum)
 {
-//	printf("Input eliminateLeftZero: %s\n", inputRealNum);
 	int count, negative = 0, numLength = strlen(inputRealNum);
 	if(inputRealNum[0] == '-') 
 	{
@@ -324,7 +322,6 @@ void eliminateLeftZero(char* inputRealNum)
 		shiftRight(inputRealNum);
 		inputRealNum[0] = '-'; 
 	}
-//	printf("Output eliminateLeftZero: %s\n", inputRealNum);
 }
 
 void eliminateAllZeros(char* inputRealNum)
@@ -335,7 +332,6 @@ void eliminateAllZeros(char* inputRealNum)
 // change 123.456 + 0 to 123.456 + 000.000
 int balanceNumOfDigits(char* realNum1, char* realNum2)
 {
-//	printf("Input balanceNumOfDigits: %s %s\n", realNum1, realNum2);
 	int dotPosition1 = isRealNumber(realNum1);
 	int dotPosition2 = isRealNumber(realNum2);
 	if(dotPosition1 == 0) dotPosition1 = strlen(realNum1);
@@ -393,7 +389,6 @@ int balanceNumOfDigits(char* realNum1, char* realNum2)
 	while(strlen(realNum1) < strlen(realNum2)) pushBack(realNum1, '0');
 	while(strlen(realNum1) > strlen(realNum2)) pushBack(realNum2, '0');
 	return 1;
-//	printf("Output balanceNumOfDigits: %s %s\n", realNum1, realNum2);
 }
 
 ////////////////////////////////////////////////////// Others //////////////////////////////////////////////////////
@@ -407,7 +402,10 @@ int isRealNumber(char* inputRealNum)
 	}
 	return 0; // inputRealNum is an integer
 }
-
+int isDouble(char* inputRealNum)
+{
+	return strlen(inputRealNum) < 15;
+}
 int min2Int(int a, int b)
 {
 	if (a < b) return a;
@@ -425,8 +423,6 @@ int max2Int(int a, int b)
 // Returns -1 if realNum1 < realNum2
 int compareRealNum(char* realNum1, char* realNum2)
 {
-//	printf("Input compareRealNum: %s %s\n", realNum1, realNum2);
-	
 	if(realNum1[0] == '-' && realNum2[0] == '-')
 	{
 		shiftLeft(realNum1);
@@ -465,7 +461,6 @@ int compareRealNum(char* realNum1, char* realNum2)
 
 void multiplyByNum(int Num, char* realNum, char* result)
 {
-//	printf("Input multiplyByNum: %d %s %s\n", Num, realNum, result);
 	eliminateAllZeros(realNum);
 	char resultSaver[MAX_LENGTH];
 	if(Num == 0) strcpy(result, "0");
@@ -487,7 +482,6 @@ void multiplyByNum(int Num, char* realNum, char* result)
 		addRealNum(result, tempResult, resultSaver);
 		strcpy(result, resultSaver);
 	}
-//	printf("Output multiplyByNum: %d %s %s\n", Num, realNum, result);
 }
 int multiplyTenfold(char* realNum)
 {
@@ -508,7 +502,6 @@ int multiplyTenfold(char* realNum)
 
 int divideTenfold(char* realNum)
 {
-//	printf("Input divideTenfold: %s\n", realNum);
 	eliminateRightZero(realNum);
 	int dotPosition = isRealNumber(realNum);
 	if(dotPosition) 
@@ -527,7 +520,6 @@ int divideTenfold(char* realNum)
 	}
 	eliminateAllZeros(realNum);
 	return 1;
-//	printf("Output divideTenfold: %s\n", realNum);
 }
 
 void swapDigits(char* digitNum1, char* digitNum2)
@@ -549,8 +541,6 @@ void swapStrings(char* realNum1, char* realNum2)
 //Calculate the sum of 2 real numbers
 void addRealNum(char* realNum1, char* realNum2, char* result)
 {
-//	printf("Input addRealNum: %s %s %s\n", realNum1, realNum2, result);
-	
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 	
@@ -648,13 +638,11 @@ void addRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateAllZeros(tempResult);	
 	roundRealNum(tempResult);
 	strcpy(result, tempResult);
-//	printf("Output addRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
 
 //Calculate realNum1 - realNum2 
 void subtractRealNum(char* realNum1, char* realNum2, char* result)
 {
-//	printf("Input subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 
@@ -725,7 +713,6 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 	strcpy(result, "");
 	char tempResult[MAX_LENGTH];
 	tempResult[strlen(realNum1)] = '\0';
-//	printf("\n%s\n%s\n\n", realNum1, realNum2);
 	// Caculate difference
 	while(numLength >= 0)
 	{
@@ -757,7 +744,6 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateAllZeros(tempResult);
 	roundRealNum(tempResult);	
 	strcpy(result, tempResult);
-//	printf("Output subtractRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
 
 // Multiply of 2 real numbers
@@ -765,7 +751,6 @@ void subtractRealNum(char* realNum1, char* realNum2, char* result)
 // 123 * 345 = 100 * 345 + 20 * 345 + 3 * 345  
 void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 {
-//	printf("Input multiplyRealNum: %s %s %s\n", realNum1, realNum2, result);
 	eliminateAllZeros(realNum1);
 	eliminateAllZeros(realNum2);
 
@@ -830,7 +815,6 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 		multiplyTenfold(realNum2);
 		divider++;
 	}
-//	printf("DB: %s %s %d\n", realNum1, realNum2, divider);
 	int numLength1 = strlen(realNum1), count, count2;
 	char finalResult[MAX_LENGTH], tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
 	strcpy(finalResult, "0");
@@ -843,7 +827,6 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 			strcpy(result, "MATH ERROR!");
 			return;
 		}
-//		printf("1 multiplyRealNum: %s\n", tempResult);
 		for(count2 = 0; count2 < numLength1 - count -1; count2++) 
 		{ 
 			if(!multiplyTenfold(tempResult))
@@ -852,18 +835,14 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 				return;
 			}
 		}
-//		printf("2 multiplyRealNum: %s\n", tempResult);
 		addRealNum(finalResult, tempResult, resultSaver);
-//		printf("2,5: %s %s %s\n", finalResult, tempResult, resultSaver);
 		if(resultSaver[0] == 'M') 
 		{
 			strcpy(result, "MATH ERROR!");
 			return;
 		}
 		strcpy(finalResult, resultSaver);
-//		printf("3 multiplyRealNum: %s\n", finalResult);
 	}	
-//	printf("finalResult %s\n", finalResult);
 	for(count = 1; count <= divider; count++) 
 	{
 	if(!divideTenfold(finalResult))
@@ -871,7 +850,6 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 			strcpy(result, "MATH ERROR!");
 			return;
 		}
-//	printf("finalResult %s\n", finalResult);
 	}
 	strcpy(realNum1, originalValue1);
 	strcpy(realNum2, originalValue2);
@@ -879,7 +857,6 @@ void multiplyRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateAllZeros(finalResult);
 	roundRealNum(tempResult); 
 	strcpy(result, finalResult);
-//	printf("Output multiplyRealNum: %s %s %s\n", realNum1, realNum2, result);
 }
 
 void divideRealNum(char* dividend, char* divisor, char* result)
@@ -933,7 +910,7 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	}
 	if(strcmp(divisor, "0") == 0)
 	{
-		strcpy(result, "MATH ERROR! (Divided by Zero!)");
+		strcpy(result, "MATH ERROR!");
 		strcpy(dividend, originalValue1);
 		strcpy(divisor, originalValue2);
 		return;
@@ -973,10 +950,8 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 		while(compareRealNum(carrier, divisor) != -1) 
 		{
 			quotient++;
-//			printf("Before: %s\n", carrier);
 			subtractRealNum(carrier, divisor, tempResult);
 			strcpy(carrier, tempResult);
-//			printf("After: %s\n", carrier);	
 		} 
 		if(!pushBack(finalResult, convertIntToChar(quotient)))
 		{
@@ -1045,6 +1020,7 @@ void divideRealNum(char* dividend, char* divisor, char* result)
 	strcpy(dividend, originalValue1);
 	strcpy(divisor, originalValue2);
 	
+	eliminateAllZeros(finalResult);
 	roundRealNum(finalResult);
 	strcpy(result, finalResult);
 }
@@ -1055,17 +1031,16 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 	eliminateAllZeros(realNum2);
 	if((strcmp(realNum1, "0") == 0) && (strcmp(realNum2, "0") == 0))
 	{
-		strcpy(result, "MATH ERROR!(0^0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	if(isRealNumber(realNum2)) 
 	{
-//		printf("%lf %lf\n", convertStringToDouble(realNum1), convertStringToDouble(realNum2));
 		errno = 0; //<errno.h>
 		double doubleTempResult = pow(convertStringToDouble(realNum1), convertStringToDouble(realNum2));
 		if(errno != 0 || doubleTempResult == INFINITY) 
 		{
-			strcpy(result, "MATH ERROR!(sqrt(Negative Number))");
+			strcpy(result, "MATH ERROR!");
 			return;
 		}
 		convertDoubleToString(doubleTempResult, result);
@@ -1103,7 +1078,6 @@ void powerRealNum(char* realNum1, char* realNum2, char* result)
 				return;
 			}
 			strcpy(count, resultSaver);
-//			printf("%s %s\n", count, tempResult);
 		}
 		if(negative)
 		{
@@ -1131,13 +1105,13 @@ void getFactorial(char* intNum, char* result)
 	eliminateAllZeros(intNum);
 	if(isRealNumber(intNum)) 
 	{
-		strcpy(result, "MATH ERROR!(Only Integer Numbers Have Factorial!)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	int negative = 0;
 	if(intNum[0] == '-')
 	{
-		strcpy(result, "MATH ERROR!(Only Positive Integer Numbers Have Factorial!)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	char numberOne[MAX_LENGTH], tempNum1[MAX_LENGTH], tempNum2[MAX_LENGTH], tempResult[MAX_LENGTH], resultSaver[MAX_LENGTH];
@@ -1168,18 +1142,33 @@ void getFactorial(char* intNum, char* result)
 
 void getSinRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	convertDoubleToString(sin(tempRealNum), result);
 	eliminateAllZeros(result);
 }
 void getCosRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	convertDoubleToString(cos(tempRealNum), result);
 	eliminateAllZeros(result);
 }
 void getTanRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getCosRadian(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1195,6 +1184,11 @@ void getTanRadian(char* realNum, char* result)
 }
 void getCotRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getSinRadian(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1218,6 +1212,11 @@ void getCotRadian(char* realNum, char* result)
 }
 void getSinDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	double tempDegree = convertRadianToDegree(tempRealNum);
 	convertDoubleToString(sin(tempDegree), result);
@@ -1226,6 +1225,11 @@ void getSinDegree(char* realNum, char* result)
 } 
 void getCosDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	double tempDegree = convertRadianToDegree(tempRealNum);
 	convertDoubleToString(cos(tempDegree), result);
@@ -1233,6 +1237,11 @@ void getCosDegree(char* realNum, char* result)
 }
 void getTanDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getCosDegree(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1252,11 +1261,16 @@ void getTanDegree(char* realNum, char* result)
 
 void getLog10(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH];
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult);
@@ -1264,11 +1278,16 @@ void getLog10(char* realNum, char* result)
 }
 void getNaturalLog(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH];
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log(tempRealNum), tempResult);
@@ -1276,12 +1295,22 @@ void getNaturalLog(char* realNum, char* result)
 }
 void getLogN(char* realNum, char* base, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
+	if(!isDouble(base))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult1[MAX_LENGTH], tempResult2[MAX_LENGTH];
 	
 	double tempRealNum = convertStringToDouble(realNum) ;
 	if(tempRealNum <= 0) 
 	{
-		strcpy(result, "MATH ERROR! (The Argument must be > 0)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult1);
@@ -1289,7 +1318,7 @@ void getLogN(char* realNum, char* base, char* result)
 	tempRealNum = convertStringToDouble(base) ;
 	if(tempRealNum <= 0 || tempRealNum == 1) 
 	{
-		strcpy(result, "MATH ERROR! (The Base Must Be > 0 And Different From 1)");
+		strcpy(result, "MATH ERROR!");
 		return;
 	}
 	convertDoubleToString(log10(tempRealNum), tempResult2);
