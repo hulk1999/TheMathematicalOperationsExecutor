@@ -43,6 +43,7 @@ int balanceNumOfDigits(char* realNum1, char* realNum2);
 
 // Others
 int isRealNumber(char* inputRealNum);
+int isDouble(char* inputRealNum);
 int min2Int(int a, int b);
 int max2Int(int a, int b);
 int compareRealNum(char* realNum1	, char* realNum2);
@@ -90,7 +91,7 @@ void getLogN(char* realNum, char* base, char* result);
 //	do
 //	{
 //	scanf("%s %s", &inputNum1, &inputNum2);
-//
+
 //	addRealNum(inputNum1, inputNum2, result);
 //	printf("%s + %s = %s\n\n", inputNum1, inputNum2, result);
 //	subtractRealNum(inputNum1, inputNum2, result);
@@ -107,7 +108,7 @@ void getLogN(char* realNum, char* base, char* result);
 //	
 //	getFactorial(inputNum1, result);
 //	printf("%s! = %s\n\n", inputNum1, result);	
-//
+
 //	getSinRadian(inputNum1, result);
 //	printf("sin(%s) = %s(Radian)\n\n", inputNum1, result);	
 //	getCosRadian(inputNum1, result);
@@ -401,7 +402,10 @@ int isRealNumber(char* inputRealNum)
 	}
 	return 0; // inputRealNum is an integer
 }
-
+int isDouble(char* inputRealNum)
+{
+	return strlen(inputRealNum) < 15;
+}
 int min2Int(int a, int b)
 {
 	if (a < b) return a;
@@ -1138,18 +1142,33 @@ void getFactorial(char* intNum, char* result)
 
 void getSinRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	convertDoubleToString(sin(tempRealNum), result);
 	eliminateAllZeros(result);
 }
 void getCosRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	convertDoubleToString(cos(tempRealNum), result);
 	eliminateAllZeros(result);
 }
 void getTanRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getCosRadian(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1165,6 +1184,11 @@ void getTanRadian(char* realNum, char* result)
 }
 void getCotRadian(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getSinRadian(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1188,6 +1212,11 @@ void getCotRadian(char* realNum, char* result)
 }
 void getSinDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	double tempDegree = convertRadianToDegree(tempRealNum);
 	convertDoubleToString(sin(tempDegree), result);
@@ -1196,6 +1225,11 @@ void getSinDegree(char* realNum, char* result)
 } 
 void getCosDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	double tempRealNum = convertStringToDouble(realNum);
 	double tempDegree = convertRadianToDegree(tempRealNum);
 	convertDoubleToString(cos(tempDegree), result);
@@ -1203,6 +1237,11 @@ void getCosDegree(char* realNum, char* result)
 }
 void getTanDegree(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH], numberZero[MAX_LENGTH];
 	getCosDegree(realNum, tempResult);
 	eliminateAllZeros(tempResult);
@@ -1222,6 +1261,11 @@ void getTanDegree(char* realNum, char* result)
 
 void getLog10(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH];
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
@@ -1234,6 +1278,11 @@ void getLog10(char* realNum, char* result)
 }
 void getNaturalLog(char* realNum, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult[MAX_LENGTH];
 	double tempRealNum = convertStringToDouble(realNum);
 	if(tempRealNum <= 0) 
@@ -1246,6 +1295,16 @@ void getNaturalLog(char* realNum, char* result)
 }
 void getLogN(char* realNum, char* base, char* result)
 {
+	if(!isDouble(realNum))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
+	if(!isDouble(base))
+	{
+		strcpy(result, "MATH ERROR!");
+		return;
+	}
 	char tempResult1[MAX_LENGTH], tempResult2[MAX_LENGTH];
 	
 	double tempRealNum = convertStringToDouble(realNum) ;
