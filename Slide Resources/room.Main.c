@@ -78,9 +78,9 @@ void roomMain(){
 	fclose(memory);
 	
 	// assign values to the strings
-	char str1[50] = "User Settings                    ",
-		 str2[50] = "    Radian to Degrees            ",
-		 str3[50] = "    Rounding Numbers             ",
+	char str1[50] = "PHAM DUC BINH",
+		 str2[50] = "NGUYEN PHU HUNG",
+		 str3[50] = "NGUYEN QUANG KHAI",
 		 str4[50] = "Derivative & Anti-Derivative     ",
 		 str5[50] = "Customizable Variables           ",
 		 str6[50] = "Units of Measurement Conversion  ",
