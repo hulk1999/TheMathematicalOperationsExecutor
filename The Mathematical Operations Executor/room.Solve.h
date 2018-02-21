@@ -401,7 +401,7 @@ void roomSolve(int firstColor, int secondColor){
 			// print menu, reset
 			textColor(firstColor);
 			goToXY(0, 10);
-			for (i = 1; i < 120*20; i++) printf(" ");
+			for (i = 1; i < 120*18; i++) printf(" ");
 			for (i = 1; i <= row; i++){
 				goToXY(x0, y0 + (i - 1)*step);
 				printf("%s", str[1][i]);

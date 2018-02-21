@@ -5,7 +5,7 @@ void highlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree,
 void unhighlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int firstColor);
 
 // get coefiicents
-void getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor);
+int getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor);
 
 // functions for solving
 double y(double x, int degree, double a[100][100]);
@@ -21,18 +21,24 @@ double absoluteVal(double num){
 }
 
 // get coefiicents
-void getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor){
+int getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor){
 	textColor(secondColor);
 	int isNum;
-	char isEnter;
+	char isEnter, ch;
 	do{
 		goToXY(x0 + 15 + min2Int(x - 1, 3)*15, y0 + 6); printf("           ");
 		goToXY(x0 + 19 + min2Int(x - 1, 3)*15, y0 + 6);
 		fflush(stdin);
+		ch = getch();
+		if (ch == 27) return 0;
+		if (ch == 13) continue;
+		ungetc(ch, stdin);
+		printf("%c", ch);
 		isNum = scanf("%lf", &a[degree][x]);
 		scanf("%c", &isEnter);
 	} while (((isNum != 1) || (isEnter != '\n')) || ((x == 1) && (a[degree][x] == 0)));
 	textColor(firstColor);
+	return 1;
 }
 
 // highlight current part
@@ -66,6 +72,7 @@ double findSolution(int degree, double left, double right, double a[100][100]){
 	double yLeft = y(left, degree, a);
 	double yRight = y(right, degree, a);
 	
+	if (absoluteVal(yMiddle) < 0.000000001) return middle;
 	if (yMiddle * yLeft <= 0){
 		if (absoluteVal(middle - left) < 0.0000000000001) return middle;
 		return findSolution(degree, left, middle, a);
@@ -78,7 +85,7 @@ double findSolution(int degree, double left, double right, double a[100][100]){
 
 // solve n-th degree equation
 void solveNthDegreeEquation(int num, int firstColor, int secondColor){
-	start: num = num;
+	startOfSolve: num = num;
 	
 	int x0 = 25, y0 = 10;
 	goToXY(x0, y0);
@@ -110,7 +117,7 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 			}
 			
 		// scan for coefficient
-		getCoefficientDegree(x0, y0, i, num, a, firstColor, secondColor);
+		if (getCoefficientDegree(x0, y0, i, num, a, firstColor, secondColor) == 0) return;
 	}
 	
 	// print last coefficent
@@ -126,7 +133,9 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 	
 	// solve
 	double solution[100][100];
-	int step = 1000, start, end, solutionNum[100];
+	int step = 10, start, end, solutionNum[100];
+	for (i = 0; i <= num; i++)
+		for (j = 0; j <= num + 1; j++) solution[i][j] = 0;
 	for (i = 0; i <= num; i++) solutionNum[i] = 0;
 	for (i = 1; i <= num; i++){
 		
@@ -157,16 +166,16 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 			if ((y(solution[i - 1][j], i, a) == 0) && (j > 0)){
 				solutionNum[i]++;
 				solution[i][solutionNum[i]] = solution[i - 1][j];
-				if (absoluteVal(solution[i][solutionNum[i]] - solution[i][solutionNum[i] - 1]) < 0.00001) solutionNum[i]--;
+				if ((solutionNum[i] > 1) && (absoluteVal(solution[i][solutionNum[i]] - solution[i][solutionNum[i] - 1]) < 0.00001)) solutionNum[i]--;
 			}
 			if (y(solution[i - 1][j], i, a) * y(solution[i - 1][j + 1], i, a) < 0){
 				solutionNum[i]++;
 				solution[i][solutionNum[i]] = findSolution(i, solution[i - 1][j], solution[i - 1][j + 1], a);
-				if (absoluteVal(solution[i][solutionNum[i]] - solution[i][solutionNum[i] - 1]) < 0.00001) solutionNum[i]--;
+				if ((solutionNum[i] > 1) && (absoluteVal(solution[i][solutionNum[i]] - solution[i][solutionNum[i] - 1]) < 0.00001)) solutionNum[i]--;
 			}
 		}
 	}
-	
+
 	// check if has solution
 	if (solutionNum[num] == 0) goto noSolution;
 	
@@ -214,7 +223,7 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 		if (ch == 13){
 			textColor(firstColor);
 			goToXY(x0, y0 + 9); for (i = 1; i <= 120*5; i++) printf(" ");
-			goto start;
+			goto startOfSolve;
 		}
 	
 	} while (1);
@@ -227,7 +236,7 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 		if (ch == 13){
 			textColor(firstColor);
 			goToXY(x0, y0 + 9); for (i = 1; i <= 120*5; i++) printf(" ");
-			goto start;
+			goto startOfSolve;
 		}
 	} while (ch != 27);
 	return;
