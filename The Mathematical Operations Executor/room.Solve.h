@@ -167,7 +167,7 @@ int inputDegree(int* pX, int *pNum, int y0, int step, char* str[6][3], int first
 		}
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			ch = getch();
 			
 			// arrow left
@@ -243,7 +243,7 @@ int inputSetNum(int* pX, int* pNum, int y0, int step, char* str[6][3], int first
 		}
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			ch = getch();
 			
 			// arrow left
@@ -309,7 +309,7 @@ void roomSolve(int firstColor, int secondColor){
 		if (ch == 27) return;
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			unhighlightSolve(x0, y0, step, x, y, str, firstColor);
 			ch = getch();
 			

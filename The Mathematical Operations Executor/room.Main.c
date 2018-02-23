@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <math.h>
 #include <string.h>
 #include <windows.h>
 #include <time.h>
+#include <errno.h>
+
+#include "function.Display.h"
+#include "function.Math.h"
+#include "function.CalculateExpression.h"
 
 #include "room.Calculate.h"
 #include "room.Solve.h"
@@ -11,10 +17,6 @@
 #include "room.Settings.h"
 #include "room.Credits.h"
 #include "room.Dinosaur.h"
-
-#include "function.Display.h"
-#include "function.CalculateExpression.h"
-#include "function.Math.h"
 
 //-----------------------------------------------declaration------------------------------------------------------------------//
 
@@ -126,11 +128,11 @@ void roomMain(){
 	do{
 		ch = getch();
 		// the function getch() pushes 2 values to the buffer when it comes to
-		// arrow keys. first is 4294967264 and the second is 72, 75, 77 or 80
+		// arrow keys. first is -32 and the second is 72, 75, 77 or 80
 		// depends on whether the key is up, left, right or down.
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			unhighlight(x0, y0, step, i, str, firstColor);
 			ch = getch();
 			

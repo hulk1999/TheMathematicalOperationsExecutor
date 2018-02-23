@@ -195,7 +195,7 @@ int inputSize(int* pX, int firstColor, int secondColor){
 		}
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			ch = getch();
 			
 			// arrow left
@@ -276,7 +276,7 @@ void roomSettings(int* pFirstColor, int* pSecondColor){
 		if (ch == 27) return;
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			unhighlightSettings(x0, y0, step, x, y, str, firstColor);
 			ch = getch();
 			

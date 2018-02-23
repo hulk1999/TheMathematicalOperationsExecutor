@@ -4,7 +4,7 @@
 void highlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int secondColor);
 void unhighlightSolveNthDegreeEquation(int x0, int y0, int x0S, int x, int degree, double solution[100][100], int firstColor);
 
-// get coefiicents
+// get coefficients
 int getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor);
 
 // functions for solving
@@ -20,25 +20,63 @@ double absoluteVal(double num){
 	return num;
 }
 
-// get coefiicents
+// get coefficients
 int getCoefficientDegree(int x0, int y0, int x, int degree, double a[100][100], int firstColor, int secondColor){
+	
 	textColor(secondColor);
-	int isNum;
-	char isEnter, ch;
+	goToXY(x0 + 15 + min2Int(x - 1, 3)*15, y0 + 6); printf("           ");
+	goToXY(x0 + 19 + min2Int(x - 1, 3)*15, y0 + 6);
+	
+	char ch, numStr[35];
+	int count = 0, dot = 0;
+	double num;
 	do{
-		goToXY(x0 + 15 + min2Int(x - 1, 3)*15, y0 + 6); printf("           ");
-		goToXY(x0 + 19 + min2Int(x - 1, 3)*15, y0 + 6);
-		fflush(stdin);
 		ch = getch();
+		
+		// esc
 		if (ch == 27) return 0;
-		if (ch == 13) continue;
-		ungetc(ch, stdin);
-		printf("%c", ch);
-		isNum = scanf("%lf", &a[degree][x]);
-		scanf("%c", &isEnter);
-	} while (((isNum != 1) || (isEnter != '\n')) || ((x == 1) && (a[degree][x] == 0)));
-	textColor(firstColor);
-	return 1;
+		
+		// backspace
+		if ((ch == 8) && (count > 0)){
+			if (numStr[count] == '.') dot--;
+			count--;
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6); printf(" ");
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6);
+		}
+		
+		// numbers
+		if ((ch >= '0') && (ch <= '9') && (count <= 29)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+		}
+		
+		// dot
+		if ((ch == '.') && (count > 0) && (count <= 29) && (numStr[count] != '-') && (dot == 0)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+			dot++;
+		}
+		
+		// minus
+		if ((ch == '-') && (count == 0)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+		}
+		
+		// enter
+		if (ch == 13){
+			if ((count > 0) && (numStr[count] != '.') && (numStr[count] != '-')){
+				numStr[++count] = '\0';
+				shiftLeft(numStr);
+				a[degree][x] = convertStringToDouble(numStr);
+				textColor(firstColor);
+				return 1;
+			}
+		}	
+	} while (1);
 }
 
 // highlight current part
@@ -199,7 +237,7 @@ void solveNthDegreeEquation(int num, int firstColor, int secondColor){
 		if (ch == 27) return;
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			ch = getch();
 			
 			// arrow left

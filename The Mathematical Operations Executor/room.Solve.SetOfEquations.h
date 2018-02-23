@@ -15,23 +15,61 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor);
 
 // get coefiicents
 int getCoefficient(int x0, int y0, int x, int y, double a[50][50], int firstColor, int secondColor){
+
 	textColor(secondColor);
-	int isNum;
-	char isEnter, ch;
+	goToXY(x0 + 15 + min2Int(x - 1, 3)*15, y0 + 6 + min2Int(y - 1, 1)* 2); printf("           ");
+	goToXY(x0 + 19 + min2Int(x - 1, 3)*15, y0 + 6 + min2Int(y - 1, 1)* 2);
+	
+	char ch, numStr[35];
+	int count = 0, dot = 0;
+	double num;
 	do{
-		goToXY(x0 + 15 + min2Int(x - 1, 3)*15, y0 + 6 + min2Int(y - 1, 1)* 2); printf("           ");
-		goToXY(x0 + 19 + min2Int(x - 1, 3)*15, y0 + 6 + min2Int(y - 1, 1)* 2);
-		fflush(stdin);
 		ch = getch();
+		
+		// esc
 		if (ch == 27) return 0;
-		if (ch == 13) continue;
-		ungetc(ch, stdin);
-		printf("%c", ch);
-		isNum = scanf("%lf", &a[x][y]);
-		scanf("%c", &isEnter);
-	} while ((isNum != 1) || (isEnter != '\n'));
-	textColor(firstColor);
-	return 1;
+		
+		// backspace
+		if ((ch == 8) && (count > 0)){
+			if (numStr[count] == '.') dot--;
+			count--;
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6 + min2Int(y - 1, 1)* 2); printf(" ");
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6 + min2Int(y - 1, 1)* 2);
+		}
+		
+		// numbers
+		if ((ch >= '0') && (ch <= '9') && (count <= 29)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6 + min2Int(y - 1, 1)* 2); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+		}
+		
+		// dot
+		if ((ch == '.') && (count > 0) && (count <= 29) && (numStr[count] != '-') && (dot == 0)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6 + min2Int(y - 1, 1)* 2); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+			dot++;
+		}
+		
+		// minus
+		if ((ch == '-') && (count == 0)){
+			goToXY(x0 + 19 + min2Int(x - 1, 3)*15 + count, y0 + 6 + min2Int(y - 1, 1)* 2); printf("%c", ch);
+			count++;
+			numStr[count] = ch;
+		}
+		
+		// enter
+		if (ch == 13){
+			if ((count > 0) && (numStr[count] != '.') && (numStr[count] != '-')){
+				numStr[++count] = '\0';
+				shiftLeft(numStr);
+				a[x][y] = convertStringToDouble(numStr);
+				textColor(firstColor);
+				return 1;
+			}
+		}	
+	} while (1);
 }
 
 // highlight current part
@@ -163,7 +201,7 @@ void solveSetOfNEquations(int num, int firstColor, int secondColor){
 		if (ch == 27) return;
 		
 		// arrow keys
-		if (ch == 4294967264){
+		if (ch == -32){
 			ch = getch();
 			
 			// arrow left

@@ -2,8 +2,6 @@
 #include <math.h>
 
 int main(){
-	
-	double a = 12e+3;
-	printf("%lf", a);
+	printf("%d", 4294967264);
 	return 0;
 }

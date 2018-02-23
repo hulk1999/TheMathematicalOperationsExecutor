@@ -64,6 +64,9 @@ void divideRealNum(char* dividend, char* divisor, char* result);
 void powerRealNum(char* realNum1, char* realNum2, char* result);
 void getFactorial(char* intNum, char* result);
 
+void divideForIntegral(char* strIn1, char* strIn2, char* strOut);
+void divideForFractional(char* strIn1, char* strIn2, char* strOut);
+
 ///// Trigonometric Functions /////
 // Only works with double variables
 void getSinRadian(char* realNum, char* result); 
