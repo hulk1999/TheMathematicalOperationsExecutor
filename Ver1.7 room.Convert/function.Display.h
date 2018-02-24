@@ -10,13 +10,17 @@ void wait(clock_t time);
 
 // move cusor to column x row y
 void goToXY(int x, int y){
+	HANDLE handle;
+	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD coordinate = {x, y};
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coordinate);
+	SetConsoleCursorPosition(handle, coordinate);
 }
 
 // change text color
 void textColor(int color){
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	HANDLE handle;
+	handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(handle, color);
 }
 
 // change font size
@@ -27,17 +31,15 @@ void fontSize(int x, int y){
 	info.dwFontSize.Y = y;
 	info.FontWeight = FW_NORMAL;
 	wcscpy(info.FaceName, L"Consolas");
-	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &info);
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), NULL, &info);
 }
 
 // set console screen size
 void setConsoleSize(int width, int height){
+	HWND console = GetConsoleWindow();
 	RECT r;
-	GetWindowRect(GetConsoleWindow(), &r);
-	MoveWindow(GetConsoleWindow(), r.left, r.top, width, height, TRUE);
-	
-    COORD coordinates = {120, 30};
-    SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coordinates);
+	GetWindowRect(console, &r);
+	MoveWindow(console, r.left, r.top, width, height, TRUE);
 }
 
 // wait for time/1000 seconds
