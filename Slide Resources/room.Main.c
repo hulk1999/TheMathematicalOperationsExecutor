@@ -79,13 +79,13 @@ void roomMain(){
 	
 	// assign values to the strings
 	char str1[50] = "PHAM DUC BINH",
-		 str2[50] = "NGUYEN PHU HUNG",
-		 str3[50] = "NGUYEN QUANG KHAI",
-		 str4[50] = "Derivative & Anti-Derivative     ",
-		 str5[50] = "Customizable Variables           ",
-		 str6[50] = "Units of Measurement Conversion  ",
-		 str7[50] = "Refine Results of Calculations   ",
-		 str8[50] = "           ";
+		 str2[50] = "PRESENTATION",
+		 str3[50] = "NGUYEN PHU HUNG",
+		 str4[50] = "UI/UX",
+		 str5[50] = "SOLVE N-TH DEGREE EQUATION AND SETS OF EQUATIONS",
+		 str6[50] = "NUMBER BASES CONVERSIONS",
+		 str7[50] = "ADDITIONAL FUNCTIONS ;)",
+		 str8[50] = "-4512 lines of code in total-";
 	char* str[9]; // store addresses of those strings
 	
 	// store addresses
