@@ -253,13 +253,13 @@ void calExpression(char* strIn, char* strOut, char* ans){
 	
 	// case e
 	if (strcmp(strIn, "e") == 0){
-		strcpy(strOut, "2.7182818284590452353602874713527");
+		strcpy(strOut, "2.718281828459");
 		return;
 	}
 	
 	// case pi
 	if ((strIn[0] == -29) && (length == 1)){
-		strcpy(strOut, "3.1415926535897932384626433832795");
+		strcpy(strOut, "3.14159265359");
 		return;
 	}
 	
