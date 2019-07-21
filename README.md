@@ -2,7 +2,7 @@
 
 # Basic Features:
 
-A console application with usable UI
+A console application with usable UI and navigation using arrow keys
 
 Calculate math operations
 
