@@ -25,4 +25,5 @@ A console application with usable UI and navigation using arrow keys
 ## 6. Credits
 ![](screenshots/credits.png)
 ## 7. Dinosaur game
+Details for the game is posted here (in Vietnamese): https://fcodehcm.wordpress.com/2018/08/09/lap-trinh-c-huong-dan-code-game-khung-long/
 ![](screenshots/dinosaur.png)
