@@ -1,5 +1,3 @@
-#define MAX_LENGTH 502
-
 // make strOut = strIn[start] to strIn[end]
 void makeStrStartEnd(char* strIn, char* strOut, int start, int end){
 	int i;
