@@ -8,10 +8,10 @@ A console application with usable UI and navigation using arrow keys
 2. Equations solving:
 	- N-th degree equation
 	- Set of N equations
-3. Base number converter (2, 8, 10, 16)
+3. Base number converting (2, 8, 10, 16)
 4. Dinosaur game
 
-# Sreenshots:
+# Screenshots:
 ## 1. Home menu
 ![](screenshots/home.png)
 ## 2. Calculator
