@@ -3,7 +3,7 @@ A console application with usable UI and navigation using arrow keys
 
 ![](screenshots/calculator.png)
 
-# Features:
+# Features
 1. Math operations calculating
 2. Equations solving:
 	- N-th degree equation
@@ -11,7 +11,7 @@ A console application with usable UI and navigation using arrow keys
 3. Base number converting (2, 8, 10, 16)
 4. Dinosaur game
 
-# Screenshots:
+# Screenshots
 ## 1. Home menu
 ![](screenshots/home.png)
 ## 2. Calculator
